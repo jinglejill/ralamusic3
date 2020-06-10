@@ -60,46 +60,80 @@ export default class ProductAddPage extends React.Component {
     this.setState({ pressStatus: true });
   }
 
+  onHideUnderlayPrint = () => 
+  {
+    console.log("button print press false");
+    this.setState({ pressPrintStatus: false });
+  }
+
+  onShowUnderlayPrint = () => 
+  {
+    console.log("button print press true");
+    this.setState({ pressPrintStatus: true });
+  }
+
   saveProduct = () => 
   {
     console.log("save product");
+  }
+
+  showProductQR = () => 
+  {
+    console.log("show product qr");
   }
 
   render() {
     return (
       <ScrollView>
         <View style={{flex:1}}>
-          <View style={styles.viewValue}>        
+          <View style={styles.viewField}>        
             <Text style={styles.title}>ชื่อแบรนด์ *</Text>
             <TextInput style={styles.value} value={this.state.brand} placeholder=' Ex. Fender' onChangeText={text => {this.setState({brand:text})}}/>  
           </View>        
-          <View style={styles.viewValue}>        
+          <View style={styles.viewField}>        
             <Text style={styles.title}>Sku *</Text>
             <TextInput style={styles.value} value={this.state.sku} placeholder=' Ex. Fender-Mustang-LT50' onChangeText={text => {this.setState({sku:text})}}/>  
+          </View>
+          <View style={styles.viewField}>        
+            <Text style={styles.title}>จำนวน</Text>
+            <View style={{display:'flex', flexDirection:'row', alignItems:'center'}}>
+              <TextInput style={styles.valueQuantity} value={this.state.quantity} keyboardType = 'number-pad' placeholder=' ' onChangeText={text => {this.setState({quantity:text})}}/>                
+              <TouchableHighlight underlayColor={'white'} activeOpacity={1} style={
+                this.state.pressPrintStatus
+                  ? styles.buttonPrintPress
+                  : styles.buttonPrint
+                } 
+                onHideUnderlay={()=>this.onHideUnderlayPrint()}
+                onShowUnderlay={()=>this.onShowUnderlayPrint()}                                        
+                onPress={()=>{this.showProductQR()}} >         
+                  <Text style={
+                    this.state.pressPrintStatus
+                      ? styles.textPrintPress
+                      : styles.textPrint
+                    }>Print QR
+                  </Text>               
+              </TouchableHighlight>
+            </View>
           </View> 
           <View style={{display:'flex',flexDirection:'row'}}>
-            <View style={styles.viewValue}>        
+            <View style={styles.viewField}>        
               <Text style={styles.title}>ราคาขาย</Text>
               <TextInput style={styles.valueHalf} value={this.state.price} keyboardType = 'number-pad' placeholder=' ' onChangeText={text => {this.setState({price:text})}}/>  
             </View>
-            <View style={styles.viewValue}>        
+            <View style={styles.viewField}>        
               <Text style={styles.title}>ราคาทุน</Text>
               <TextInput style={styles.valueHalf} value={this.state.cost} keyboardType = 'number-pad' placeholder=' ' onChangeText={text => {this.setState({cost:text})}}/>  
             </View>
           </View>
-          <View style={styles.viewValue}>        
+          <View style={styles.viewField}>        
             <Text style={styles.title}>หมายเหตุ</Text>
             <TextInput style={styles.valueMultiline} value={this.state.remark} placeholder=' ' multiline onChangeText={text => {this.setState({remark:text})}}/>  
           </View> 
-          <View style={styles.viewValue}>        
+          <View style={styles.viewField}>        
             <Text style={styles.title}>ชื่อสินค้า</Text>
             <TextInput style={styles.value} value={this.state.name} placeholder=' ' onChangeText={text => {this.setState({name:text})}}/>  
-          </View> 
-          <View style={styles.viewValue}>        
-            <Text style={styles.title}>จำนวน</Text>
-            <TextInput style={styles.value} value={this.state.quantity} keyboardType = 'number-pad' placeholder=' ' onChangeText={text => {this.setState({quantity:text})}}/>  
-          </View>
-          <View style={styles.viewValue}>        
+          </View>           
+          <View style={styles.viewField}>        
             <View style={{display:'flex', flexDirection:'row'}}>
               <Text style={styles.title}>รูป</Text>          
               <TouchableHighlight underlayColor={'white'} activeOpacity={1} style={
@@ -159,132 +193,7 @@ export default class ProductAddPage extends React.Component {
   }
 }
                       
-const styles = StyleSheet.create({
-  searchBarContainer: {height:48},
-  searchBarInputContainer: {height:30},
-  searchBarInput: 
-  {
-    // fontFamily: "Sarabun-Light",
-    fontSize:16,
-  },
-  separator: {width:Dimensions.get('window').width-2*20,height:1,backgroundColor:"#e0e0e0",left:20,marginTop:10}, 
-  image: {width:70,height:70,marginTop:10,marginLeft:8,borderRadius:10},
-  imageIcon: {width:30,height:30,borderRadius:20},
-  channelView: 
-  {
-    marginLeft:10,
-    marginTop:10,
-    marginRight:15,
-    alignItems:'center',
-  },
-  name: {
-    fontFamily: "Sarabun-Light",
-    fontSize: 14,
-    textAlign: 'left',
-    color: '#005A50',
-    paddingTop: 10,
-    paddingLeft: 10,    
-    width: Dimensions.get('window').width - 2*8 - 70,
-  },
-  sku: {
-    fontFamily: "Sarabun-LightItalic",
-    fontSize: 13,
-    textAlign: 'left',
-    color: '#727272',
-    paddingTop: 2,
-    paddingLeft: 10,
-    // paddingRight: 10, 
-    width: Dimensions.get('window').width - 8 - 16 - 70 - 84,
-    // borderWidth: 1,
-  },
-  quantityView: 
-  {
-    marginLeft:16,
-    marginRight:16,
-    width:84,
-  },
-  quantity: {
-    fontFamily: "Sarabun-Light",
-    fontSize: 14,
-    textAlign: 'right',
-    color: '#005A50',
-    textDecorationLine: 'underline'
-  },
-  quantityLabel: {
-    fontFamily: "Sarabun-Light",
-    fontSize: 14,
-    textAlign: 'right',
-    color: '#727272',
-  },
-  priceLabel: {
-    fontFamily: "Sarabun-Light",
-    fontSize: 14,
-    textAlign: 'right',
-    color: '#727272',
-  },
-  price: {
-    fontFamily: "Sarabun-Light",
-    fontSize: 14,
-    textAlign: 'right',
-    color: '#005A50',
-  },
-  priceView: 
-  {
-    marginTop:16,
-    marginLeft:16,
-    marginRight:16,
-    width:84,
-  },
-  buttonQuantity:
-  {
-    width:30,
-  }, 
-  spinner:
-  {
-    marginTop:44,
-    marginBottom:24,
-       
-  },
-  spinnerButton:
-  {
-    backgroundColor:'#6EC417',
-    opacity:0.5
-  },
-  spinnerInput:
-  {
-    borderColor: '#6EC417',
-  },
-  okButton:
-  {
-    paddingTop:10,    
-    height:44,  
-  },
-  cancelButton:
-  {
-    paddingTop:10,    
-    height:44,  
-  },
-  okButtonText:
-  {
-    color:'#6EC417',
-    fontSize:18,
-  },
-  cancelButtonText:
-  {
-    color:'#6EC417',
-    fontSize:18,
-  },
-  dialogFooter:
-  {
-    height:44,  
-  },
-  text:
-  {
-    color:colors.secondary, 
-    textAlign:'center', 
-    fontFamily:'Sarabun-SemiBold', 
-    fontSize:14
-  },
+const styles = StyleSheet.create({      
   imageProduct: 
   {
     height:60,
@@ -293,7 +202,7 @@ const styles = StyleSheet.create({
     borderWidth:1,
     borderColor:'#CCCCCC',
   },
-  viewValue:
+  viewField:
   {
     marginTop:padding.xl,
     marginLeft:padding.xl,
@@ -306,7 +215,7 @@ const styles = StyleSheet.create({
     color: colors.secondary,
   },
   value: {
-    fontFamily: "Sarabun-LightItalic",
+    fontFamily: fonts.primary,
     fontSize: 14,
     textAlign: 'left',     
     marginTop: padding.sm,         
@@ -321,7 +230,7 @@ const styles = StyleSheet.create({
     textAlignVertical: 'center'
   },
   valueHalf: {
-    fontFamily: "Sarabun-LightItalic",
+    fontFamily: fonts.primary,
     fontSize: 14,
     textAlign: 'left',     
     marginTop: padding.sm,         
@@ -336,12 +245,27 @@ const styles = StyleSheet.create({
     textAlignVertical: 'center'
   },
   valueMultiline: {
-    fontFamily: "Sarabun-LightItalic",
+    fontFamily: fonts.primary,
     fontSize: 14,
     textAlign: 'left',     
     marginTop: padding.sm,         
     width: dimensions.fullWidth - padding.xl*2,    
     height: 55,
+    backgroundColor: 'white',
+    borderColor: '#CCCCCC',
+    borderWidth: 1,
+    borderRadius: 5,
+    paddingTop:0,
+    paddingBottom:0,    
+    textAlignVertical: 'center'
+  },
+  valueQuantity: {
+    fontFamily: fonts.primary,
+    fontSize: 14,
+    textAlign: 'left',     
+    marginTop: padding.sm,         
+    width: dimensions.fullWidth - padding.xl*2 - 100 - padding.lg,    
+    height: 30,
     backgroundColor: 'white',
     borderColor: '#CCCCCC',
     borderWidth: 1,
@@ -384,6 +308,48 @@ const styles = StyleSheet.create({
   textPress: 
   {  
     fontFamily: "Sarabun-SemiBold",   
+    fontSize: 16,
+    textAlign: "center",
+    paddingTop:0,
+    paddingBottom:0,
+    color: "#6EC417",
+    textAlignVertical: 'center',
+    lineHeight:Platform.OS=='ios'?null:24,
+  },
+  buttonPrint: 
+  {
+    marginLeft:padding.lg,
+    width: 100,    
+    height:24,
+    borderColor: '#B6E18B',
+    backgroundColor:'#B6E18B',
+    borderWidth: 1,
+    borderRadius: 6,      
+  },
+  buttonPrintPress: 
+  {
+    marginLeft:padding.lg,
+    width: 100,    
+    height:24,
+    borderColor: "#B6E18B",
+    borderWidth: 1,
+    borderRadius: 6
+  }, 
+  textPrint: 
+  {   
+    fontFamily: fonts.primaryBold,   
+    fontSize: 16,
+    textAlign: "center",
+    paddingTop:0,
+    paddingBottom:0,
+    marginTop:0,
+    color: "#ffffff",
+    textAlignVertical: 'center',
+    lineHeight:Platform.OS=='ios'?null:24,
+  },
+  textPrintPress: 
+  {  
+    fontFamily: fonts.primaryBold,   
     fontSize: 16,
     textAlign: "center",
     paddingTop:0,
