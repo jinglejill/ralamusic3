@@ -6,6 +6,7 @@ import { Text, View, FlatList, ActivityIndicator, Dimensions, StyleSheet, Image,
 import {RichEditor, RichToolbar} from 'react-native-pell-rich-editor';
 //import all the components we are going to use.
 import {colors, fonts, padding, dimensions} from './../styles/base.js'
+import ToastExample from './../javaModule/ToastExample';
 
 export default class ProductAddPage extends React.Component {
   constructor(props) {
@@ -80,6 +81,7 @@ export default class ProductAddPage extends React.Component {
   showProductQR = () => 
   {
     console.log("show product qr");
+    ToastExample.show('Awesome', ToastExample.LONG);
   }
 
   render() {

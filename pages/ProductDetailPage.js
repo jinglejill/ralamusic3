@@ -6,6 +6,8 @@ import { Text, View, FlatList, ActivityIndicator, Dimensions, StyleSheet, Image,
 import {RichEditor, RichToolbar} from 'react-native-pell-rich-editor';
 //import all the components we are going to use.
 
+
+
 export default class ProductDetailPage extends React.Component {
   constructor(props) {
     super(props);

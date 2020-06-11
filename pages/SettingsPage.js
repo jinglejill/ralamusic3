@@ -1,7 +1,7 @@
 // Setting screen
 import React, { Component } from 'react';
 //import react in our code.
-import { Text, View, TextInput, StyleSheet, Image, TouchableHighlight, ActivityIndicator } from 'react-native';
+import { Text, View, TextInput, StyleSheet, Image, TouchableHighlight, ActivityIndicator, Platform } from 'react-native';
 import Dialog, { DialogContent, DialogTitle, SlideAnimation, DialogFooter, DialogButton } from 'react-native-popup-dialog';
 //import all the components we are going to use.
 import {colors, fonts, padding, dimensions} from './../styles/base.js'
@@ -30,7 +30,6 @@ export default class SettingsPage extends React.Component {
       this.showAlertMessage("กรุณาใส่ Sku");
       return;
     }    
-    console.log("test1");
     //loading
     this.setState({loading:true});
 
@@ -41,7 +40,6 @@ export default class SettingsPage extends React.Component {
     {
       skus[i] = skus[i].trim();            
     }
-    console.log("test2");
     //start sync
     fetch(this.state.apiPath + 'SAIMMarketPlaceDataToAppSync.php',
     {      
