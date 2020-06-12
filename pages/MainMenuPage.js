@@ -13,7 +13,7 @@ export default class MainMenuPage extends React.Component {
     this.state = {
       storeName: 'RALAMUSIC',
       // storeName: 'MINIMALIST',
-      dataUrl: 'https://minimalist.co.th/saim/',      
+      apiPath: 'https://minimalist.co.th/saim/',       
     };
   }
 

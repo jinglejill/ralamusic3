@@ -8,7 +8,6 @@ import com.facebook.react.uimanager.ViewManager;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-import com.ralamusic3.CustomToastPackage;
 
 public class CustomToastPackage implements ReactPackage {
 

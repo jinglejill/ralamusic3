@@ -17,6 +17,7 @@ import ProductDetailPage from './pages/ProductDetailPage.js';
 import SettingsPage from './pages/SettingsPage.js';
 import MainMenuPage from './pages/MainMenuPage.js';
 import ProductAddPage from './pages/ProductAddPage.js';
+import PrintProductQRPage from './pages/PrintProductQRPage.js';
 
 //Making TabNavigator which will be called in App StackNavigator
 //we can directly export the TabNavigator also but header will not be visible
@@ -128,6 +129,25 @@ const App = createStackNavigator({
           titleStyle={{fontFamily: fonts.primaryBold}}
           title={"Save"}
           onPress={navigation.state.params.handleSave} /> 
+    }),
+  }, 
+  PrintProductQR: 
+  {
+    screen: PrintProductQRPage,
+    navigationOptions: ({navigation})=> ({
+      headerStyle: {
+        backgroundColor: '#6EC417',
+      },
+      headerTintColor: '#FFFFFF',
+      title: 'พิมพ์ QR',
+      headerTitleStyle: {
+        fontFamily: "Sarabun-SemiBold",
+        fontSize: 18,
+      },
+      headerRight: <Button buttonStyle={styles.headerRightButton}
+          titleStyle={{fontFamily: fonts.primaryBold}}
+          title={"Connect printer"}
+          onPress={navigation.state.params.handleConnectPrinter} /> 
     }),
   },  
 });

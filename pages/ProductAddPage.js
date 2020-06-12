@@ -25,7 +25,6 @@ export default class ProductAddPage extends React.Component {
     this.state = {
       storeName: this.props.navigation.state.params.storeName,
       apiPath: this.props.navigation.state.params.apiPath,      
-      sku:this.props.navigation.state.params.sku,  
       item:item,        
     };
   }
@@ -81,7 +80,16 @@ export default class ProductAddPage extends React.Component {
   showProductQR = () => 
   {
     console.log("show product qr");
-    ToastExample.show('Awesome', ToastExample.LONG);
+    this.props.navigation.navigate('PrintProductQR',
+    {
+      'apiPath': this.state.apiPath,
+      'storeName': this.state.storeName,
+      'username': this.state.username,  
+      'sku': this.state.item.Sku,
+      'quantity': this.state.item.Quantity,
+      // onGoBack:()=>this.loadMenu()
+    });
+    // ToastExample.show('Awesome', ToastExample.LONG);
   }
 
   render() {
@@ -94,12 +102,12 @@ export default class ProductAddPage extends React.Component {
           </View>        
           <View style={styles.viewField}>        
             <Text style={styles.title}>Sku *</Text>
-            <TextInput style={styles.value} value={this.state.sku} placeholder=' Ex. Fender-Mustang-LT50' onChangeText={text => {this.setState({sku:text})}}/>  
+            <TextInput style={styles.value} value={this.state.item.Sku} placeholder=' Ex. Fender-Mustang-LT50' onChangeText={text => {item.Sku = text;this.setState({item:item})}}/>  
           </View>
           <View style={styles.viewField}>        
             <Text style={styles.title}>จำนวน</Text>
             <View style={{display:'flex', flexDirection:'row', alignItems:'center'}}>
-              <TextInput style={styles.valueQuantity} value={this.state.quantity} keyboardType = 'number-pad' placeholder=' ' onChangeText={text => {this.setState({quantity:text})}}/>                
+              <TextInput style={styles.valueQuantity} value={this.state.quantity} keyboardType = 'number-pad' placeholder=' ' onChangeText={text => {item.Quantity = text;this.setState({item:item})}}/>                
               <TouchableHighlight underlayColor={'white'} activeOpacity={1} style={
                 this.state.pressPrintStatus
                   ? styles.buttonPrintPress

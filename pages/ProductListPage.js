@@ -13,9 +13,8 @@ export default class FirstPage extends React.Component
     super(props);
     this.onEndReachedCalledDuringMomentum = true;
     this.state = {
-      storeName: 'RALAMUSIC',
-      // storeName: 'MINIMALIST',
-      apiPath: 'https://minimalist.co.th/saim/',
+      storeName: this.props.navigation.state.params.storeName,
+      apiPath: this.props.navigation.state.params.apiPath,      
       search: '',
       loading: false,
       data: [],

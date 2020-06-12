@@ -11,9 +11,8 @@ export default class SettingsPage extends React.Component {
     super(props);
 
     this.state = {
-      storeName: 'RALAMUSIC',
-      // storeName: 'MINIMALIST',
-      apiPath: 'https://minimalist.co.th/saim/',
+      storeName: this.props.navigation.state.params.storeName,
+      apiPath: this.props.navigation.state.params.apiPath,
       alertVisible: false,
       alertMessage:'',
       alertStatus:0,
@@ -176,7 +175,7 @@ const styles = StyleSheet.create({
     color:colors.error,textAlign:'center', fontFamily:fonts.primary, fontSize:fonts.md
   },
   skus: {
-    fontFamily: "Sarabun-LightItalic",
+    fontFamily: fonts.primary,
     fontSize: 14,
     textAlign: 'left', 
     marginLeft: padding.xl,   
@@ -213,7 +212,6 @@ const styles = StyleSheet.create({
     height:44,
     borderColor: '#B6E18B',
     backgroundColor:'#B6E18B',
-    // opacity:0.5,
     borderWidth: 1,
     borderRadius: 6,      
   },
@@ -223,7 +221,6 @@ const styles = StyleSheet.create({
     width: dimensions.fullWidth - padding.xl*2,    
     height:44,
     borderColor: "#B6E18B",
-    // opacity:0.5,
     borderWidth: 1,
     borderRadius: 6
   }, 
@@ -251,7 +248,6 @@ const styles = StyleSheet.create({
     bottom: 0,
     position: 'absolute',    
     right: dimensions.fullWidth/2-50,    
-    // alignItems: 'center',
     justifyContent: 'center'
   }
 });

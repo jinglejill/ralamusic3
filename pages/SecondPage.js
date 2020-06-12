@@ -10,9 +10,8 @@ export default class SecondPage extends React.Component {
     super(props);
 
     this.state = {
-      storeName: 'RALAMUSIC',
-      // storeName: 'MINIMALIST',
-      dataUrl: 'https://minimalist.co.th/saim/',
+      storeName: this.props.navigation.state.params.storeName,
+      apiPath: this.props.navigation.state.params.apiPath,      
       search: '',
       loading: false,
       data: [],
