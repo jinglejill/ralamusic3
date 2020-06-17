@@ -1,12 +1,12 @@
 //This is an example of React Native Tab
 import React from 'react';
-import {Platform, StyleSheet} from 'react-native';
+import {Platform, StyleSheet, Image, TouchableHighlight, HeaderBarButton, View} from 'react-native';
 //import react in our code.
 
 //Import React Navigation
 import {createAppContainer} from 'react-navigation';
 import {createMaterialTopTabNavigator} from 'react-navigation-tabs';
-import {createStackNavigator} from 'react-navigation-stack';
+import {createStackNavigator, HeaderBackButton} from 'react-navigation-stack';
 import { Button } from 'react-native-elements';
 
 //Import External Files
@@ -18,6 +18,11 @@ import SettingsPage from './pages/SettingsPage.js';
 import MainMenuPage from './pages/MainMenuPage.js';
 import ProductAddPage from './pages/ProductAddPage.js';
 import PrintProductQRPage from './pages/PrintProductQRPage.js';
+import PrinterSettingPage from './pages/PrinterSettingPage.js';
+import ChooseModelPage from './pages/ChooseModelPage.js';
+import ChoosePaperSizePage from './pages/ChoosePaperSizePage.js';
+import ChoosePrinterPage from './pages/ChoosePrinterPage.js';
+import ScanInPage from './pages/ScanInPage.js';
 
 //Making TabNavigator which will be called in App StackNavigator
 //we can directly export the TabNavigator also but header will not be visible
@@ -143,12 +148,94 @@ const App = createStackNavigator({
       headerTitleStyle: {
         fontFamily: "Sarabun-SemiBold",
         fontSize: 18,
-      },
-      headerRight: <Button buttonStyle={styles.headerRightButton}
-          titleStyle={{fontFamily: fonts.primaryBold}}
-          title={"Connect printer"}
-          onPress={navigation.state.params.handleConnectPrinter} /> 
+      },      
+      headerRight: () => <TouchableHighlight underlayColor={'transparent'} activeOpacity={1} onPress={navigation.state.params.handleSetupPrinter}>         
+                          <Image
+                            source={require('./assets/images/printerSetting.png')}
+                            style={{
+                              width: 40,
+                              height: 40,
+                              marginRight: padding.md
+                            }}
+                          />
+                        </TouchableHighlight>
     }),
-  },  
+  }, 
+  PrinterSetting: 
+  {
+    screen: PrinterSettingPage,
+    navigationOptions: ({navigation})=> ({
+      headerStyle: {
+        backgroundColor: '#6EC417',
+      },
+      headerTintColor: '#FFFFFF',
+      title: 'ตั้งค่าเครื่องพิมพ์',
+      headerTitleStyle: {
+        fontFamily: "Sarabun-SemiBold",
+        fontSize: 18,
+      },   
+      headerLeft: <HeaderBackButton tintColor="#FFFFFF" onPress={navigation.state.params.handleGoBack} />,   
+    }),
+  }, 
+  ChooseModel: 
+  {
+    screen: ChooseModelPage,
+    navigationOptions: ({navigation})=> ({
+      headerStyle: {
+        backgroundColor: '#6EC417',
+      },
+      headerTintColor: '#FFFFFF',
+      title: 'เลือกรุ่นเครื่องพิมพ์',
+      headerTitleStyle: {
+        fontFamily: "Sarabun-SemiBold",
+        fontSize: 18,
+      },      
+    }),
+  }, 
+  ChoosePaperSize: 
+  {
+    screen: ChoosePaperSizePage,
+    navigationOptions: ({navigation})=> ({
+      headerStyle: {
+        backgroundColor: '#6EC417',
+      },
+      headerTintColor: '#FFFFFF',
+      title: 'เลือกขนาดกระดาษ',
+      headerTitleStyle: {
+        fontFamily: "Sarabun-SemiBold",
+        fontSize: 18,
+      },      
+    }),
+  }, 
+  ChoosePrinter: 
+  {
+    screen: ChoosePrinterPage,
+    navigationOptions: ({navigation})=> ({
+      headerStyle: {
+        backgroundColor: '#6EC417',
+      },
+      headerTintColor: '#FFFFFF',
+      title: 'เลือกเครื่องพิมพ์',
+      headerTitleStyle: {
+        fontFamily: "Sarabun-SemiBold",
+        fontSize: 18,
+      },      
+    }),
+  },
+  ScanIn: 
+  {
+    screen: ScanInPage,
+    navigationOptions: ({navigation})=> ({
+      headerStyle: {
+        backgroundColor: '#6EC417',
+      },
+      headerTintColor: '#FFFFFF',
+      title: 'Scan สินค้าเข้า',
+      headerTitleStyle: {
+        fontFamily: "Sarabun-SemiBold",
+        fontSize: 18,
+      },      
+    }),
+  },
 });
 export default createAppContainer(App);

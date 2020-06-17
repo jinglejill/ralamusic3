@@ -20,6 +20,8 @@ export default class MainMenuPage extends React.Component {
   menu = [
     { name : 'สินค้า', image : require('./../assets/images/product.png'), page : 'TabScreen' },  
     { name : 'เพิ่มสินค้า', image : require('./../assets/images/productAdd.png'), page : 'ProductAdd' },  
+    { name : 'scan สินค้าเข้า', image : require('./../assets/images/scanIn.png'), page : 'ScanIn' },  
+    { name : 'scan สินค้าออก', image : require('./../assets/images/scanOut.png'), page : 'ScanOut' },  
     { name : 'ตั้งค่า', image : require('./../assets/images/setting.png'), page : 'Settings' },
   ];
 

@@ -2,11 +2,9 @@
 import React, { Component } from 'react';
 //import react in our code.
 import { Text, View, FlatList, ActivityIndicator, Dimensions, StyleSheet, Image, TouchableHighlight, TextInput, Platform, SafeAreaView, ScrollView} from 'react-native';
-// import { WebView } from 'react-native-webview';
-import {RichEditor, RichToolbar} from 'react-native-pell-rich-editor';
 //import all the components we are going to use.
 import {colors, fonts, padding, dimensions} from './../styles/base.js'
-import ToastExample from './../javaModule/ToastExample';
+
 
 export default class ProductAddPage extends React.Component {
   constructor(props) {
@@ -16,7 +14,7 @@ export default class ProductAddPage extends React.Component {
       MainImage:"",
       Name:"",
       Sku:"",
-      Quantity:"",
+      Quantity:"0",
       Price:"",
       AnimatingLazada:0,
       AnimatingShopee:0,
@@ -88,8 +86,7 @@ export default class ProductAddPage extends React.Component {
       'sku': this.state.item.Sku,
       'quantity': this.state.item.Quantity,
       // onGoBack:()=>this.loadMenu()
-    });
-    // ToastExample.show('Awesome', ToastExample.LONG);
+    });    
   }
 
   render() {
@@ -107,7 +104,7 @@ export default class ProductAddPage extends React.Component {
           <View style={styles.viewField}>        
             <Text style={styles.title}>จำนวน</Text>
             <View style={{display:'flex', flexDirection:'row', alignItems:'center'}}>
-              <TextInput style={styles.valueQuantity} value={this.state.quantity} keyboardType = 'number-pad' placeholder=' ' onChangeText={text => {item.Quantity = text;this.setState({item:item})}}/>                
+              <TextInput style={styles.valueQuantity} value={this.state.item.Quantity} keyboardType = 'number-pad' placeholder=' ' onChangeText={text => {item.Quantity = text;this.setState({item:item})}}/>                
               <TouchableHighlight underlayColor={'white'} activeOpacity={1} style={
                 this.state.pressPrintStatus
                   ? styles.buttonPrintPress

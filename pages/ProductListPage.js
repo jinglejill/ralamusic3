@@ -402,10 +402,15 @@ export default class FirstPage extends React.Component
     });
   }
 
+  containerTouched(event) {
+    this.refs.textInput.blur();
+    return false;
+  }
+
   render() {
     const { search } = this.state;
     return (
-      <View style={{flex:1,height:Dimensions.get('window').height}}>        
+      <View style={{flex:1}} onStartShouldSetResponder={this.containerTouched.bind(this)}>        
         <FlatList
           extraData={this.state.refresh}
           data={this.state.data}
@@ -478,7 +483,7 @@ export default class FirstPage extends React.Component
             </View>
             
           )}
-          ListHeaderComponent={(<SearchBar placeholder="Type Here..." onSubmitEditing={()=>{this.search()}} lightTheme containerStyle={styles.searchBarContainer} inputContainerStyle={styles.searchBarInputContainer} inputStyle={styles.searchBarInput} onChangeText={(text)=>this.updateSearch(text)}
+          ListHeaderComponent={(<SearchBar ref='textInput' placeholder="Type Here..." onSubmitEditing={()=>{this.search()}} lightTheme containerStyle={styles.searchBarContainer} inputContainerStyle={styles.searchBarInputContainer} inputStyle={styles.searchBarInput} onChangeText={(text)=>this.updateSearch(text)}
             value={search}/>)}
           ListFooterComponent={this.renderFooter}
           keyExtractor={(item, index) => index}

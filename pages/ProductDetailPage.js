@@ -3,7 +3,7 @@ import React, { Component } from 'react';
 //import react in our code.
 import { Text, View, FlatList, ActivityIndicator, Dimensions, StyleSheet, Image, TouchableHighlight, TextInput, Platform, SafeAreaView} from 'react-native';
 // import { WebView } from 'react-native-webview';
-import {RichEditor, RichToolbar} from 'react-native-pell-rich-editor';
+// import {RichEditor, RichToolbar} from 'react-native-pell-rich-editor';
 //import all the components we are going to use.
 
 

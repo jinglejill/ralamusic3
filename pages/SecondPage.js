@@ -3,8 +3,6 @@ import React, { Component } from 'react';
 //import react in our code.
 import { Text, View, TextInput, StyleSheet, Dimensions } from 'react-native';
 //import all the components we are going to use.
-import { WebView } from 'react-native-webview';
-import {RichEditor, RichToolbar} from 'react-native-pell-rich-editor';
 export default class SecondPage extends React.Component {
   constructor(props) {
     super(props);

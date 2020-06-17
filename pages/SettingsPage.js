@@ -1,7 +1,7 @@
 // Setting screen
 import React, { Component } from 'react';
 //import react in our code.
-import { Text, View, TextInput, StyleSheet, Image, TouchableHighlight, ActivityIndicator, Platform } from 'react-native';
+import { Text, View, TextInput, StyleSheet, Image, TouchableHighlight, ActivityIndicator, Platform, ScrollView, Keyboard } from 'react-native';
 import Dialog, { DialogContent, DialogTitle, SlideAnimation, DialogFooter, DialogButton } from 'react-native-popup-dialog';
 //import all the components we are going to use.
 import {colors, fonts, padding, dimensions} from './../styles/base.js'
@@ -26,7 +26,7 @@ export default class SettingsPage extends React.Component {
     //validate       
     if(this.state.skus.trim() == "")
     {
-      this.showAlertMessage("กรุณาใส่ Sku");
+      this.setState({alertStatus:0},()=>{this.showAlertMessage("กรุณาใส่ Sku");});
       return;
     }    
     //loading
@@ -90,58 +90,64 @@ export default class SettingsPage extends React.Component {
     this.setState({ pressStatus: true });
   }
 
+  containerTouched(event) {
+    this.refs.textInput.blur();
+    return false;
+  }
   render() {
     return (
-      <View style={styles.container}>        
-        <View style={{marginTop:20}}>
-          <Text style={styles.title}>Sync marketplace sku เข้าแอป</Text>          
-          <TextInput style={styles.skus} value={this.state.skus} placeholder=' Ex. Fender-Mustang-LT50;Fender-Turbo-Tune-String-Winder' multiline onChangeText={text => {this.setState({skus:text})}}/>                  
-          <View style={{justifyContent: 'center'}}>
-            <TouchableHighlight underlayColor={'white'} activeOpacity={1} style={
-              this.state.pressStatus
-                ? styles.buttonPress
-                : styles.button
-              } 
-              onHideUnderlay={()=>this.onHideUnderlay()}
-              onShowUnderlay={()=>this.onShowUnderlay()}                                        
-              onPress={()=>{this.syncMarketplaceDataToApp()}} >         
-                <Text style={
-                  this.state.pressStatus
-                    ? styles.textPress
-                    : styles.text
-                  }>Sync
-                </Text>               
-            </TouchableHighlight>                                    
-            {this.state.loading && <ActivityIndicator animating size='small' style={styles.activityIndicator}/>}
+      
+        <View style={styles.container} onStartShouldSetResponder={this.containerTouched.bind(this)}>        
+          <View style={{marginTop:20}}>
+            <Text style={styles.title}>Sync marketplace sku เข้าแอป</Text>          
+            <TextInput style={styles.skus} ref='textInput' value={this.state.skus} placeholder=' Ex. Fender-Mustang-LT50;Fender-Turbo-Tune-String-Winder' multiline onChangeText={text => {this.setState({skus:text})}}/>                  
+            <View style={{justifyContent: 'center'}}>
+              <TouchableHighlight underlayColor={'white'} activeOpacity={1} style={
+                this.state.pressStatus
+                  ? styles.buttonPress
+                  : styles.button
+                } 
+                onHideUnderlay={()=>this.onHideUnderlay()}
+                onShowUnderlay={()=>this.onShowUnderlay()}                                        
+                onPress={()=>{this.syncMarketplaceDataToApp()}} >         
+                  <Text style={
+                    this.state.pressStatus
+                      ? styles.textPress
+                      : styles.text
+                    }>Sync
+                  </Text>               
+              </TouchableHighlight>                                    
+              {this.state.loading && <ActivityIndicator animating size='small' style={styles.activityIndicator}/>}
+            </View>
           </View>
-        </View>
-        
-        <Dialog
-          visible={this.state.alertVisible}
-          width={0.8}
-          footer={
-            <DialogFooter style={styles.dialogFooter}>                       
-              <DialogButton
-                text="OK"
-                style={styles.okButton}
-                textStyle={styles.okButtonText}
-                onPress={() => {this.setState({ alertVisible: false })}}
-              />
-            </DialogFooter>
-          }
-          onTouchOutside={() => {
-            this.setState({ alertVisible: false });
-          }}          
-        >
-          <DialogContent>
-            {
-              <View style={{alignItems:'center',justifyContent:'center',paddingTop:20}}>
-                <Text style={this.state.alertStatus?styles.textSuccess:styles.textFail}>{this.state.alertMessage}</Text>
-              </View>            
+          
+          <Dialog
+            visible={this.state.alertVisible}
+            width={0.8}
+            footer={
+              <DialogFooter style={styles.dialogFooter}>                       
+                <DialogButton
+                  text="OK"
+                  style={styles.okButton}
+                  textStyle={styles.okButtonText}
+                  onPress={() => {this.setState({ alertVisible: false })}}
+                />
+              </DialogFooter>
             }
-          </DialogContent>
-        </Dialog>        
-      </View>
+            onTouchOutside={() => {
+              this.setState({ alertVisible: false });
+            }}          
+          >
+            <DialogContent>
+              {
+                <View style={{alignItems:'center',justifyContent:'center',paddingTop:20}}>
+                  <Text style={this.state.alertStatus?styles.textSuccess:styles.textFail}>{this.state.alertMessage}</Text>
+                </View>            
+              }
+            </DialogContent>
+          </Dialog>        
+        </View>
+      
     );
   }
 }
