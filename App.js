@@ -130,7 +130,7 @@ const App = createStackNavigator({
         fontFamily: "Sarabun-SemiBold",
         fontSize: 18,
       },
-      headerRight: <Button buttonStyle={styles.headerRightButton}
+      headerRight: ()=><Button buttonStyle={styles.headerRightButton}
           titleStyle={{fontFamily: fonts.primaryBold}}
           title={"Save"}
           onPress={navigation.state.params.handleSave} /> 

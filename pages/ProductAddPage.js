@@ -2,6 +2,7 @@
 import React, { Component } from 'react';
 //import react in our code.
 import { Text, View, FlatList, ActivityIndicator, Dimensions, StyleSheet, Image, TouchableHighlight, TextInput, Platform, SafeAreaView, ScrollView} from 'react-native';
+import Dialog, { DialogContent, DialogTitle, SlideAnimation, DialogFooter, DialogButton } from 'react-native-popup-dialog';
 //import all the components we are going to use.
 import {colors, fonts, padding, dimensions} from './../styles/base.js'
 
@@ -10,7 +11,7 @@ export default class ProductAddPage extends React.Component {
   constructor(props) {
     super(props);
 
-    item = {
+    var item = {
       MainImage:"",
       Name:"",
       Sku:"",
@@ -44,6 +45,7 @@ export default class ProductAddPage extends React.Component {
   addImage = () => 
   {
     console.log("add image");
+    this.setState({addImageVisible:true});
   }
 
   onHideUnderlay = () => 
@@ -193,7 +195,22 @@ export default class ProductAddPage extends React.Component {
                 style={styles.imageProduct}
               />
             </View>          
-          </View>       
+          </View>
+          <Dialog
+            visible={this.state.addImageVisible}
+            width={0.8}            
+            onTouchOutside={() => {
+              this.setState({ addImageVisible: false });
+            }}          
+          >
+            <DialogContent>
+              {
+                <View style={{alignItems:'center',justifyContent:'center',paddingTop:20}}>
+                  <Text style={this.state.alertStatus?styles.textSuccess:styles.textFail}>abc</Text>
+                </View>            
+              }
+            </DialogContent>
+          </Dialog>        
         </View>
       </ScrollView>
     );
