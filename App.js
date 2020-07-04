@@ -1,6 +1,6 @@
 //This is an example of React Native Tab
 import React from 'react';
-import {Platform, StyleSheet, Image, TouchableHighlight, HeaderBarButton, View} from 'react-native';
+import {Platform, StyleSheet, Image, TouchableHighlight, HeaderBarButton, View, ActivityIndicator, Text} from 'react-native';
 //import react in our code.
 
 //Import React Navigation
@@ -12,8 +12,6 @@ import { Button } from 'react-native-elements';
 //Import External Files
 import {colors, fonts, padding, dimensions} from './styles/base.js'
 import ProductListPage from './pages/ProductListPage';
-import SecondPage from './pages/SecondPage';
-import ProductDetailPage from './pages/ProductDetailPage.js';
 import SettingsPage from './pages/SettingsPage.js';
 import MainMenuPage from './pages/MainMenuPage.js';
 import ProductAddPage from './pages/ProductAddPage.js';
@@ -22,26 +20,41 @@ import PrinterSettingPage from './pages/PrinterSettingPage.js';
 import ChooseModelPage from './pages/ChooseModelPage.js';
 import ChoosePaperSizePage from './pages/ChoosePaperSizePage.js';
 import ChoosePrinterPage from './pages/ChoosePrinterPage.js';
+import ChooseOrientationPage from './pages/ChooseOrientationPage.js';
+import ChooseAutoCutPage from './pages/ChooseAutoCutPage.js';
+import ChooseCutAtEndPage from './pages/ChooseCutAtEndPage.js';
 import ScanInPage from './pages/ScanInPage.js';
+import ScanOutPage from './pages/ScanOutPage.js';
 
 //Making TabNavigator which will be called in App StackNavigator
 //we can directly export the TabNavigator also but header will not be visible
 //as header comes only when we put anything into StackNavigator and then export
 
+
 const TabScreen = createMaterialTopTabNavigator(
   {
-    All: { screen: ProductListPage },
-    Outofstock: { screen: SecondPage },
+    All: 
+    {
+      screen: ProductListPage,
+      params:{outOfStock:false},     
+             
+    },
+    Outofstock: 
+    {
+      screen: ProductListPage, 
+      params:{outOfStock:true},  
+               
+    },
   },
-  {
+  {  
     tabBarPosition: 'top',
     swipeEnabled: true,
     animationEnabled: true,
     tabBarOptions: {
-      activeTintColor: '#FFFFFF',
+      activeTintColor: colors.primary,
       inactiveTintColor: '#F8F8F8',
       style: {
-        backgroundColor: '#6EC417',
+        backgroundColor: colors.fourthiary,
         height:44,
       },
       labelStyle: {
@@ -51,8 +64,8 @@ const TabScreen = createMaterialTopTabNavigator(
       indicatorStyle: {
         borderBottomColor: '#87B56A',
         borderBottomWidth: 2,
-      },
-    },
+      },      
+    },         
   }
 );
 const styles = StyleSheet.create({
@@ -65,7 +78,7 @@ const App = createStackNavigator({
     screen: MainMenuPage,
     navigationOptions: {
       headerStyle: {
-        backgroundColor: '#6EC417',
+        backgroundColor: colors.fourthiary,
       },
       headerTintColor: '#FFFFFF',
       title: 'Rala Music',
@@ -78,36 +91,19 @@ const App = createStackNavigator({
   TabScreen: {
     screen: TabScreen,
     navigationOptions: {
-      // headerShown:false,
       headerStyle: {
-        backgroundColor: '#6EC417',
+        backgroundColor: colors.fourthiary,
       },
       headerTintColor: '#FFFFFF',
-      title: 'PRODUCT', 
-
+      title: 'PRODUCT',  
     },
-  },
-  ProductDetail: 
-  {
-    screen: ProductDetailPage,
-    navigationOptions: {
-      headerStyle: {
-        backgroundColor: '#6EC417',
-      },
-      headerTintColor: '#FFFFFF',
-      title: 'รายละเอียดสินค้า',
-      headerTitleStyle: {
-        fontFamily: "Sarabun-SemiBold",
-        fontSize: 18,
-      } 
-    },
-  },
+  },  
   Settings: 
   {
     screen: SettingsPage,
     navigationOptions: {
       headerStyle: {
-        backgroundColor: '#6EC417',
+        backgroundColor: colors.fourthiary,
       },
       headerTintColor: '#FFFFFF',
       title: 'ตั้งค่า',
@@ -122,18 +118,41 @@ const App = createStackNavigator({
     screen: ProductAddPage,
     navigationOptions: ({navigation})=> ({
       headerStyle: {
-        backgroundColor: '#6EC417',
+        backgroundColor: colors.fourthiary,
       },
       headerTintColor: '#FFFFFF',
-      title: 'เพิ่มสินค้า',
+      title: navigation.state.params.edit?'รายละเอียดสินค้า':'เพิ่มสินค้า',
       headerTitleStyle: {
         fontFamily: "Sarabun-SemiBold",
         fontSize: 18,
       },
-      headerRight: ()=><Button buttonStyle={styles.headerRightButton}
-          titleStyle={{fontFamily: fonts.primaryBold}}
-          title={"Save"}
-          onPress={navigation.state.params.handleSave} /> 
+      headerLeft: () => <HeaderBackButton tintColor="#FFFFFF"
+          onPress={() => {
+            navigation.state.params.savedOrSynced?navigation.state.params.refresh():null;
+            navigation.goBack(null);}} />,
+      headerRight: ()=> <View style={{display:'flex',flexDirection:'row',alignItem:'center',justifyContent:'center',width:110,}}>
+                          <View style={{width:55}}>
+                          {
+                            navigation.state.params.edit?null:
+                            (<Button buttonStyle={styles.headerRightButton}
+                              titleStyle={{fontFamily: fonts.primaryBold}}
+                              title={"New"}
+                              onPress={navigation.state.params.handleNew} 
+                            />)
+                          }                            
+                          </View>
+                          <View style={{width:55,alignItem:'center',justifyContent:'center' }}>
+                          {
+                            navigation.state.params.animating?
+                            <ActivityIndicator animating size='small' style={{marginRight:padding.sm}}/>:                            
+                            <Button buttonStyle={styles.headerRightButton}
+                              titleStyle={{fontFamily: fonts.primaryBold}}
+                              title={"Save"}
+                              onPress={navigation.state.params.handleSave} 
+                            />
+                          }
+                          </View>
+                        </View>
     }),
   }, 
   PrintProductQR: 
@@ -141,7 +160,7 @@ const App = createStackNavigator({
     screen: PrintProductQRPage,
     navigationOptions: ({navigation})=> ({
       headerStyle: {
-        backgroundColor: '#6EC417',
+        backgroundColor: colors.fourthiary,
       },
       headerTintColor: '#FFFFFF',
       title: 'พิมพ์ QR',
@@ -166,7 +185,7 @@ const App = createStackNavigator({
     screen: PrinterSettingPage,
     navigationOptions: ({navigation})=> ({
       headerStyle: {
-        backgroundColor: '#6EC417',
+        backgroundColor: colors.fourthiary,
       },
       headerTintColor: '#FFFFFF',
       title: 'ตั้งค่าเครื่องพิมพ์',
@@ -182,7 +201,7 @@ const App = createStackNavigator({
     screen: ChooseModelPage,
     navigationOptions: ({navigation})=> ({
       headerStyle: {
-        backgroundColor: '#6EC417',
+        backgroundColor: colors.fourthiary,
       },
       headerTintColor: '#FFFFFF',
       title: 'เลือกรุ่นเครื่องพิมพ์',
@@ -197,7 +216,7 @@ const App = createStackNavigator({
     screen: ChoosePaperSizePage,
     navigationOptions: ({navigation})=> ({
       headerStyle: {
-        backgroundColor: '#6EC417',
+        backgroundColor: colors.fourthiary,
       },
       headerTintColor: '#FFFFFF',
       title: 'เลือกขนาดกระดาษ',
@@ -212,10 +231,55 @@ const App = createStackNavigator({
     screen: ChoosePrinterPage,
     navigationOptions: ({navigation})=> ({
       headerStyle: {
-        backgroundColor: '#6EC417',
+        backgroundColor: colors.fourthiary,
       },
       headerTintColor: '#FFFFFF',
       title: 'เลือกเครื่องพิมพ์',
+      headerTitleStyle: {
+        fontFamily: "Sarabun-SemiBold",
+        fontSize: 18,
+      },      
+    }),
+  },
+  ChooseOrientation: 
+  {
+    screen: ChooseOrientationPage,
+    navigationOptions: ({navigation})=> ({
+      headerStyle: {
+        backgroundColor: colors.fourthiary,
+      },
+      headerTintColor: '#FFFFFF',
+      title: 'เลือกแนวการพิมพ์',
+      headerTitleStyle: {
+        fontFamily: "Sarabun-SemiBold",
+        fontSize: 18,
+      },      
+    }),
+  },
+  ChooseAutoCut: 
+  {
+    screen: ChooseAutoCutPage,
+    navigationOptions: ({navigation})=> ({
+      headerStyle: {
+        backgroundColor: colors.fourthiary,
+      },
+      headerTintColor: '#FFFFFF',
+      title: 'เลือกการตัดอัตโนมัติ',
+      headerTitleStyle: {
+        fontFamily: "Sarabun-SemiBold",
+        fontSize: 18,
+      },      
+    }),
+  },
+  ChooseCutAtEnd: 
+  {
+    screen: ChooseCutAtEndPage,
+    navigationOptions: ({navigation})=> ({
+      headerStyle: {
+        backgroundColor: colors.fourthiary,
+      },
+      headerTintColor: '#FFFFFF',
+      title: 'เลือกการตัดที่ปลาย',
       headerTitleStyle: {
         fontFamily: "Sarabun-SemiBold",
         fontSize: 18,
@@ -227,7 +291,7 @@ const App = createStackNavigator({
     screen: ScanInPage,
     navigationOptions: ({navigation})=> ({
       headerStyle: {
-        backgroundColor: '#6EC417',
+        backgroundColor: colors.fourthiary,
       },
       headerTintColor: '#FFFFFF',
       title: 'Scan สินค้าเข้า',
@@ -237,5 +301,24 @@ const App = createStackNavigator({
       },      
     }),
   },
+  ScanOut: 
+  {
+    screen: ScanOutPage,
+    navigationOptions: ({navigation})=> ({
+      headerStyle: {
+        backgroundColor: colors.fourthiary,
+      },
+      headerTintColor: '#FFFFFF',
+      title: 'Scan สินค้าออก',
+      headerTitleStyle: {
+        fontFamily: "Sarabun-SemiBold",
+        fontSize: 18,
+      },      
+    }),
+  },
 });
 export default createAppContainer(App);
+
+
+
+

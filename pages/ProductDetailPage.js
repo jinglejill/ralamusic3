@@ -12,7 +12,7 @@ export default class ProductDetailPage extends React.Component {
   constructor(props) {
     super(props);
 
-    item = {
+    var item = {
       MainImage:"",
       Name:"",
       Sku:"",
@@ -35,39 +35,40 @@ export default class ProductDetailPage extends React.Component {
     this.makeRemoteRequest();
   }
 
-  makeRemoteRequest = () => {
+  makeRemoteRequest = () => 
+  {
     console.log("makeRemoteRequest get product detail");
     const url =  this.state.apiPath + 'SAIMProductDetailGet.php';
     this.setState({ loading: true });
 
     fetch(url,
-      {
-        method: 'POST',
-        headers: {
-                    'Accept': 'application/json',
-                    'Content-Type': 'application/json',
-                  },
-        body: JSON.stringify({                 
-          sku:this.state.sku, 
-          storeName: this.state.storeName,
-          modifiedUser: this.state.username,
-          modifiedDate: new Date().toLocaleString(),
-          platForm: Platform.OS,
-        })
+    {
+      method: 'POST',
+      headers: {
+                  'Accept': 'application/json',
+                  'Content-Type': 'application/json',
+                },
+      body: JSON.stringify({                 
+        sku:this.state.sku, 
+        storeName: this.state.storeName,
+        modifiedUser: this.state.username,
+        modifiedDate: new Date().toLocaleString(),
+        platForm: Platform.OS,
       })
-      .then(res => res.json())
-      .then(res => {
-        this.setState({
-          item: res.product,
-          error: res.error || null,
-          loading: false,
-        });
-
-        console.log("item:"+JSON.stringify(this.state.item));
-      })
-      .catch(error => {
-        this.setState({ error, loading: false });
+    })
+    .then(res => res.json())
+    .then(res => {
+      this.setState({
+        item: res.product,
+        error: res.error || null,
+        loading: false,
       });
+
+      console.log("item:"+JSON.stringify(this.state.item));
+    })
+    .catch(error => {
+      this.setState({ error, loading: false });
+    });
   };
 
   currencyFormat = (num) => 

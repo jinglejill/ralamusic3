@@ -90,34 +90,32 @@ export default class SettingsPage extends React.Component {
     this.setState({ pressStatus: true });
   }
 
-  containerTouched(event) {
-    this.refs.textInput.blur();
-    return false;
-  }
+
   render() {
-    return (
-      
-        <View style={styles.container} onStartShouldSetResponder={this.containerTouched.bind(this)}>        
+    return (        
+        <ScrollView contentContainerStyle={{flexGrow: 1}} keyboardShouldPersistTaps='handled'>
           <View style={{marginTop:20}}>
             <Text style={styles.title}>Sync marketplace sku เข้าแอป</Text>          
-            <TextInput style={styles.skus} ref='textInput' value={this.state.skus} placeholder=' Ex. Fender-Mustang-LT50;Fender-Turbo-Tune-String-Winder' multiline onChangeText={text => {this.setState({skus:text})}}/>                  
+            <TextInput style={styles.skus} value={this.state.skus} placeholder=' Ex. Fender-Mustang-LT50;Fender-Turbo-Tune-String-Winder' multiline onChangeText={text => {this.setState({skus:text})}}/>                  
             <View style={{justifyContent: 'center'}}>
-              <TouchableHighlight underlayColor={'white'} activeOpacity={1} style={
-                this.state.pressStatus
-                  ? styles.buttonPress
-                  : styles.button
-                } 
+              <TouchableHighlight underlayColor={colors.primary} activeOpacity={1} style={styles.button} 
                 onHideUnderlay={()=>this.onHideUnderlay()}
                 onShowUnderlay={()=>this.onShowUnderlay()}                                        
                 onPress={()=>{this.syncMarketplaceDataToApp()}} >         
-                  <Text style={
-                    this.state.pressStatus
-                      ? styles.textPress
-                      : styles.text
-                    }>Sync
-                  </Text>               
-              </TouchableHighlight>                                    
-              {this.state.loading && <ActivityIndicator animating size='small' style={styles.activityIndicator}/>}
+                  <View style={{display:'flex',flexDirection:'row',alignItems:'center',justifyContent:'center'}}>
+                    <View style={{width:30}}>                    
+                    </View>
+                    <Text style={
+                      this.state.pressStatus
+                        ? styles.textPress
+                        : styles.text
+                      }>Sync
+                    </Text>               
+                    <View style={{width:30}}>
+                      {this.state.loading && <ActivityIndicator animating size='small' style={styles.activityIndicator}/>}
+                    </View>
+                  </View>
+              </TouchableHighlight>                                                  
             </View>
           </View>
           
@@ -146,7 +144,7 @@ export default class SettingsPage extends React.Component {
               }
             </DialogContent>
           </Dialog>        
-        </View>
+        </ScrollView>
       
     );
   }
@@ -157,6 +155,8 @@ const styles = StyleSheet.create({
   {
     flex:1,
     height:dimensions.fullHeight,
+    width:dimensions.fullWidth,
+    // borderWidth:1
   },
   okButton:
   {
@@ -216,20 +216,11 @@ const styles = StyleSheet.create({
     marginLeft:padding.xl,
     width: dimensions.fullWidth - padding.xl*2,    
     height:44,
-    borderColor: '#B6E18B',
-    backgroundColor:'#B6E18B',
+    borderColor: colors.primary,
+    backgroundColor: colors.primary,
     borderWidth: 1,
     borderRadius: 6,      
-  },
-  buttonPress: 
-  {
-    marginLeft:padding.xl,
-    width: dimensions.fullWidth - padding.xl*2,    
-    height:44,
-    borderColor: "#B6E18B",
-    borderWidth: 1,
-    borderRadius: 6
-  }, 
+  },  
   text: 
   {   
     fontFamily: "Sarabun-SemiBold",   

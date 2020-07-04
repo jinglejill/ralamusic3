@@ -8,7 +8,7 @@ import com.android.build.OutputFile
 //        bundleInRelease: true,
 //        root: "../../",
 //        jsBundleDirRelease: "$buildDir/intermediates/assets/release",
-//        resourcesDirRelease: "$buildDir/intermediates/res/merged/release"
+//        resourcesDirRelease: "$buildDir/intermediates/res/merged/release"®
 //]
 /**
  * The react.gradle file registers a task for each build variant (e.g. bundleDebugJsAndAssets
@@ -141,9 +141,10 @@ android {
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
         versionCode 1
-        versionName "1.5"
-            missingDimensionStrategy 'react-native-camera', 'general'
-            multiDexEnabled true
+        versionName "1.8"
+        missingDimensionStrategy 'react-native-camera', 'general'
+        multiDexEnabled true
+        vectorDrawables.useSupportLibrary = true
     }
     splits {
         abi {

@@ -31,21 +31,25 @@ export default class MainMenuPage extends React.Component {
     {
       'apiPath': this.state.apiPath,
       'storeName': this.state.storeName,
-      'username': this.state.username,  
+      'username': this.state.username,        
       // onGoBack:()=>this.loadMenu()
     });
   }
 
   render() {
     return (
-      <View style={{flex:1,alignItems:'center',justifyContent:'center'}}>
+      <View style={{flex:1,alignItems:'center',justifyContent:'center',backgroundColor:'white'}}>
+        <View style={{height:20}}>
+        </View>
         <FlatList
           data={this.menu}
           renderItem={({item}) => (
             <TouchableHighlight underlayColor={'transparent'} activeOpacity={1} onPress={ () => this.goToMenu(item.page)}>
               <View>
-                <Image source={item.image}  style={styles.image}/>
-                <Text style={styles.menuName}>{item.name}</Text>
+                <View style={styles.box}>
+                  <Image source={item.image}  style={styles.image}/>
+                  <Text style={styles.menuName}>{item.name}</Text>
+                </View>
               </View>
             </TouchableHighlight>)}  
           keyExtractor={(item, index) => index}
@@ -61,7 +65,8 @@ const styles = StyleSheet.create({
   {
     width:60,
     height:60,  
-    marginTop:40,  
+    marginTop:20,  
+    marginTop:20,  
     marginLeft:40,  
     marginRight:40,  
   },
@@ -72,5 +77,15 @@ const styles = StyleSheet.create({
     color: colors.primary,
     textAlign: 'center',
     paddingTop: padding.lg
-  }
+  },
+  box:
+  {
+    margin:10,
+    backgroundColor:'white',    
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 1 },
+    shadowOpacity: 0.8,
+    shadowRadius: 2,  
+    elevation: 5
+  },
 });

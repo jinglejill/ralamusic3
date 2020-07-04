@@ -81,6 +81,10 @@ target 'ralamusic3' do
 
   pod 'RNPermissions', :path => '../node_modules/react-native-permissions'
 
+  pod 'RNSVG', :path => '../node_modules/react-native-svg'
+
+  pod 'RNSoundPlayer', :path => '../node_modules/react-native-sound-player'
+
   target 'ralamusic3Tests' do
     inherit! :complete
     # Pods for testing

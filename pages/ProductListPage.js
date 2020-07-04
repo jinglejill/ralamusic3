@@ -1,20 +1,23 @@
 // Home screen
 import React, { Component } from 'react';
 //import react in our code.
-import { Text, View, FlatList, ActivityIndicator, Dimensions, StyleSheet, Image, TouchableHighlight, TextInput, Platform, SafeAreaView} from 'react-native';
+import { Text, View, FlatList, ActivityIndicator, Dimensions, StyleSheet, Image, TouchableHighlight, TextInput, Platform, SafeAreaView, TouchableOpacity} from 'react-native';
 import { List, ListItem, SearchBar } from "react-native-elements";
 import Dialog, { DialogContent, DialogTitle, SlideAnimation, DialogFooter, DialogButton } from 'react-native-popup-dialog';
 import InputSpinner from "react-native-input-spinner";
+import SegmentedControlTab from "react-native-segmented-control-tab";
+import {colors, fonts, padding, dimensions} from './../styles/base.js';
 //import all the components we are going to use.
 
-export default class FirstPage extends React.Component 
+export default class ProductListPage extends React.Component 
 {
   constructor(props) {
     super(props);
+
     this.onEndReachedCalledDuringMomentum = true;
     this.state = {
       storeName: this.props.navigation.state.params.storeName,
-      apiPath: this.props.navigation.state.params.apiPath,      
+      apiPath: this.props.navigation.state.params.apiPath,         
       search: '',
       loading: false,
       data: [],
@@ -27,18 +30,42 @@ export default class FirstPage extends React.Component
       alertMessage:'',
       quantityEditing:0,
       skuEditing:'',
-      typingTimeout: 0
+      typingTimeout: 0,
+      selectedIndex: 0,
+      increaseLabel:'เพิ่ม',
+      quantityCurrent:0,
+      quantityTotal:0,
+      outOfStock: this.props.navigation.getParam('outOfStock',false),         
     };
   }
 
-  componentDidMount() {
-    this.makeRemoteRequest();
+  componentDidMount() 
+  {  
+    this.props.navigation.addListener('didFocus', this.onScreenFocus);    
+    if(!this.state.outOfStock)
+    {
+      this.makeRemoteRequest();
+    }  
+
+  }
+
+  onScreenFocus = () => {
+    // Screen was focused, our on focus logic goes here
+    if(this.state.data.length == 0)
+    {
+      this.makeRemoteRequest();      
+    }    
+    // else
+    // {
+    //   this.handleRefresh()
+    // }
+
   }
 
   makeRemoteRequest = () => {
-    console.log("makeRemoteRequest page:"+this.state.page+", searchText:"+this.state.search);
+    console.log("makeRemoteRequest page:"+this.state.page+", searchText:"+this.state.search);    
     const { page, seed, search } = this.state;
-    const url =  this.state.apiPath + 'SAIMMainProductGetList.php?seed='+seed;
+    const url = this.state.apiPath + 'SAIMMainProductGetList2.php?seed='+seed;    
     this.setState({ loading: true });
 
     fetch(url,
@@ -52,6 +79,7 @@ export default class FirstPage extends React.Component
           page:page,
           limit:20,
           searchText:search, 
+          outOfStock:this.state.outOfStock,
           storeName: this.state.storeName,
           modifiedUser: this.state.username,
           modifiedDate: new Date().toLocaleString(),
@@ -92,6 +120,7 @@ export default class FirstPage extends React.Component
   };
 
   handleRefresh = () => {
+    console.log('handleRefresh');
     this.setState(
       {
         page: 1,
@@ -122,24 +151,9 @@ export default class FirstPage extends React.Component
 
   updateSearch = (search) => 
   {
+    console.log("outofstock:"+this.state.outOfStock);
     console.log("search changed");
     this.setState({search:search});
-
-
-    // console.log("search remote");
-    // if (this.state.typingTimeout) {
-    //  clearTimeout(this.state.typingTimeout);
-    // }
-
-
-    // this.setState({
-    //      page: 1,
-    //      search:search,  
-    //      typingTimeout: setTimeout( () => {
-    //           this.setState({refreshing:true})              
-    //          this.makeRemoteRequest();
-    //        }, 500)
-    //   });  
   };
 
   search = () => 
@@ -149,103 +163,26 @@ export default class FirstPage extends React.Component
   }
 
   showEditQuantityDialog = (sku, quantity) => 
-  {
+  {    
     console.log("showEditQuantityDialog quantity:"+quantity);
-    this.setState({visible:true, quantityEditing:quantity, skuEditing:sku});
-  }
-
-  syncQuantityChannel = (sku,quantity,channel) => 
-  {
-    return;
-    console.log("syncQuantityChannel");
-    //set indicator animating
-    this.state.data.map((product)=>{      
-        if(product.Sku == sku)
-        {
-          if(channel == 1)
-          {
-            product.AnimatingLazada = true;  
-          }
-          else if(channel == 2)
-          {
-            product.AnimatingShopee = true;  
-          }
-          else if(channel == 3)
-          {
-            product.AnimatingJd = true;  
-          }
-        }  
-    });
-
-    // return;
-    //db updateQuantity
-    fetch(this.state.apiPath + 'SAIMMarketPlaceProductQuantityUpdate.php',
-    {
-      method: 'POST',
-      headers: {
-                  'Accept': 'application/json',
-                  'Content-Type': 'application/json',
-                },
-      body: JSON.stringify({  
-        sku: sku,
-        quantity: quantity,
-        channel: channel,
-        storeName: this.state.storeName,
-        modifiedUser: this.state.username,
-        modifiedDate: new Date().toLocaleString(),
-        platForm: Platform.OS,
-      })
-    })
-    .then((response) => response.json())
-    .then((responseData) =>{
-      console.log(responseData);
-      console.log("responseData.success:"+responseData.success);
-      if(responseData.success == true)
-      {
-      }
-      else
-      {
-        //error message        
-        console.log(responseData.channelName+" sku:"+responseData.sku+"\r\nบันทึกไม่สำเร็จ");
-        this.showAlertMessage(responseData.channelName+" sku:"+responseData.sku+"\r\nบันทึกไม่สำเร็จ");
-      }
-
-
-      this.state.data.map((product)=>{      
-        if(product.Sku == responseData.sku)
-        {
-          console.log("set animating false;"+channel+";"+responseData.sku+";"+responseData.quantity);
-          if(channel == 1)
-          {
-            product.AnimatingLazada = false;  
-            product.PressStatusLazada = false;
-          }
-          else if(channel == 2)
-          {
-            product.AnimatingShopee = false;  
-            product.PressStatusShopee = false;
-          }
-          else if(channel == 3)
-          {
-            product.AnimatingJd = false;  
-            product.PressStatusJd = false;
-          }                      
-        }
-      });
-      this.setState((state)=>({refresh:!this.state.refresh}));
-    }).done();
+    this.setState({visible:true, quantityCurrent:quantity, quantityTotal:quantity, quantityEditing:'', skuEditing:sku,selectedIndex:0,increaseLabel:'เพิ่ม'});
   }
 
   updateQuantity = () => 
-  {
-    this.setState({visible:false});
-    
-    sku = this.state.skuEditing;
+  {      
+    var sku = this.state.skuEditing;
     console.log("updateQuantity sku:"+sku);
 
-    quantityEditing = this.state.quantityEditing;
-    console.log("updateQuantity:"+quantityEditing);
+    var quantity = this.state.quantityEditing;
+    if(quantity == '')
+    {
+      this.setState({alertStatus:false});
+      this.showAlertMessage("กรุณาใส่จำนวนที่ต้องการ"+this.state.increaseLabel);
+      console.log("quantity empty");
+      return;
+    }
 
+    this.setState({visible:false});
 
     //set indicator animating
     this.state.data.map((product)=>{      
@@ -255,10 +192,10 @@ export default class FirstPage extends React.Component
         }  
     });
 
-    
+    var url = this.state.selectedIndex?'SAIMProductScanOutUpdate.php':'SAIMProductScanInUpdate.php';
 
     //db updateQuantity
-    fetch(this.state.apiPath + 'SAIMMainProductQuantityUpdate2.php',
+    fetch(this.state.apiPath + url,
     {
       method: 'POST',
       headers: {
@@ -267,7 +204,7 @@ export default class FirstPage extends React.Component
                 },
       body: JSON.stringify({  
         sku: sku,
-        quantity: quantityEditing,
+        quantity: quantity,
         storeName: this.state.storeName,
         modifiedUser: this.state.username,
         modifiedDate: new Date().toLocaleString(),
@@ -285,6 +222,7 @@ export default class FirstPage extends React.Component
       {
         //error message        
         console.log(responseData.message);
+        this.setState({alertStatus:false});
         this.showAlertMessage(responseData.message);
       }
 
@@ -300,26 +238,6 @@ export default class FirstPage extends React.Component
       this.setState((state)=>({refresh:!this.state.refresh}));
     }).done();
 
-  }
-
-  quantityChanged = (text,sku) => 
-  {
-    console.log("quantityChanged: "+ text + ", sku: " + sku);
-    products = [];
-    this.state.data.map((product)=>{      
-      
-        if(product.Sku == sku)
-        {
-          product.Quantity = text;
-          products.push(product);
-        }
-        else
-        {
-          products.push(product);  
-        }        
-      
-    });
-    this.setState({data:products});
   }
 
   showAlertMessage = (text) => 
@@ -339,73 +257,95 @@ export default class FirstPage extends React.Component
     this.setState({ pressStatus: true });
   }
 
-  onHideUnderlayButtonChannel = (sku,channel) =>
-  {
-    console.log("icon tap press false");
-    //set indicator animating
-    this.state.data.map((product)=>{      
-        if(product.Sku == sku)
-        {
-          if(channel == 1)
-          {
-            product.PressStatusLazada = false;            
-          }
-          else if(channel == 2)
-          {
-            product.PressStatusShopee = false;            
-          }
-          else if(channel == 3)
-          {
-            product.PressStatusJd = false;            
-          }
-        }  
-    });
-    this.setState((state)=>({refresh:!this.state.refresh}));
-  }
-
-  onShowUnderlayButtonChannel = (sku,channel) =>
-  {
-    console.log("icon tap press true");
-    //set indicator animating
-    this.state.data.map((product)=>{   
-      if(product.Sku == sku)
-      {
-        if(channel == 1)
-        {
-          product.PressStatusLazada = true;            
-        }
-        else if(channel == 2)
-        {
-          product.PressStatusShopee = true;            
-        }
-        else if(channel == 3)
-        {
-          product.PressStatusJd = true;            
-        } 
-      }   
-        
-    });
-    this.setState((state)=>({refresh:!this.state.refresh}));
-  }
-
   goToDetailPage = (sku) => 
   {
     console.log("sku:"+sku);
-    return;
-    this.props.navigation.navigate('ProductDetail',
+    // return;
+    this.props.navigation.navigate('ProductAdd',
     {
       'apiPath': this.state.apiPath,
       'storeName': this.state.storeName,
       'username': this.state.username,  
       'sku': sku,  
-      // onGoBack:()=>this.loadMenu()
+      'edit': true,
+      refresh: this.handleRefresh,      
     });
   }
 
-  containerTouched(event) {
+  containerTouched(event) 
+  {
     this.refs.textInput.blur();
     return false;
   }
+
+  handleIndexChange = index => {
+    var increaseLabel;
+    if(index == 0)
+    {
+      increaseLabel = 'เพิ่ม';
+    }
+    else
+    {
+      increaseLabel = 'ลด';
+    }
+
+    this.setState(
+      {
+        ...this.state,
+        selectedIndex: index,
+        increaseLabel: increaseLabel,
+      },()=>
+      {
+        this.calculateQuantityTotal();
+      }
+    );
+  };
+
+  onQuantityChanged = (text) => 
+  {
+    console.log("quantityChanged: "+ text);
+    if (/^\d+$/.test(text)) 
+    {       
+      this.setState({quantityEditing:text},
+        ()=>{this.calculateQuantityTotal()}
+      );
+    }    
+  }
+
+  calculateQuantityTotal = () => 
+  {
+    var text = this.state.quantityEditing;
+    if(text === '')
+    {
+      text = 0;
+    }
+
+    var quantityTotal;    
+    if(this.state.selectedIndex == 0)
+    {
+      quantityTotal = parseInt(this.state.quantityCurrent)+parseInt(text);
+    }     
+    else
+    {
+      quantityTotal = parseInt(this.state.quantityCurrent)-parseInt(text);
+      if(quantityTotal < 0)
+      {
+        quantityTotal = 0;
+      }
+    }
+    this.setState({quantityTotal:quantityTotal}) 
+  }
+
+  formatPrice = (num) => 
+  {
+    return '฿ ' + (+num).toFixed(2).replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1,')
+  }
+
+  setZero = () => 
+  {
+    this.handleIndexChange(1);
+    this.onQuantityChanged(this.state.quantityCurrent);
+  }  
 
   render() {
     const { search } = this.state;
@@ -416,69 +356,53 @@ export default class FirstPage extends React.Component
           data={this.state.data}
           renderItem={({ item }) => (   
             <View style={{ flex: 1}}>
-              <View style={{display:'flex',flexDirection:'row'}}>
-                <Image
-                  source={{uri: item.MainImage}}
-                  style={styles.image}
-                />
-                <View style={{ flex: 1}}>
-                  <TouchableHighlight 
-                    underlayColor={'white'} activeOpacity={1}                                         
-                    onPress={()=>{this.goToDetailPage(item.Sku)}} >         
-                      <Text style={styles.name}>{item.Name}</Text>   
-                  </TouchableHighlight>                  
-                  <View style={{display:'flex',flexDirection:'row',paddingTop:6}}> 
-                    {
-                      Platform.OS === 'ios'?(<TextInput style={styles.sku} editable={false} value={item.Sku} multiline />)
-                      :(<Text style={styles.sku} selectable>{item.Sku}</Text>)
-                    }                    
-                    <View style={[{ flex: 1,alignItems:'flex-end'},styles.quantityView]}>  
-                      <View style={{display:'flex',flexDirection:'row',alignItems:'center',justifyContent:'center'}}>
-                        {item.Animating == 1 && <ActivityIndicator size="small" animating={true} />}
-                        <Text style={styles.quantityLabel}> qty:</Text>              
-                        <TouchableHighlight style={styles.buttonQuantity} underlayColor='transparent' onPress={()=>{this.showEditQuantityDialog(item.Sku,item.Quantity)}} >         
-                          <Text style={styles.quantity}>{item.Quantity}</Text>              
-                        </TouchableHighlight>
+              <TouchableHighlight 
+                underlayColor={'transparent'} activeOpacity={1}                                         
+                onPress={()=>{this.goToDetailPage(item.Sku)}} > 
+
+                <View style={{display:'flex',flexDirection:'row'}}>
+                  <Image
+                    source={item.MainImage != ''?{uri: item.MainImage}:require('./../assets/images/noImage.jpg')}
+                    style={styles.image}
+                  />
+                  <View style={{ flex: 1}}>                  
+                    <Text style={styles.name}>{item.Name}</Text>   
+                    <View style={{display:'flex',flexDirection:'row',alignItems:'center'}}> 
+                      {
+                        Platform.OS === 'ios'?(<TextInput style={styles.sku} editable={false} value={item.Sku} multiline />)
+                        :(<Text style={styles.sku} selectable>{item.Sku}</Text>)
+                      }                    
+                      <View style={[{ flex: 1,alignItems:'flex-end',alignSelf:'flex-start'},styles.quantityView]}>  
+                        <View style={{display:'flex',flexDirection:'row',alignItems:'center',justifyContent:'center'}}>
+                          {item.Animating == 1 && <ActivityIndicator size="small" animating={true} />}
+                          <TouchableHighlight style={styles.buttonQuantity} underlayColor='transparent' onPress={()=>{this.showEditQuantityDialog(item.Sku,item.Quantity)}} >
+                            <View style={{display:'flex',flexDirection:'row'}}>
+                              <Text style={[styles.labelQuantity]}> qty:</Text>
+                              <Text style={styles.quantity}>{item.Quantity}</Text>
+                            </View>
+                          </TouchableHighlight>
+                        </View>
+                      </View>  
+                    </View>
+                    <View style={{display:'flex',flexDirection:'row'}}>   
+                      <View style={styles.channelView}>                      
+                        <Image source={item.LazadaExist==1?require('./../assets/images/lazadaIcon.png'):require('./../assets/images/lazadaIconGray.png')}  style={styles.imageIcon}/>
                       </View>
-                    </View>  
+                      <View style={styles.channelView}>
+                        <Image source={item.ShopeeExist==1?require('./../assets/images/shopeeIcon.png'):require('./../assets/images/shopeeIconGray.png')}  style={styles.imageIcon}/>
+                      </View>
+                      <View style={styles.channelView}>
+                        <Image source={item.JdExist==1?require('./../assets/images/jdIcon.png'):require('./../assets/images/jdIconGray.png')}  style={styles.imageIcon}/>
+                      </View>  
+                      <View style={[{flex:1,alignItems:'flex-end'},styles.quantityView]}>
+                        <TouchableHighlight underlayColor='transparent' onPress={()=>{this.showEditQuantityDialog(item.Sku,item.Quantity)}} >
+                          <Text style={styles.price}>{this.formatPrice(item.SpecialPrice)}</Text>
+                        </TouchableHighlight>
+                      </View>                                          
+                    </View>                           
                   </View>
-                  <View style={{display:'flex',flexDirection:'row'}}>   
-                    <View style={styles.channelView}>                      
-                      {item.AnimatingLazada == 0 && <TouchableHighlight 
-                        underlayColor={'transparent'} activeOpacity={1}                       
-                        onHideUnderlay={()=>this.onHideUnderlayButtonChannel(item.Sku,1)}
-                        onShowUnderlay={()=>this.onShowUnderlayButtonChannel(item.Sku,1)}
-                        onPress={()=>{item.LazadaExist==1?this.syncQuantityChannel(item.Sku,item.Quantity,1):null}} >         
-                          <Image source={item.LazadaExist==1?require('./../assets/images/lazadaIcon.png'):require('./../assets/images/lazadaIconGray.png')}  style={styles.imageIcon}/>
-                      </TouchableHighlight>
-                      }
-                      {item.AnimatingLazada == 1 && <ActivityIndicator size="small" animating={true} color='#0d0a94'/>}
-                    </View>
-                    <View style={styles.channelView}>
-                      {item.AnimatingShopee == 0 && <TouchableHighlight 
-                        underlayColor={'transparent'} activeOpacity={1}                       
-                        onHideUnderlay={()=>this.onHideUnderlayButtonChannel(item.Sku,2)}
-                        onShowUnderlay={()=>this.onShowUnderlayButtonChannel(item.Sku,2)}
-                        onPress={()=>{item.ShopeeExist==1?this.syncQuantityChannel(item.Sku,item.Quantity,2):null}} >         
-                          <Image source={item.ShopeeExist==1?require('./../assets/images/shopeeIcon.png'):require('./../assets/images/shopeeIconGray.png')}  style={styles.imageIcon}/>
-                      </TouchableHighlight>
-                      }
-                      {item.AnimatingShopee == 1 && <ActivityIndicator size="small" animating={true} color='#ea501f'/>}
-                    </View>
-                    <View style={styles.channelView}>
-                      {item.AnimatingJd == 0 && <TouchableHighlight 
-                        underlayColor={'transparent'} activeOpacity={1}                       
-                        onHideUnderlay={()=>this.onHideUnderlayButtonChannel(item.Sku,3)}
-                        onShowUnderlay={()=>this.onShowUnderlayButtonChannel(item.Sku,3)}
-                        onPress={()=>{item.JdExist==1?this.syncQuantityChannel(item.Sku,item.Quantity,3):null}} >         
-                          <Image source={item.JdExist==1?require('./../assets/images/jdIcon.png'):require('./../assets/images/jdIconGray.png')}  style={styles.imageIcon}/>
-                      </TouchableHighlight>
-                      }
-                      {item.AnimatingJd == 1 && <ActivityIndicator size="small" animating={true} color='#df2524'/>}
-                    </View>                                            
-                  </View>          
-                </View>
-              </View>    
+                </View>  
+              </TouchableHighlight>  
               <View style={styles.separator}/>
             </View>
             
@@ -522,38 +446,59 @@ export default class FirstPage extends React.Component
           <DialogContent>
             {
               <View style={{alignItems:'center',justifyContent:'center'}}>
-                <InputSpinner
-                  min={0}
-                  step={1}
-                  rounded={false}
-                  showBorder={true}
-                  color={'#6EC417'}
-                  colorPress={'white'}
-                  style={styles.spinner}
-                  buttonStyle={styles.spinnerButton}
-                  inputStyle={styles.spinnerInput}                  
-                  value={this.state.quantityEditing}
-                  onChange={(num) => {
-                    console.log(num);
-                    this.setState({quantityEditing:num});
-                  }}
-                />  
-                <View>
-                  <TouchableHighlight underlayColor={'white'} activeOpacity={1} style={
-                    this.state.pressStatus
-                      ? styles.buttonZeroPress
-                      : styles.buttonZero
-                    } 
-                    onHideUnderlay={()=>this.onHideUnderlay()}
-                    onShowUnderlay={()=>this.onShowUnderlay()}
-                    onPress={()=>{this.setState({quantityEditing:0})}} >         
-                    <Text style={
-                      this.state.pressStatus
-                        ? styles.textZeroPress
-                        : styles.textZero
-                      }>ตั้งค่า 0</Text>              
-                  </TouchableHighlight>
-                </View>
+                <View style={{marginTop:padding.xl+padding.lg,height:44,width:260,alignItems:'center',justifyContent:'center'}}>
+                  <SegmentedControlTab   
+                    tabStyle={{borderColor:colors.primary}}   
+                    tabTextStyle={styles.tabTextStyle}            
+                    activeTabStyle={{backgroundColor:colors.primary}}                                   
+                    values={["เพิ่ม", "ลด"]}
+                    selectedIndex={this.state.selectedIndex}
+                    onTabPress={this.handleIndexChange}
+                  />
+                </View> 
+                <View style={{display:'flex',flexDirection:'row',marginTop:padding.lg,width:260}}>
+                  <View style={{width:110}}>
+                    <View style={{height:44,alignItems:'flex-start',justifyContent:'center'}}>
+                      <Text style={styles.labelQuantity}> ปัจจุบัน</Text>
+                    </View>                    
+                    <View style={{height:54,alignItems:'flex-start',justifyContent:'center'}}>
+                      <Text style={this.state.selectedIndex == 0?styles.labelQuantityBoldIncrease:styles.labelQuantityBoldDecrease}> {this.state.increaseLabel}</Text>
+                    </View>
+                    <View style={{height:44,alignItems:'flex-start',justifyContent:'center'}}>
+                      <Text style={styles.labelQuantity}> ทั้งหมด</Text>                      
+                    </View>
+                  </View>
+                  <View style={{flex:1,alignItems:'center',justifyContent:'center',width:150}}>
+                    <View style={{flex:1,alignItems:'center',justifyContent:'center',height:44}}>
+                      <Text style={styles.labelQuantity}>{this.state.quantityCurrent}</Text>
+                    </View>
+                    <View style={{alignItems:'center',justifyContent:'center',height:54}} onLayout={(event) => {
+                      var {x, y, width, height} = event.nativeEvent.layout;
+                      console.log("width:"+width);
+                    }}>
+                      <InputSpinner                                                                      
+                        min={0}
+                        step={1}  
+                        color={colors.primary}  
+                        style={{alignItems:'center',justifyContent:'center'}}
+                        inputStyle={{color:colors.tertiary}}
+                        buttonStyle={{width:44,height:44,fontSize:16,fontFamily:fonts.primaryBold}}                                                                   
+                        value={this.state.quantityEditing}
+                        onChange={(text) => {this.onQuantityChanged(text)}}
+                      />                      
+                    </View>
+                    <View style={{flex:1,alignItems:'center',justifyContent:'center',width:150,height:44}}>
+                      <View style={{position:'absolute',left:0}}>
+                        <TouchableOpacity style={{borderRadius:22,width:44,height:44,backgroundColor:colors.primary}} onPress={() => {this.setZero()}}>
+                          <Text style={[styles.textZero]}>
+                            0
+                          </Text>
+                        </TouchableOpacity>
+                      </View>
+                      <Text style={styles.labelQuantity}>{this.state.quantityTotal}</Text>
+                    </View>
+                  </View>
+                </View>                 
               </View>            
             }
           </DialogContent>
@@ -578,8 +523,8 @@ export default class FirstPage extends React.Component
         >
           <DialogContent>
             {
-              <View style={{alignItems:'center',justifyContent:'center',paddingTop:20}}>
-                <Text style={styles.text}>{this.state.alertMessage}</Text>
+              <View style={{alignItems:'center',justifyContent:'center',paddingTop:20}}>                
+                <Text style={this.state.alertStatus?styles.textSuccess:styles.textFail}>{this.state.alertMessage}</Text>
               </View>            
             }
           </DialogContent>
@@ -590,81 +535,134 @@ export default class FirstPage extends React.Component
 }
 
 const styles = StyleSheet.create({
-  searchBarContainer: {height:48},
-  searchBarInputContainer: {height:30},
+  tabTextStyle:
+  {
+    color:colors.primary,
+    fontFamily:fonts.primaryBold,
+  },
+  searchBarContainer: 
+  {
+    height:48
+  },
+  searchBarInputContainer: 
+  {
+    height:30
+  },
   searchBarInput: 
   {
     // fontFamily: "Sarabun-Light",
     fontSize:16,
   },
-  separator: {width:Dimensions.get('window').width-2*20,height:1,backgroundColor:"#e0e0e0",left:20,marginTop:10}, 
-  image: {width:70,height:70,marginTop:10,marginLeft:8,borderRadius:10},
-  imageIcon: {width:25,height:25,borderRadius:15},
+  separator: 
+  {
+    width:dimensions.fullWidth-2*20,
+    height:1,
+    backgroundColor:colors.separator,
+    left:20,
+    marginTop:padding.md,
+  }, 
+  image: 
+  {
+    width:70,
+    height:70,
+    marginTop:padding.md,
+    marginLeft:8,
+    borderRadius:10
+  },
+  imageIcon: 
+  {
+    width:16,
+    height:16,
+    borderRadius:8
+  },
   channelView: 
   {
     marginLeft:10,
-    marginTop:10,
-    marginRight:15,
-    alignItems:'center',
+    justifyContent:'center',    
   },
   name: {
-    fontFamily: "Sarabun-Light",
+    fontFamily: fonts.primary,
     fontSize: 14,
     textAlign: 'left',
-    color: '#005A50',
-    paddingTop: 10,
+    color: colors.secondary,
+    paddingTop: 2,
     paddingLeft: 10,    
     width: Dimensions.get('window').width - 2*8 - 70,
   },
-  sku: {
+  sku: 
+  {    
     fontFamily: "Sarabun-LightItalic",
     fontSize: 13,
     textAlign: 'left',
-    color: '#727272',
-    paddingTop: 2,
-    paddingLeft: 10,
-    // paddingRight: 10, 
-    width: Dimensions.get('window').width - 8 - 16 - 70 - 84,
-    // borderWidth: 1,
+    color: colors.tertiary, 
+    paddingTop:0,   
+    paddingLeft: 10,    
+    width: Dimensions.get('window').width - 8 - 16 - 70 - 84,    
   },
   quantityView: 
-  {
+  {    
     marginLeft:16,
     marginRight:16,
-    width:84,
-    // borderWidth: 1,
+    width:84,    
   },
-  quantity: {
-    fontFamily: "Sarabun-Light",
+  quantity: 
+  {
+    fontFamily: fonts.primary,
     fontSize: 14,
     textAlign: 'right',
-    color: '#005A50',
-    textDecorationLine: 'underline'
+    color: colors.secondary,
+    textDecorationLine: 'underline',
+    width: 30,
   },
-  quantityLabel: {
-    fontFamily: "Sarabun-Light",
+  labelQuantity: 
+  {
+    fontFamily: fonts.primary,
     fontSize: 14,
-    textAlign: 'right',
-    color: '#727272',
+    textAlign: 'right',    
+    color: colors.tertiary,
+  },
+  labelQuantityBoldIncrease: 
+  {
+    fontFamily: fonts.primaryBold,
+    fontSize: 14,
+    textAlign: 'right',    
+    color: colors.tertiary,
+  },
+  labelQuantityBoldDecrease: 
+  {
+    fontFamily: fonts.primaryBold,
+    fontSize: 14,
+    textAlign: 'right',    
+    color: colors.error,
   },
   buttonQuantity:
   {
-    width:30,
+    width:60,
+    // borderWidth:1,
   }, 
-  spinner:
+  price: 
   {
-    marginTop:44,
-    marginBottom:24,
-       
+    fontFamily: fonts.primary,
+    fontSize: 14,
+    textAlign: 'right',    
+    color: colors.tertiary,  
+    
   },
-  spinnerButton:
+  value: 
   {
-    backgroundColor:'#B6E18B',
-    // opacity:0.5
-  },
-  spinnerInput:
-  {
-    borderColor: '#6EC417',
+    fontFamily: fonts.primary,
+    fontSize: fonts.md,
+    textAlign: 'left',     
+    width: 80,    
+    height: 30,
+    backgroundColor: 'white',
+    borderColor: '#CCCCCC',
+    borderWidth: 1,
+    borderRadius: 5,
+    paddingTop:0,
+    paddingBottom:0,    
+    textAlign:'right',
+    textAlignVertical: 'center'
   },
   okButton:
   {
@@ -678,51 +676,56 @@ const styles = StyleSheet.create({
   },
   okButtonText:
   {
-    color:'#6EC417',
+    color:colors.primary,
     fontSize:18,
   },
   cancelButtonText:
   {
-    color:'#6EC417',
+    color:colors.primary,
     fontSize:18,
   },
   dialogFooter:
   {
     height:44,  
-  },
-  text:
-  {
-    color:'#f04048',textAlign:'center', fontFamily:'Sarabun-Light', fontSize:14
-  },
+  },  
   textZero: {   
-      fontFamily: "Sarabun-SemiBold",   
-      fontSize: 16,
-      textAlign: "center",
-      margin: 12,
-      color: "#ffffff",
-      // borderWidth: 1
+    fontFamily: fonts.primaryBold,
+    fontSize: 16,
+    textAlign: 'center',
+    height:44,
+    textAlignVertical:'center',
+    // margin: 12,
+    // paddingTop:0,
+    // paddingBottom:0,
+    color: colors.white,      
   },
   textZeroPress: {  
-    fontFamily: "Sarabun-SemiBold",   
+    fontFamily: fonts.primaryBold,   
     fontSize: 16,
-    textAlign: "center",
-    margin: 12,
-    color: "#6EC417",
-    // borderWidth: 1
+    textAlign: 'center',
+    // margin: 12,
+    color: colors.primary,    
   },  
   buttonZero: {
-      height:44,
-      borderColor: '#B6E18B',
-      backgroundColor:'#B6E18B',
-      // opacity:0.5,
+      height:30,
+      borderColor: colors.primary,
+      backgroundColor: colors.primary,      
       borderWidth: 1,
       borderRadius: 6,      
   },
-  buttonZeroPress: {
-      height:44,
-      borderColor: "#B6E18B",
-      // opacity:0.5,
-      borderWidth: 1,
-      borderRadius: 6
-  },  
+  textFail:
+  {
+    color:colors.error,
+    textAlign:'center', 
+    fontFamily:fonts.primary, 
+    fontSize:fonts.md,
+    paddingTop:padding.xl
+  },
+  textSuccess:
+  {
+    color:colors.secondary,
+    textAlign:'center', 
+    fontFamily:fonts.primary, 
+    fontSize:fonts.md
+  }, 
 });

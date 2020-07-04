@@ -9,8 +9,12 @@ export const colors  = {
   primary: '#6EC417',
   secondary: '#005A50',
   tertiary: '#727272',
-  error: '#f04048',
-  separator: '#e0e0e0',
+  fourthiary: '#000000',
+  error: '#F04048',
+  separator: '#E0E0E0',
+  // button: '#B6E18B',
+  border: '#CCCCCC',
+  white: '#FFFFFF',
 }
 
 export const padding = {

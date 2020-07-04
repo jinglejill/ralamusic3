@@ -3,6 +3,7 @@ package com.ralamusic3;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.provider.MediaStore;
 import android.util.Log;
 import android.widget.Toast;
 
@@ -38,6 +39,8 @@ import com.google.gson.Gson;
 
 import org.json.JSONException;
 import org.json.JSONObject;
+
+import static java.lang.Thread.sleep;
 
 public class ToastModule extends ReactContextBaseJavaModule {
     private static ReactApplicationContext reactContext;
@@ -82,6 +85,22 @@ public class ToastModule extends ReactContextBaseJavaModule {
         return null;
     }
 
+    public PrinterInfo.Orientation getOrientation(String orientation)
+    {
+        Log.wtf("testprint","getOrientation:"+orientation);
+        if(orientation.equals("Portrait"))
+        {
+            Log.wtf("testprint","getOrientation return:Portrait");
+            return PrinterInfo.Orientation.PORTRAIT;
+
+        }
+        else if(orientation.equals("Landscape"))
+        {
+            return PrinterInfo.Orientation.LANDSCAPE;
+        }
+        return null;
+    }
+
     public int getLabelNameIndex(String paperSize)
     {
         if(paperSize.equals("W29"))
@@ -91,6 +110,10 @@ public class ToastModule extends ReactContextBaseJavaModule {
         else if(paperSize.equals("W62"))
         {
             return LabelInfo.QL700.W62.ordinal();
+        }
+        else if(paperSize.equals("W62H29"))
+        {
+            return LabelInfo.QL700.W62H29.ordinal();
         }
         return 0;
     }
@@ -145,6 +168,10 @@ public class ToastModule extends ReactContextBaseJavaModule {
         String printerModel = sharedPref.getString("printerModel","");
         String ipAddress = sharedPref.getString("ipAddress","");
         String paperSize = sharedPref.getString("paperSize","");
+        String orientation = sharedPref.getString("orientation","");
+        String autoCut = sharedPref.getString("autoCut","");
+        String cutAtEnd = sharedPref.getString("cutAtEnd","");
+        Log.wtf("testprint","autoCut:"+autoCut);
         if(printerModel == "" || ipAddress == "" || paperSize == "")
         {
             Log.wtf("testprint","get printer status");
@@ -159,8 +186,9 @@ public class ToastModule extends ReactContextBaseJavaModule {
         settings.ipAddress = ipAddress;//"192.168.100.19";
         settings.labelNameIndex = getLabelNameIndex(paperSize);//LabelInfo.QL700.W29.ordinal();//.QL1100.W102H51.ordinal();
         settings.printMode = PrinterInfo.PrintMode.FIT_TO_PAGE;
-        settings.isAutoCut = true;
-        settings.orientation = PrinterInfo.Orientation.PORTRAIT;
+        settings.isAutoCut = autoCut == "YES";
+        settings.isCutAtEnd = cutAtEnd == "YES";
+        settings.orientation = getOrientation(orientation);//PrinterInfo.Orientation.PORTRAIT;
 //        settings.numberOfCopies = quantity;
 
 
@@ -198,15 +226,18 @@ public class ToastModule extends ReactContextBaseJavaModule {
 
     @ReactMethod
     public void print(String imagePath, int quantity, Callback resultCallback) {
+        Log.wtf("testprint","call print");
         Log.wtf("testprint","quantity print:"+quantity);
         Log.wtf("testprint","imagePath print:"+imagePath);
         SharedPreferences sharedPref = getReactApplicationContext().getSharedPreferences("com.jummumtech.ralamusic",getReactApplicationContext().MODE_PRIVATE);
         String printerModel = sharedPref.getString("printerModel","");
         String ipAddress = sharedPref.getString("ipAddress","");
         String paperSize = sharedPref.getString("paperSize","");
+        String orientation = sharedPref.getString("orientation","");
+        String autoCut = sharedPref.getString("autoCut","");
+        String cutAtEnd = sharedPref.getString("cutAtEnd","");
         if(printerModel == "" || ipAddress == "" || paperSize == "")
         {
-            Log.wtf("testprint","get printer status");
             resultCallback.invoke(0,"Printer is not connected");
             return;
         }
@@ -218,24 +249,23 @@ public class ToastModule extends ReactContextBaseJavaModule {
         settings.ipAddress = ipAddress;//"192.168.100.19";
         settings.labelNameIndex = getLabelNameIndex(paperSize);//LabelInfo.QL700.W29.ordinal();
         settings.printMode = PrinterInfo.PrintMode.FIT_TO_PAGE;
-        settings.isAutoCut = true;
-        settings.orientation = PrinterInfo.Orientation.PORTRAIT;
+        settings.isAutoCut = autoCut == "YES";
+        settings.isCutAtEnd = cutAtEnd == "YES";
+        settings.orientation = getOrientation(orientation);//PrinterInfo.Orientation.PORTRAIT;
         settings.numberOfCopies = quantity;
         settings.halftone = PrinterInfo.Halftone.THRESHOLD;
         settings.paperPosition = PrinterInfo.Align.CENTER;
         printer.setPrinterInfo(settings);
 
 
-
+        Log.wtf("testprint","print autocut:"+settings.isAutoCut);
 
         // Connect, then print
         new Thread(new Runnable() {
             @Override
             public void run() {
 
-                Log.wtf("testprint","before getStatus");
                 PrinterStatus printerStatus = printer.getPrinterStatus();
-                Log.wtf("testprint","after getStatus");
                 if(printerStatus.errorCode == PrinterInfo.ErrorCode.ERROR_NONE)
                 {
                     Log.wtf("testprint","getStatus error none");
@@ -255,7 +285,25 @@ public class ToastModule extends ReactContextBaseJavaModule {
                     }
 
                     if (printer.startCommunication()) {
-                        PrinterStatus result = printer.printImage(bitmap);
+
+                        int width          = bitmap.getWidth();
+                        int height         = bitmap.getHeight();
+                        Log.wtf("testprint","width:"+width);
+                        Log.wtf("testprint","height:"+height);
+                        int x = (int)Math.round(0.06*width);
+                        int y = (int)Math.round(0.075*height);
+                        int newWidth = (int)Math.round(0.88*width);
+                        int newHeight = (int)Math.round(0.85*height);
+//                        int x = (int)Math.round(0.09*width);
+//                        int y = (int)Math.round(0.15*height);
+//                        int newWidth = (int)Math.round(0.82*width);
+//                        int newHeight = (int)Math.round(0.7*height);
+
+                        //crop image
+                        Bitmap resizedbitmap1=Bitmap.createBitmap(bitmap, x,y,newWidth,newHeight);
+                        MediaStore.Images.Media.insertImage( getReactApplicationContext().getContentResolver(), resizedbitmap1, "qr" , "product qr");
+
+                        PrinterStatus result = printer.printImage(resizedbitmap1);
                         if (result.errorCode != PrinterInfo.ErrorCode.ERROR_NONE) {
                             Log.wtf("testprint", "ERROR - " + result.errorCode);
                             resultCallback.invoke(0,"ERROR - " + result.errorCode.name());
@@ -341,6 +389,97 @@ public class ToastModule extends ReactContextBaseJavaModule {
         preferenceIpAddressCallback.invoke(sharedPref.getString("ipAddress",""));
     }
 
+    @ReactMethod
+    public void savePreferenceOrientation(String orientation) {
+        Log.wtf("testprint"," preference orientation enter:"+orientation);
+        SharedPreferences sharedPref = getReactApplicationContext().getSharedPreferences("com.jummumtech.ralamusic",getReactApplicationContext().MODE_PRIVATE);
+
+        SharedPreferences.Editor editor = sharedPref.edit();
+        editor.putString("orientation", orientation);
+        editor.commit();
+
+        String orientationPref = sharedPref.getString("orientation","");
+        Log.wtf("testprint"," preference orientation save:"+orientationPref);
+
+    }
+
+    @ReactMethod
+    public void getPreferenceOrientation(Callback preferenceOrientationCallback) {
+        SharedPreferences sharedPref = getReactApplicationContext().getSharedPreferences("com.jummumtech.ralamusic", getReactApplicationContext().MODE_PRIVATE);
+//        preferenceOrientationCallback.invoke(sharedPref.getString("orientation", ""));
+
+        String preferenceOrientation = sharedPref.getString("orientation","");
+        if(preferenceOrientation == "")
+        {
+            savePreferenceOrientation("Portrait");
+            preferenceOrientationCallback.invoke("Portrait");
+        }
+        else
+        {
+            preferenceOrientationCallback.invoke(sharedPref.getString("orientation",""));
+        }
+    }
+
+
+    @ReactMethod
+    public void savePreferenceAutoCut(String autoCut) {
+        Log.wtf("testprint"," preference autoCut enter:"+autoCut);
+        SharedPreferences sharedPref = getReactApplicationContext().getSharedPreferences("com.jummumtech.ralamusic",getReactApplicationContext().MODE_PRIVATE);
+
+        SharedPreferences.Editor editor = sharedPref.edit();
+        editor.putString("autoCut", autoCut);
+        editor.commit();
+
+        String orientationPref = sharedPref.getString("autoCut","");
+        Log.wtf("testprint"," preference autoCut save:"+orientationPref);
+
+    }
+
+    @ReactMethod
+    public void getPreferenceAutoCut(Callback preferenceAutoCutCallback) {
+        SharedPreferences sharedPref = getReactApplicationContext().getSharedPreferences("com.jummumtech.ralamusic",getReactApplicationContext().MODE_PRIVATE);
+
+        String preferenceAutoCut = sharedPref.getString("autoCut","");
+        if(preferenceAutoCut == "")
+        {
+            savePreferenceAutoCut("YES");
+            preferenceAutoCutCallback.invoke("YES");
+        }
+        else
+        {
+            preferenceAutoCutCallback.invoke(sharedPref.getString("autoCut",""));
+        }
+    }
+
+    @ReactMethod
+    public void savePreferenceCutAtEnd(String cutAtEnd) {
+        Log.wtf("testprint"," preference cutAtEnd enter:"+cutAtEnd);
+        SharedPreferences sharedPref = getReactApplicationContext().getSharedPreferences("com.jummumtech.ralamusic",getReactApplicationContext().MODE_PRIVATE);
+
+        SharedPreferences.Editor editor = sharedPref.edit();
+        editor.putString("cutAtEnd", cutAtEnd);
+        editor.commit();
+
+        String orientationPref = sharedPref.getString("cutAtEnd","");
+        Log.wtf("testprint"," preference cutAtEnd save:"+orientationPref);
+
+    }
+
+    @ReactMethod
+    public void getPreferenceCutAtEnd(Callback preferenceCutAtEndCallback) {
+        SharedPreferences sharedPref = getReactApplicationContext().getSharedPreferences("com.jummumtech.ralamusic",getReactApplicationContext().MODE_PRIVATE);
+
+        String preferenceCutAtEnd = sharedPref.getString("cutAtEnd","");
+        if(preferenceCutAtEnd == "")
+        {
+            savePreferenceCutAtEnd("YES");
+            preferenceCutAtEndCallback.invoke("YES");
+        }
+        else
+        {
+            preferenceCutAtEndCallback.invoke(sharedPref.getString("cutAtEnd",""));
+        }
+    }
 
     private static WritableMap convertJsonToMap(JSONObject jsonObject) throws JSONException {
         WritableMap map = new WritableNativeMap();
