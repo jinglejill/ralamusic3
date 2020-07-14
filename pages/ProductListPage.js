@@ -394,6 +394,9 @@ export default class ProductListPage extends React.Component
                       <View style={styles.channelView}>
                         <Image source={item.JdExist==1?require('./../assets/images/jdIcon.png'):require('./../assets/images/jdIconGray.png')}  style={styles.imageIcon}/>
                       </View>  
+                      <View style={styles.channelView}>
+                        <Image source={item.WebExist==1?require('./../assets/images/webIcon.png'):require('./../assets/images/webIconGray.png')}  style={styles.imageIcon}/>
+                      </View>  
                       <View style={[{flex:1,alignItems:'flex-end'},styles.quantityView]}>
                         <TouchableHighlight underlayColor='transparent' onPress={()=>{this.showEditQuantityDialog(item.Sku,item.Quantity)}} >
                           <Text style={styles.price}>{this.formatPrice(item.SpecialPrice)}</Text>

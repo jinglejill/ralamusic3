@@ -38,6 +38,7 @@ export default class ProductAddPage extends React.Component {
       AnimatingLazada:false,
       AnimatingShopee:false,
       AnimatingJd:false,   
+      AnimatingWeb:false,   
     };
 
 
@@ -63,6 +64,7 @@ export default class ProductAddPage extends React.Component {
       AnimatingLazada:false,
       AnimatingShopee:false,
       AnimatingJd:false,      
+      AnimatingWeb:false,      
     };
 
     var edit = false;
@@ -700,6 +702,7 @@ export default class ProductAddPage extends React.Component {
 
   updateMarketplaceProduct = (marketplace) => 
   {
+    return;
     if(marketplace == 1)
     {
       //update field จากแอป
@@ -748,7 +751,7 @@ export default class ProductAddPage extends React.Component {
       var insert = false;
       this.setState({AnimatingShopee:true});
       
-      fetch(this.state.apiPath + 'SAIMShopeeProductInsert.php',
+      fetch(this.state.apiPath + 'SAIMShopeeProductInsert2.php',
       {
         method: 'POST',
         headers: {
@@ -856,7 +859,95 @@ export default class ProductAddPage extends React.Component {
       }
       else
       {
+        var insert = true;
+        this.setState({AnimatingJd:true});
+        fetch(this.state.apiPath + 'SAIMJdProductInsert.php',
+        {
+          method: 'POST',
+          headers: {
+                      'Accept': 'application/json',
+                      'Content-Type': 'application/json',
+                    },
+          body: JSON.stringify({  
+            sku: this.state.item.Sku,    
+            insert: insert,    
+            storeName: this.state.storeName,
+            modifiedUser: this.state.username,
+            modifiedDate: new Date().toLocaleString(),
+            platForm: Platform.OS,
+          })
+        })
+        .then((response) => response.json())
+        .then((responseData) =>{
+          console.log(responseData);
+          console.log("responseData.success:"+responseData.success);
+          this.setState({AnimatingJd:false});
 
+          
+          if(responseData.success == true)
+          {
+            var item = this.state.item;
+            item.JdExist = 1;
+            this.props.navigation.setParams({ savedOrSynced: false });
+          }
+          else
+          {
+            // error message        
+            console.log(responseData.message);
+            this.setState({alertStatus:0});
+            this.showAlertMessage(responseData.message);
+          }
+        }).done();
+      }
+    }
+    else if(marketplace == 4)
+    {
+      if(!this.state.item.LazadaExist)
+      {
+        this.setState({alertStatus:false});
+        this.showAlertMessage("ไม่สามารถเพิ่มสินค้านี้ใน Web\nให้เพิ่มสินค้านี้ในแพลตฟอร์ม Lazada ก่อน");
+      }
+      else
+      {
+        var insert = true;
+        this.setState({AnimatingWeb:true});
+        fetch(this.state.apiPath + 'SAIMWebProductInsert.php',
+        {
+          method: 'POST',
+          headers: {
+                      'Accept': 'application/json',
+                      'Content-Type': 'application/json',
+                    },
+          body: JSON.stringify({  
+            sku: this.state.item.Sku,    
+            insert: insert,    
+            storeName: this.state.storeName,
+            modifiedUser: this.state.username,
+            modifiedDate: new Date().toLocaleString(),
+            platForm: Platform.OS,
+          })
+        })
+        .then((response) => response.json())
+        .then((responseData) =>{
+          console.log(responseData);
+          console.log("responseData.success:"+responseData.success);
+          this.setState({AnimatingWeb:false});
+
+          
+          if(responseData.success == true)
+          {
+            var item = this.state.item;
+            item.WebExist = 1;
+            this.props.navigation.setParams({ savedOrSynced: false });
+          }
+          else
+          {
+            // error message        
+            console.log(responseData.message);
+            this.setState({alertStatus:0});
+            this.showAlertMessage(responseData.message);
+          }
+        }).done();
       }
     }
   }
@@ -967,6 +1058,15 @@ export default class ProductAddPage extends React.Component {
                     </TouchableHighlight>
                     }
                     {this.state.AnimatingJd && <ActivityIndicator size="small" animating={true} color='#df2524'/>}
+                  </View>
+                  <View style={styles.channelView}>
+                    {!this.state.AnimatingWeb && <TouchableHighlight 
+                      underlayColor={'transparent'} activeOpacity={1}                                          
+                      onPress={()=>{this.state.item.WebExist==1?this.updateMarketplaceProduct(4):this.insertMarketplaceProduct(4)}} >         
+                        <Image source={this.state.item.WebExist==1?require('./../assets/images/webIcon.png'):require('./../assets/images/webIconGray.png')}  style={styles.imageIcon}/>
+                    </TouchableHighlight>
+                    }
+                    {this.state.AnimatingWeb && <ActivityIndicator size="small" animating={true} color={colors.primary}/>}
                   </View>                                            
                 </View>
               </View>
@@ -1538,6 +1638,7 @@ const styles = StyleSheet.create({
     // marginTop:10,
     marginRight:15,
     alignItems:'center',
+    justifyContent:'center',
   }, 
   imageIcon: 
   {

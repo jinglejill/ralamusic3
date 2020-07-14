@@ -1,7 +1,7 @@
 // Setting screen
 import React, { Component } from 'react';
 //import react in our code.
-import { Text, View, TextInput, StyleSheet, Image, TouchableHighlight, ActivityIndicator, Platform, ScrollView, Keyboard } from 'react-native';
+import { Text, View, TextInput, StyleSheet, Image, TouchableHighlight, ActivityIndicator, Platform, ScrollView, Keyboard,FlatList } from 'react-native';
 import Dialog, { DialogContent, DialogTitle, SlideAnimation, DialogFooter, DialogButton } from 'react-native-popup-dialog';
 //import all the components we are going to use.
 import {colors, fonts, padding, dimensions} from './../styles/base.js'
@@ -17,8 +17,53 @@ export default class SettingsPage extends React.Component {
       alertMessage:'',
       alertStatus:0,
       loading:false,
+      loadingStock:false,
       skus:'',
     };
+  }
+
+  menu = [
+    { name : 'Sync Stock', image : require('./../assets/images/syncStock.png') },      
+  ];
+
+  goToMenu = (menuID) => 
+  {
+    if(menuID == 1)
+    {
+      this.setState({loadingStock:true});
+      
+      //sync stock
+      fetch(this.state.apiPath + 'SAIMMarketPlaceStockToAppSync.php',
+      {      
+        method: 'POST',
+        headers: {
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/json',
+                  },
+        body: JSON.stringify({              
+          storeName: this.state.storeName,
+          modifiedUser: this.state.username,
+          modifiedDate: new Date().toLocaleString(),
+          platForm: Platform.OS,
+        })
+      })
+      .then((response) => response.json())
+      .then((responseData) =>{
+        console.log(responseData);
+        console.log("responseData.success:"+responseData.success);
+        this.setState({loadingStock:false});
+        if(responseData.success == true)
+        {
+          this.setState({alertStatus:1},()=>{this.showAlertMessage(responseData.message);});
+          
+        }
+        else
+        {
+          //error message                
+          this.setState({alertStatus:0},()=>{this.showAlertMessage(responseData.message);});
+        }
+      }).done();
+    }    
   }
 
   syncMarketplaceDataToApp = () => 
@@ -118,7 +163,26 @@ export default class SettingsPage extends React.Component {
               </TouchableHighlight>                                                  
             </View>
           </View>
-          
+          <View style={styles.separator}/>
+          <View style={{flex:1,alignItems:'center',justifyContent:'center'}}>
+            <FlatList
+              data={this.menu}
+              renderItem={({item}) => (
+                <TouchableHighlight underlayColor={'transparent'} activeOpacity={1} onPress={ () => this.goToMenu(1)}>
+                  <View>
+                    <View style={styles.box}>
+                      <Image source={item.image}  style={styles.image}/> 
+                      <View style={{height:45}}>                      
+                        {!this.state.loadingStock && <Text style={styles.menuName}>{item.name}</Text>}
+                        {this.state.loadingStock && <ActivityIndicator animating size='small' style={styles.activityIndicatorStock}/>}
+                      </View>                   
+                    </View>
+                  </View>
+                </TouchableHighlight>)}  
+              keyExtractor={(item, index) => index}
+              numColumns = {2}
+            /> 
+          </View>
           <Dialog
             visible={this.state.alertVisible}
             width={0.8}
@@ -240,11 +304,49 @@ const styles = StyleSheet.create({
     textAlignVertical: 'center'
   },
   activityIndicator:
+  {    
+    justifyContent: 'center',
+    alignItems:'center'
+  },
+  activityIndicatorStock:
+  {       
+    justifyContent: 'center',
+    alignItems:'center',
+    paddingTop: padding.lg
+  },  
+  image: 
   {
-    top: 0,
-    bottom: 0,
-    position: 'absolute',    
-    right: dimensions.fullWidth/2-50,    
-    justifyContent: 'center'
-  }
+    width:60,
+    height:60,  
+    marginTop:20,  
+    marginTop:20,  
+    marginLeft:40,  
+    marginRight:40,  
+  },
+  menuName:
+  {
+    fontFamily: fonts.primary,
+    fontSize: fonts.lg,
+    color: colors.primary,
+    textAlign: 'center',
+    paddingTop: padding.lg
+  },
+  box:
+  {
+    margin:10,
+    backgroundColor:'white',    
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 1 },
+    shadowOpacity: 0.8,
+    shadowRadius: 2,  
+    elevation: 5
+  },
+  separator: 
+  {
+    width:dimensions.fullWidth-2*20,
+    height:1,
+    backgroundColor:colors.separator,
+    left:20,
+    marginTop:padding.md,
+  },
 });
