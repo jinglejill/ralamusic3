@@ -11,6 +11,7 @@ import {colors, fonts, padding, dimensions} from './../styles/base.js';
 
 export default class ProductListPage extends React.Component 
 {
+  controller = new AbortController();
   constructor(props) {
     super(props);
 
@@ -62,44 +63,53 @@ export default class ProductListPage extends React.Component
 
   }
 
-  makeRemoteRequest = () => {
-    console.log("makeRemoteRequest page:"+this.state.page+", searchText:"+this.state.search);    
+  makeRemoteRequest = () => 
+  { 
+    console.log("makeRemoteRequest page:"+this.state.page+", searchText:"+this.state.search);      
     const { page, seed, search } = this.state;
-    const url = this.state.apiPath + 'SAIMMainProductGetList2.php?seed='+seed;    
-    this.setState({ loading: true });
-
+    const url = this.state.apiPath + 'SAIMMainProductGetList2.php?seed='+seed;          
+    
+    this.setState({loading:true});
+    console.log("loading:"+this.state.loading);
+    
     fetch(url,
-      {
-        method: 'POST',
-        headers: {
-                    'Accept': 'application/json',
-                    'Content-Type': 'application/json',
-                  },
-        body: JSON.stringify({                 
-          page:page,
-          limit:20,
-          searchText:search, 
-          outOfStock:this.state.outOfStock,
-          storeName: this.state.storeName,
-          modifiedUser: this.state.username,
-          modifiedDate: new Date().toLocaleString(),
-          platForm: Platform.OS,
-        })
+    {
+      signal: this.controller.signal,
+      method: 'POST',
+      headers: {
+                  'Accept': 'application/json',
+                  'Content-Type': 'application/json',
+                },
+      body: JSON.stringify({                 
+        page:page,
+        limit:10,
+        searchText:search, 
+        outOfStock:this.state.outOfStock,
+        storeName: this.state.storeName,
+        modifiedUser: this.state.username,
+        modifiedDate: new Date().toLocaleString(),
+        platForm: Platform.OS,
       })
-      .then(res => res.json())
-      .then(res => {
-        this.setState({
-          data: page === 1 ? res.products : [...this.state.data, ...res.products],
-          error: res.error || null,
-          loading: false,
-          refreshing: false
-        });
-
-        console.log("data:"+JSON.stringify(this.state.data));
-      })
-      .catch(error => {
-        this.setState({ error, loading: false });
+    })
+    .then(res => res.json())
+    .then(res => {
+      this.setState({
+        data: page === 1 ? res.products : [...this.state.data, ...res.products],
+        error: res.error || null,
+        loading: false,
+        refreshing: false
       });
+      console.log("loading:"+this.state.loading);
+      console.log("data:"+JSON.stringify(this.state.data));
+    })
+    .catch(error => 
+    {
+      if(error.name != 'AbortError')
+      {
+        this.setState({ error, loading: false });
+        console.log("loading:"+this.state.loading);
+      }      
+    });    
   };
 
   handleLoadMore = () => {
@@ -133,9 +143,13 @@ export default class ProductListPage extends React.Component
     );
   };
 
-  renderFooter = () => {
-    if (!this.state.loading) return null;
-
+  renderFooter = () => 
+  {
+    if (!this.state.loading) 
+    {
+      return null; 
+    }
+    
     return (
       <View
         style={{
@@ -150,16 +164,17 @@ export default class ProductListPage extends React.Component
   };
 
   updateSearch = (search) => 
-  {
-    console.log("outofstock:"+this.state.outOfStock);
+  {    
     console.log("search changed");
     this.setState({search:search});
   };
 
   search = () => 
   {
-    console.log("perform search");
-    this.setState({page:1,refreshing:true},this.makeRemoteRequest());
+    console.log("perform search");        
+    this.controller.abort();    
+    this.controller = new AbortController();      
+    this.setState({page:1,data:[]},()=>this.makeRemoteRequest());
   }
 
   showEditQuantityDialog = (sku, quantity) => 
@@ -174,13 +189,13 @@ export default class ProductListPage extends React.Component
     console.log("updateQuantity sku:"+sku);
 
     var quantity = this.state.quantityEditing;
-    if(quantity == '')
-    {
-      this.setState({alertStatus:false});
-      this.showAlertMessage("กรุณาใส่จำนวนที่ต้องการ"+this.state.increaseLabel);
-      console.log("quantity empty");
-      return;
-    }
+    // if(quantity == '')
+    // {
+    //   this.setState({alertStatus:false});
+    //   this.showAlertMessage("กรุณาใส่จำนวนที่ต้องการ"+this.state.increaseLabel);
+    //   console.log("quantity empty");
+    //   return;
+    // }
 
     this.setState({visible:false});
 
@@ -483,16 +498,18 @@ export default class ProductListPage extends React.Component
                         min={0}
                         step={1}  
                         color={colors.primary}  
+                        showBorder={true}
+                        rounded={false}
                         style={{alignItems:'center',justifyContent:'center'}}
-                        inputStyle={{color:colors.tertiary}}
-                        buttonStyle={{width:44,height:44,fontSize:16,fontFamily:fonts.primaryBold}}                                                                   
+                        inputStyle={{color:colors.tertiary,height:44}}                        
+                        buttonStyle={{width:44,height:44,fontSize:16,fontFamily:fonts.primaryBold}}                            
                         value={this.state.quantityEditing}
                         onChange={(text) => {this.onQuantityChanged(text)}}
                       />                      
                     </View>
                     <View style={{flex:1,alignItems:'center',justifyContent:'center',width:150,height:44}}>
                       <View style={{position:'absolute',left:0}}>
-                        <TouchableOpacity style={{borderRadius:22,width:44,height:44,backgroundColor:colors.primary}} onPress={() => {this.setZero()}}>
+                        <TouchableOpacity style={{borderRadius:3,width:44,height:44,backgroundColor:colors.primary}} onPress={() => {this.setZero()}}>
                           <Text style={[styles.textZero]}>
                             0
                           </Text>
@@ -696,26 +713,15 @@ const styles = StyleSheet.create({
     fontSize: 16,
     textAlign: 'center',
     height:44,
-    textAlignVertical:'center',
-    // margin: 12,
-    // paddingTop:0,
-    // paddingBottom:0,
+    textAlignVertical:'center',    
     color: colors.white,      
   },
   textZeroPress: {  
     fontFamily: fonts.primaryBold,   
     fontSize: 16,
-    textAlign: 'center',
-    // margin: 12,
+    textAlign: 'center',    
     color: colors.primary,    
-  },  
-  buttonZero: {
-      height:30,
-      borderColor: colors.primary,
-      backgroundColor: colors.primary,      
-      borderWidth: 1,
-      borderRadius: 6,      
-  },
+  },    
   textFail:
   {
     color:colors.error,

@@ -189,6 +189,7 @@ public class ToastModule extends ReactContextBaseJavaModule {
         settings.isAutoCut = autoCut == "YES";
         settings.isCutAtEnd = cutAtEnd == "YES";
         settings.orientation = getOrientation(orientation);//PrinterInfo.Orientation.PORTRAIT;
+        settings.valign = PrinterInfo.VAlign.MIDDLE;
 //        settings.numberOfCopies = quantity;
 
 
@@ -255,6 +256,7 @@ public class ToastModule extends ReactContextBaseJavaModule {
         settings.numberOfCopies = quantity;
         settings.halftone = PrinterInfo.Halftone.THRESHOLD;
         settings.paperPosition = PrinterInfo.Align.CENTER;
+        settings.valign = PrinterInfo.VAlign.MIDDLE;
         printer.setPrinterInfo(settings);
 
 

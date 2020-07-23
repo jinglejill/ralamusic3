@@ -23,7 +23,7 @@ export default class SettingsPage extends React.Component {
   }
 
   menu = [
-    { name : 'Sync Stock', image : require('./../assets/images/syncStock.png') },      
+    { name : 'Sync Stock (LZ,JD)', image : require('./../assets/images/syncStock.png') },      
   ];
 
   goToMenu = (menuID) => 
@@ -31,7 +31,7 @@ export default class SettingsPage extends React.Component {
     if(menuID == 1)
     {
       this.setState({loadingStock:true});
-      
+
       //sync stock
       fetch(this.state.apiPath + 'SAIMMarketPlaceStockToAppSync.php',
       {      

@@ -751,7 +751,7 @@ export default class ProductAddPage extends React.Component {
       var insert = false;
       this.setState({AnimatingShopee:true});
       
-      fetch(this.state.apiPath + 'SAIMShopeeProductInsert2.php',
+      fetch(this.state.apiPath + 'SAIMShopeeProductInsert.php',
       {
         method: 'POST',
         headers: {
