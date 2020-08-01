@@ -85,7 +85,7 @@ export default class SettingsPage extends React.Component {
       skus[i] = skus[i].trim();            
     }
     //start sync
-    fetch(this.state.apiPath + 'SAIMMarketPlaceDataToAppSync.php',
+    fetch(this.state.apiPath + 'SAIMMarketPlaceDataToAppSync2.php',
     {      
       method: 'POST',
       headers: {
