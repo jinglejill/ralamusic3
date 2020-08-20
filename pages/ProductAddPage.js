@@ -10,7 +10,7 @@ import Autocomplete from 'react-native-autocomplete-input';
 import InputSpinner from "react-native-input-spinner";
 // MyCustomComponent = Animatable.createAnimatableComponent(MyCustomComponent);
 //import all the components we are going to use.
-import {colors, fonts, padding, dimensions} from './../styles/base.js';
+import {colors, fonts, padding, dimensions} from './../styles/base.js'; 
 
 
 export default class ProductAddPage extends React.Component {
@@ -79,7 +79,8 @@ export default class ProductAddPage extends React.Component {
 
     this.state = {
       storeName: this.props.navigation.state.params.storeName,
-      apiPath: this.props.navigation.state.params.apiPath,      
+      apiPath: this.props.navigation.state.params.apiPath,    
+      modifiedUser: this.props.navigation.state.params.modifiedUser,    
       edit: edit, 
       loading: loading,
       sku: sku,      
@@ -94,60 +95,103 @@ export default class ProductAddPage extends React.Component {
     };
   }
   
-  componentDidMount() 
-  {
-    if(this.state.edit)
-    {
-      this.makeRemoteRequest();  
-    }
-    else
+  componentDidMount()
+  {    
+    this.props.navigation.setParams({ handleSave: this.saveProduct });
+    this.props.navigation.setParams({ animating: false });
+    this.props.navigation.setParams({ savedOrSynced: false });
+    if(!this.state.edit)
     {
       this.props.navigation.setParams({ handleNew: this.newForm });  
     }
 
-    this.props.navigation.setParams({ handleSave: this.saveProduct });
-    this.props.navigation.setParams({ animating: false });
-
-    this.props.navigation.setParams({ savedOrSynced: false });
-    
+    this.handleRefresh();
   }
 
-  makeRemoteRequest = () => 
+  handleRefresh = () => 
   {
-    console.log("makeRemoteRequest get product detail");
-    const url =  this.state.apiPath + 'SAIMMainProductDetailGet.php';
-    this.setState({ loading: true });
-
-    fetch(url,
+    console.log('handleRefresh');
+    this.setState({loadingAccess:true});
+    
+    fetch(this.state.apiPath + 'SAIMUserMenuAllowGet.php',
     {
       method: 'POST',
       headers: {
                   'Accept': 'application/json',
                   'Content-Type': 'application/json',
                 },
-      body: JSON.stringify({                 
-        sku:this.state.sku, 
+      body: JSON.stringify({  
+        username: this.state.modifiedUser,   
+        menuCode: 'PRODUCT_ADD',   
         storeName: this.state.storeName,
-        modifiedUser: this.state.username,
+        modifiedUser: this.state.modifiedUser,
         modifiedDate: new Date().toLocaleString(),
         platForm: Platform.OS,
       })
     })
-    .then(res => res.json())
-    .then(res => {
-      this.setState({
-        item: res.product,
-        error: res.error || null,
-        loading: false,
-        printEnabled: true,
-      });
+    .then((response) => response.json())
+    .then((responseData) =>{
+      console.log(responseData);
+      console.log("responseData.success:"+responseData.success);
+      
+      this.setState({loading: false});
+      if(responseData.success === true && responseData.allow)
+      {
+        this.setState({loadingAccess:false,menuAllow:true});
+        this.fetchData();
+      }
+      else
+      {
+        // error message    
+        this.setState({loadingAccess:false,menuAllow:false});    
+        console.log(responseData.message);
+        if(responseData.message != '')
+        {
+          this.setState({alertStatus:0});
+          this.showAlertMessage(responseData.message);
+        }        
+      }
+    }).done();
+  }
 
-      console.log("item:"+JSON.stringify(this.state.item));
-    })
-    .catch(error => {
-      this.setState({ error, loading: false });
-    });
-  };
+  fetchData = () => 
+  {
+    if(this.state.edit)
+    {      
+      const url =  this.state.apiPath + 'SAIMMainProductDetailGet.php';
+      this.setState({ loading: true });
+
+      fetch(url,
+      {
+        method: 'POST',
+        headers: {
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/json',
+                  },
+        body: JSON.stringify({                 
+          sku:this.state.sku, 
+          storeName: this.state.storeName,
+          modifiedUser: this.state.username,
+          modifiedDate: new Date().toLocaleString(),
+          platForm: Platform.OS,
+        })
+      })
+      .then(res => res.json())
+      .then(res => {
+        this.setState({
+          item: res.product,
+          error: res.error || null,
+          loading: false,
+          printEnabled: true,
+        });
+
+        console.log("item:"+JSON.stringify(this.state.item));
+      })
+      .catch(error => {
+        this.setState({ error, loading: false });
+      }); 
+    }
+  }
 
   onEditorInitialized = () => 
   {
@@ -342,7 +386,7 @@ export default class ProductAddPage extends React.Component {
           this.clearForm();
           this.setState({clearForm:false});
         }
-        this.props.navigation.setParams({ savedOrSynced: false });
+        // this.props.navigation.setParams({ savedOrSynced: true });//ยกเลิกสั่งให้ refresh หน้า list หลัง update เพราะจะได้ไม่ต้องรอโหลด
       }
       else
       {
@@ -838,7 +882,7 @@ export default class ProductAddPage extends React.Component {
           {
             var item = this.state.item;
             item.ShopeeExist = 1;
-            this.props.navigation.setParams({ savedOrSynced: false });
+            // this.props.navigation.setParams({ savedOrSynced: true });
           }
           else
           {
@@ -888,7 +932,7 @@ export default class ProductAddPage extends React.Component {
           {
             var item = this.state.item;
             item.JdExist = 1;
-            this.props.navigation.setParams({ savedOrSynced: false });
+            // this.props.navigation.setParams({ savedOrSynced: true });
           }
           else
           {
@@ -938,7 +982,7 @@ export default class ProductAddPage extends React.Component {
           {
             var item = this.state.item;
             item.WebExist = 1;
-            this.props.navigation.setParams({ savedOrSynced: false });
+            // this.props.navigation.setParams({ savedOrSynced: true });
           }
           else
           {
@@ -954,6 +998,14 @@ export default class ProductAddPage extends React.Component {
 
   render() {
     const comp = (a, b) => a.toLowerCase().trim() === b.toLowerCase().trim();
+    if(this.state.loadingAccess)
+    {
+      return(<View style={{alignItems:'center',justifyContent:'center',height:dimensions.fullHeight-100}}><ActivityIndicator animating size='small' /></View>);
+    }
+    if(!this.state.loadingAccess && !this.state.menuAllow)
+    {
+      return (<View style={{alignItems:'center',justifyContent:'center',height:dimensions.fullHeight-100}}><Text style={styles.menuAllow}>จำกัดการเข้าใช้</Text></View>);
+    }
     return (
       <ScrollView scrollEnabled={!this.state.enableImageSort}>
         {this.state.loading && 
@@ -1018,13 +1070,15 @@ export default class ProductAddPage extends React.Component {
                 <TouchableHighlight underlayColor={colors.primary} activeOpacity={1} style={styles.buttonPrint} disabled={!this.state.printEnabled}
                   onHideUnderlay={()=>this.onHideUnderlayPrint()}
                   onShowUnderlay={()=>this.onShowUnderlayPrint()}                                        
-                  onPress={()=>{this.showProductQR()}} >         
-                    <Text style={
-                      this.state.printPressStatus
-                        ? styles.textPrintPress
-                        : styles.textPrint
-                      }>Print QR
-                    </Text>               
+                  onPress={()=>{this.showProductQR()}} >    
+                    <View style={{flex:1,justifyContent:'center'}}>     
+                      <Text style={
+                        this.state.printPressStatus
+                          ? styles.textPrintPress
+                          : styles.textPrint
+                        }>Print QR
+                      </Text>  
+                    </View>             
                 </TouchableHighlight>
               </View>
             </View> 
@@ -1095,13 +1149,15 @@ export default class ProductAddPage extends React.Component {
                 <TouchableHighlight underlayColor={colors.primary} activeOpacity={1} style={[styles.button,this.state.enableImageSort?{width:60}:{width:30}]} 
                   onHideUnderlay={()=>this.onHideUnderlay()}
                   onShowUnderlay={()=>this.onShowUnderlay()}                                        
-                  onPress={()=>{this.addImage()}} >         
-                    <Text style={
-                      this.state.pressStatus
-                        ? styles.textPress
-                        : styles.text
-                      }>{this.state.buttonText}
-                    </Text>               
+                  onPress={()=>{this.addImage()}} >  
+                    <View style={{flex:1,justifyContent:'center'}}>       
+                      <Text style={
+                        this.state.pressStatus
+                          ? styles.textPress
+                          : styles.text
+                        }>{this.state.buttonText}
+                      </Text>    
+                    </View>           
                 </TouchableHighlight>                                                                    
               </View>
               <View style={{marginTop:padding.sm}}>
@@ -1190,17 +1246,19 @@ export default class ProductAddPage extends React.Component {
                 onShowUnderlay={()=>this.onShowUnderlayDelete()}
                 onPress={()=>{this.confirmDeleteProduct()}} 
               >
-                <View style={{display:'flex',flexDirection:'row',alignItems:'center',justifyContent:'center'}}>
-                  <View style={{width:30}}>                    
-                  </View>
-                  <Text style={
-                    this.state.deletePressStatus
-                      ? styles.deleteTextPress
-                      : styles.deleteText
-                    }>Delete
-                  </Text>
-                  <View style={{width:30}}>
-                    {this.state.deleteLoading && <ActivityIndicator animating size='small' style={styles.activityIndicator}/>}
+                <View style={{flex:1,justifyContent:'center'}}>
+                  <View style={{display:'flex',flexDirection:'row',alignItems:'center',justifyContent:'center'}}>
+                    <View style={{width:30}}>                    
+                    </View>
+                    <Text style={
+                      this.state.deletePressStatus
+                        ? styles.deleteTextPress
+                        : styles.deleteText
+                      }>Delete
+                    </Text>
+                    <View style={{width:30}}>
+                      {this.state.deleteLoading && <ActivityIndicator animating size='small' style={styles.activityIndicator}/>}
+                    </View>
                   </View>
                 </View>
               </TouchableHighlight>
@@ -1310,6 +1368,7 @@ export default class ProductAddPage extends React.Component {
                     textStyle={styles.cancelButtonText}
                     onPress={() => {
                       this.clearForm();
+                      this.setState({ clearFormVisible: false });
                     }}
                   />
                   <DialogButton
@@ -1318,7 +1377,7 @@ export default class ProductAddPage extends React.Component {
                     textStyle={styles.okButtonText}
                     onPress={() => {
                       this.saveProduct();
-                      this.setState({clearForm:true});
+                      this.setState({clearForm:true,clearFormVisible: false});
                     }}
                   />
                 </DialogFooter>
@@ -1369,6 +1428,13 @@ export default class ProductAddPage extends React.Component {
 }
                       
 const styles = StyleSheet.create({  
+  menuAllow:
+  {
+    paddingLeft:padding.xl,  
+    fontFamily: fonts.primary, 
+    fontSize: fonts.lg,
+    color:colors.secondary,    
+  },
   autocompleteContainer: {
     flex: 1,
     left: 0,
@@ -1472,23 +1538,14 @@ const styles = StyleSheet.create({
     fontFamily: "Sarabun-SemiBold",   
     fontSize: 16,
     textAlign: "center",
-    // paddingTop:0,
-    // paddingBottom:0,
-    // marginTop:0,
-    color: "#ffffff",
-    textAlignVertical: 'center',
-    // lineHeight:Platform.OS=='ios'?null:24,
+    color: colors.white,    
   },
   textPress: 
   {  
     fontFamily: "Sarabun-SemiBold",   
     fontSize: 16,
-    textAlign: "center",
-    // paddingTop:0,
-    // paddingBottom:0,
-    color: "#6EC417",
-    // textAlignVertical: 'center',
-    // lineHeight:Platform.OS=='ios'?null:24,
+    textAlign: "center",    
+    color: colors.primary,    
   },
   deleteButton: 
   {    
@@ -1504,23 +1561,14 @@ const styles = StyleSheet.create({
     fontFamily: "Sarabun-SemiBold",   
     fontSize: 16,
     textAlign: "center",
-    // paddingTop:0,
-    // paddingBottom:0,
-    // marginTop:0,
-    color: "#FFFFFF",
-    textAlignVertical: 'center',
-    // lineHeight:Platform.OS=='ios'?null:24,
+    color: "#FFFFFF",    
   },
   deleteTextPress: 
   {  
     fontFamily: "Sarabun-SemiBold",   
     fontSize: 16,
     textAlign: "center",
-    // paddingTop:0,
-    // paddingBottom:0,
-    color: "#f0111c",
-    textAlignVertical: 'center',
-    // lineHeight:Platform.OS=='ios'?null:24,
+    color: "#f0111c",    
   },
   buttonPrint: 
   {
@@ -1537,24 +1585,15 @@ const styles = StyleSheet.create({
   {   
     fontFamily: fonts.primaryBold,   
     fontSize: 16,
-    textAlign: "center",
-    paddingTop:0,
-    paddingBottom:0,
-    marginTop:0,
-    color: "#ffffff",
-    textAlignVertical: 'center',
-    lineHeight:Platform.OS=='ios'?null:24,
+    textAlign: "center",    
+    color: colors.white,
   },
   textPrintPress: 
   {  
     fontFamily: fonts.primaryBold,   
     fontSize: 16,
     textAlign: "center",
-    // paddingTop:0,
-    // paddingBottom:0,
-    color: colors.primary,
-    textAlignVertical: 'center',
-    // lineHeight:Platform.OS=='ios'?null:24,
+    color: colors.primary,    
   },
   imageView:
   {
@@ -1605,13 +1644,13 @@ const styles = StyleSheet.create({
   },
   okButtonText:
   {
-    color:'#6EC417',
-    fontSize:18,
+    color:colors.primary,
+    fontSize:fonts.md,
   },
   cancelButtonText:
   {
-    color:'#6EC417',
-    fontSize:18,
+    color:colors.primary,
+    fontSize:fonts.md,
   },
   dialogFooter:
   {
@@ -1621,7 +1660,7 @@ const styles = StyleSheet.create({
   {
     color:colors.error,
     textAlign:'center', 
-    fontFamily:fonts.primary, 
+    fontFamily:fonts.primaryMedium, 
     fontSize:fonts.md,
     paddingTop:padding.xl
   },
@@ -1629,13 +1668,12 @@ const styles = StyleSheet.create({
   {
     color:colors.secondary,
     textAlign:'center', 
-    fontFamily:fonts.primary, 
+    fontFamily:fonts.primaryMedium, 
     fontSize:fonts.md
   }, 
   channelView: 
   {
     marginLeft:10,
-    // marginTop:10,
     marginRight:15,
     alignItems:'center',
     justifyContent:'center',

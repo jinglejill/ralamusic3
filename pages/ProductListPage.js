@@ -18,7 +18,8 @@ export default class ProductListPage extends React.Component
     this.onEndReachedCalledDuringMomentum = true;
     this.state = {
       storeName: this.props.navigation.state.params.storeName,
-      apiPath: this.props.navigation.state.params.apiPath,         
+      apiPath: this.props.navigation.state.params.apiPath,  
+      modifiedUser: this.props.navigation.state.params.modifiedUser,       
       search: '',
       loading: false,
       data: [],
@@ -36,31 +37,77 @@ export default class ProductListPage extends React.Component
       increaseLabel:'เพิ่ม',
       quantityCurrent:0,
       quantityTotal:0,
-      outOfStock: this.props.navigation.getParam('outOfStock',false),         
+      outOfStock: this.props.navigation.getParam('outOfStock',false),          
     };
   }
 
-  componentDidMount() 
-  {  
+  componentDidMount()
+  {        
+    this.handleRefresh2();
+  }
+
+  handleRefresh2 = () => 
+  {
+    console.log('handleRefresh2');
+    this.setState({loadingAccess:true});
+    
+    fetch(this.state.apiPath + 'SAIMUserMenuAllowGet.php',
+    {
+      method: 'POST',
+      headers: {
+                  'Accept': 'application/json',
+                  'Content-Type': 'application/json',
+                },
+      body: JSON.stringify({  
+        username: this.state.modifiedUser,   
+        menuCode: 'PRODUCT',   
+        storeName: this.state.storeName,
+        modifiedUser: this.state.modifiedUser,
+        modifiedDate: new Date().toLocaleString(),
+        platForm: Platform.OS,
+      })
+    })
+    .then((response) => response.json())
+    .then((responseData) =>{
+      console.log(responseData);
+      console.log("responseData.success:"+responseData.success);
+      
+      this.setState({loading: false});
+      if(responseData.success === true && responseData.allow)
+      {
+        this.setState({loadingAccess:false,menuAllow:true});
+        this.fetchData();
+      }
+      else
+      {
+        // error message    
+        this.setState({loadingAccess:false,menuAllow:false});    
+        console.log(responseData.message);
+        if(responseData.message != '')
+        {
+          this.setState({alertStatus:0});
+          this.showAlertMessage(responseData.message);
+        }        
+      }
+    }).done();
+  }
+
+  fetchData = () => 
+  {
     this.props.navigation.addListener('didFocus', this.onScreenFocus);    
     if(!this.state.outOfStock)
     {
       this.makeRemoteRequest();
     }  
-
   }
 
-  onScreenFocus = () => {
+  onScreenFocus = () => 
+  {
     // Screen was focused, our on focus logic goes here
     if(this.state.data.length == 0)
     {
       this.makeRemoteRequest();      
     }    
-    // else
-    // {
-    //   this.handleRefresh()
-    // }
-
   }
 
   makeRemoteRequest = () => 
@@ -86,7 +133,7 @@ export default class ProductListPage extends React.Component
         searchText:search, 
         outOfStock:this.state.outOfStock,
         storeName: this.state.storeName,
-        modifiedUser: this.state.username,
+        modifiedUser: this.state.modifiedUser,
         modifiedDate: new Date().toLocaleString(),
         platForm: Platform.OS,
       })
@@ -221,7 +268,7 @@ export default class ProductListPage extends React.Component
         sku: sku,
         quantity: quantity,
         storeName: this.state.storeName,
-        modifiedUser: this.state.username,
+        modifiedUser: this.state.modifiedUser,
         modifiedDate: new Date().toLocaleString(),
         platForm: Platform.OS,
       })
@@ -280,7 +327,7 @@ export default class ProductListPage extends React.Component
     {
       'apiPath': this.state.apiPath,
       'storeName': this.state.storeName,
-      'username': this.state.username,  
+      'modifiedUser': this.state.modifiedUser,  
       'sku': sku,  
       'edit': true,
       refresh: this.handleRefresh,      
@@ -364,6 +411,14 @@ export default class ProductListPage extends React.Component
 
   render() {
     const { search } = this.state;
+    if(this.state.loadingAccess)
+    {
+      return(<View style={{alignItems:'center',justifyContent:'center',height:dimensions.fullHeight-100}}><ActivityIndicator animating size='small' /></View>);
+    }
+    if(!this.state.loadingAccess && !this.state.menuAllow)
+    {
+      return (<View style={{alignItems:'center',justifyContent:'center',height:dimensions.fullHeight-100}}><Text style={styles.menuAllow}>จำกัดการเข้าใช้</Text></View>);
+    }
     return (
       <View style={{flex:1}} onStartShouldSetResponder={this.containerTouched.bind(this)}>        
         <FlatList
@@ -450,7 +505,7 @@ export default class ProductListPage extends React.Component
                 onPress={() => {this.setState({ visible: false })}}
               />
               <DialogButton
-                text="OK"
+                text="UPDATE"
                 style={styles.okButton}
                 textStyle={styles.okButtonText}
                 onPress={() => {this.updateQuantity()}}
@@ -509,11 +564,17 @@ export default class ProductListPage extends React.Component
                     </View>
                     <View style={{flex:1,alignItems:'center',justifyContent:'center',width:150,height:44}}>
                       <View style={{position:'absolute',left:0}}>
-                        <TouchableOpacity style={{borderRadius:3,width:44,height:44,backgroundColor:colors.primary}} onPress={() => {this.setZero()}}>
-                          <Text style={[styles.textZero]}>
-                            0
-                          </Text>
-                        </TouchableOpacity>
+                        <TouchableHighlight underlayColor={colors.primary} activeOpacity={1} style={styles.button} 
+                          onHideUnderlay={()=>this.onHideUnderlay()}
+                          onShowUnderlay={()=>this.onShowUnderlay()} 
+                          onPress={() => {this.setZero()}}>
+                            <Text style={
+                              this.state.pressStatus
+                                ? styles.textZeroPress
+                                : styles.textZero
+                              }>0                              
+                            </Text>
+                        </TouchableHighlight>
                       </View>
                       <Text style={styles.labelQuantity}>{this.state.quantityTotal}</Text>
                     </View>
@@ -555,6 +616,13 @@ export default class ProductListPage extends React.Component
 }
 
 const styles = StyleSheet.create({
+  menuAllow:
+  {
+    paddingLeft:padding.xl,  
+    fontFamily: fonts.primary, 
+    fontSize: fonts.lg,
+    color:colors.secondary,    
+  },
   tabTextStyle:
   {
     color:colors.primary,
@@ -600,7 +668,8 @@ const styles = StyleSheet.create({
     marginLeft:10,
     justifyContent:'center',    
   },
-  name: {
+  name: 
+  {
     fontFamily: fonts.primary,
     fontSize: 14,
     textAlign: 'left',
@@ -611,7 +680,7 @@ const styles = StyleSheet.create({
   },
   sku: 
   {    
-    fontFamily: "Sarabun-LightItalic",
+    fontFamily: fonts.primaryItalic,
     fontSize: 13,
     textAlign: 'left',
     color: colors.tertiary, 
@@ -697,36 +766,47 @@ const styles = StyleSheet.create({
   okButtonText:
   {
     color:colors.primary,
-    fontSize:18,
+    fontSize:fonts.md,
   },
   cancelButtonText:
   {
     color:colors.primary,
-    fontSize:18,
+    fontSize:fonts.md,
   },
   dialogFooter:
   {
     height:44,  
   },  
-  textZero: {   
-    fontFamily: fonts.primaryBold,
-    fontSize: 16,
-    textAlign: 'center',
+  button:
+  {
+    borderRadius:3,
+    width:44,
     height:44,
+    backgroundColor:colors.primary
+  },
+  textZero: 
+  {   
+    fontFamily: fonts.primaryBold,
+    fontSize: 16,    
+    height:44,
+    textAlign: 'center',
     textAlignVertical:'center',    
     color: colors.white,      
   },
-  textZeroPress: {  
+  textZeroPress: 
+  {  
     fontFamily: fonts.primaryBold,   
     fontSize: 16,
-    textAlign: 'center',    
+    height:44,
+    textAlign: 'center',  
+    textAlignVertical:'center',  
     color: colors.primary,    
   },    
   textFail:
   {
     color:colors.error,
     textAlign:'center', 
-    fontFamily:fonts.primary, 
+    fontFamily:fonts.primaryMedium, 
     fontSize:fonts.md,
     paddingTop:padding.xl
   },
@@ -734,7 +814,7 @@ const styles = StyleSheet.create({
   {
     color:colors.secondary,
     textAlign:'center', 
-    fontFamily:fonts.primary, 
+    fontFamily:fonts.primaryMedium, 
     fontSize:fonts.md
   }, 
 });

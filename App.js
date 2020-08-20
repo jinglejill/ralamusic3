@@ -25,6 +25,14 @@ import ChooseAutoCutPage from './pages/ChooseAutoCutPage.js';
 import ChooseCutAtEndPage from './pages/ChooseCutAtEndPage.js';
 import ScanInPage from './pages/ScanInPage.js';
 import ScanOutPage from './pages/ScanOutPage.js';
+import LoginPage from './pages/LoginPage.js';
+import ForgotPasswordPage from './pages/ForgotPasswordPage.js';
+import EmailTemplatePage from './pages/EmailTemplatePage.js';
+import ResetPasswordPage from './pages/ResetPasswordPage.js';
+import ResetPasswordExpiredPage from './pages/ResetPasswordExpiredPage.js';
+import UserManagementPage from './pages/UserManagementPage.js';
+import UserAddPage from './pages/UserAddPage.js';
+import MyProfilePage from './pages/MyProfilePage.js';
 
 //Making TabNavigator which will be called in App StackNavigator
 //we can directly export the TabNavigator also but header will not be visible
@@ -73,6 +81,13 @@ const styles = StyleSheet.create({
   })
 //making a StackNavigator to export as default
 const App = createStackNavigator({
+  Login: 
+  {
+    screen: LoginPage,
+    navigationOptions: ({navigation})=> ({
+      headerShown: false,     
+    }),
+  },  
   MainMenu: 
   {
     screen: MainMenuPage,
@@ -315,7 +330,144 @@ const App = createStackNavigator({
         fontSize: 18,
       },      
     }),
+  },  
+  ForgotPassword: 
+  {
+    screen: ForgotPasswordPage,
+    navigationOptions: ({navigation})=> ({
+      headerStyle: {
+        backgroundColor: colors.fourthiary,
+      },
+      headerTintColor: '#FFFFFF',
+      title: 'ลืมรหัสผ่าน?',
+      headerTitleStyle: {
+        fontFamily: "Sarabun-SemiBold",
+        fontSize: 18,
+      },      
+    }),
   },
+  EmailTemplate: 
+  {
+    screen: EmailTemplatePage,
+    navigationOptions: ({navigation})=> ({
+      headerStyle: {
+        backgroundColor: colors.fourthiary,
+      },
+      headerTintColor: '#FFFFFF',
+      title: 'Email Template',
+      headerTitleStyle: {
+        fontFamily: "Sarabun-SemiBold",
+        fontSize: 18,
+      },      
+    }),
+  },  
+  ResetPassword: 
+  {
+    screen: ResetPasswordPage,
+    navigationOptions: ({navigation})=> ({
+      headerStyle: {
+        backgroundColor: colors.fourthiary,
+      },
+      headerTintColor: '#FFFFFF',
+      title: 'ตั้งค่ารหัสผ่านใหม่',
+      headerTitleStyle: {
+        fontFamily: "Sarabun-SemiBold",
+        fontSize: 18,
+      },      
+    }),
+  },  
+  ResetPasswordExpired: 
+  {
+    screen: ResetPasswordExpiredPage,
+    navigationOptions: ({navigation})=> ({
+      headerStyle: {
+        backgroundColor: colors.fourthiary,
+      },
+      headerTintColor: '#FFFFFF',
+      title: 'ตั้งค่ารหัสผ่านใหม่ หมดอายุแล้ว',
+      headerTitleStyle: {
+        fontFamily: "Sarabun-SemiBold",
+        fontSize: 18,
+      },      
+    }),
+  },  
+  UserManagement: 
+  {
+    screen: UserManagementPage,
+    navigationOptions: ({navigation})=> ({
+      headerStyle: {
+        backgroundColor: colors.fourthiary,
+      },
+      headerTintColor: '#FFFFFF',
+      title: 'จัดการผู้ใช้',
+      headerTitleStyle: {
+        fontFamily: "Sarabun-SemiBold",
+        fontSize: 18,
+      },
+      headerRight: ()=><Button buttonStyle={styles.headerRightButton}
+                              titleStyle={{fontFamily: fonts.primaryBold}}
+                              title={"New"}
+                              onPress={navigation.state.params.handleNew} 
+                            />                              
+    }),
+  }, 
+  UserAdd: 
+  {
+    screen: UserAddPage,
+    navigationOptions: ({navigation})=> ({
+      headerStyle: {
+        backgroundColor: colors.fourthiary,
+      },
+      headerTintColor: '#FFFFFF',
+      title: navigation.state.params.edit?'ผู้ใช้':'เพิ่มผู้ใช้',
+      headerTitleStyle: {
+        fontFamily: "Sarabun-SemiBold",
+        fontSize: 18,
+      },
+      headerLeft: () => <HeaderBackButton tintColor="#FFFFFF"
+          onPress={() => {
+            navigation.state.params.savedOrSynced?navigation.state.params.refresh():null;
+            navigation.goBack(null);}} />,
+      headerRight: ()=><View style={{display:'flex',flexDirection:'row',alignItem:'center',justifyContent:'center',width:110,}}>
+                          <View style={{width:55}}>
+                          {
+                            navigation.state.params.edit?null:
+                            (<Button buttonStyle={styles.headerRightButton}
+                              titleStyle={{fontFamily: fonts.primaryBold}}
+                              title={"New"}
+                              onPress={navigation.state.params.handleNew} 
+                            />)
+                          }                            
+                          </View>
+                          <View style={{width:55,alignItem:'center',justifyContent:'center' }}>
+                          {
+                            navigation.state.params.animating?
+                            <ActivityIndicator animating size='small' style={{marginRight:padding.sm}}/>:                            
+                            <Button buttonStyle={styles.headerRightButton}
+                              titleStyle={{fontFamily: fonts.primaryBold}}
+                              title={"Save"}
+                              onPress={navigation.state.params.handleSave} 
+                            />
+                          }
+                          </View>
+                        </View>                              
+    }),
+  },
+  MyProfile: 
+  {
+    screen: MyProfilePage,
+    navigationOptions: ({navigation})=> ({
+      headerStyle: {
+        backgroundColor: colors.fourthiary,
+      },
+      headerTintColor: '#FFFFFF',
+      title: 'ข้อมูลของฉัน',
+      headerTitleStyle: {
+        fontFamily: "Sarabun-SemiBold",
+        fontSize: 18,
+      },                      
+    }),
+  },   
 });
 export default createAppContainer(App);
 

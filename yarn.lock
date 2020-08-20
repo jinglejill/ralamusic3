@@ -5422,6 +5422,11 @@ react-native-ckeditor@^1.0.2:
   resolved "https://registry.yarnpkg.com/react-native-ckeditor/-/react-native-ckeditor-1.0.2.tgz#fae4a7f8d61bf1bc36ea39e59a4cf463f574ed41"
   integrity sha512-UlcFokGHkZS1rI+SPYeqYpyij/Xf72X2r2hf+pCTU6eDiHJvy/4HZvkwW4jOCnrNpXO00KqNKSs2xXKCx3pbHg==
 
+react-native-device-info@^5.6.3:
+  version "5.6.3"
+  resolved "https://registry.yarnpkg.com/react-native-device-info/-/react-native-device-info-5.6.3.tgz#8b964866fc538bcfb82e25ad88f872139d7a591d"
+  integrity sha512-fmaXRjG0NW9FAOdOD86cmjgoxA/2I0lBq1NZmxQ2sgElyRjLxZLtuJn/QpP8hmFeTlKFDSZpSDvEnB+UUihcmw==
+
 react-native-drag-sort@^2.2.1:
   version "2.2.1"
   resolved "https://registry.yarnpkg.com/react-native-drag-sort/-/react-native-drag-sort-2.2.1.tgz#1eec8f3c82e8c94c5fd75440df59bce429951009"

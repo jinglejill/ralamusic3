@@ -13,6 +13,7 @@ export default class SettingsPage extends React.Component {
     this.state = {
       storeName: this.props.navigation.state.params.storeName,
       apiPath: this.props.navigation.state.params.apiPath,
+      modifiedUser: this.props.navigation.state.params.modifiedUser,  
       alertVisible: false,
       alertMessage:'',
       alertStatus:0,
@@ -25,6 +26,62 @@ export default class SettingsPage extends React.Component {
   menu = [
     { name : 'Sync Stock (LZ,JD)', image : require('./../assets/images/syncStock.png') },      
   ];
+
+  componentDidMount()
+  {    
+    this.handleRefresh();
+  }
+
+  handleRefresh = () => 
+  {
+    console.log('handleRefresh');
+    this.setState({loadingAccess:true});
+    
+    fetch(this.state.apiPath + 'SAIMUserMenuAllowGet.php',
+    {
+      method: 'POST',
+      headers: {
+                  'Accept': 'application/json',
+                  'Content-Type': 'application/json',
+                },
+      body: JSON.stringify({  
+        username: this.state.modifiedUser,   
+        menuCode: 'SETTINGS',   
+        storeName: this.state.storeName,
+        modifiedUser: this.state.modifiedUser,
+        modifiedDate: new Date().toLocaleString(),
+        platForm: Platform.OS,
+      })
+    })
+    .then((response) => response.json())
+    .then((responseData) =>{
+      console.log(responseData);
+      console.log("responseData.success:"+responseData.success);
+      
+      this.setState({loading: false});
+      if(responseData.success === true && responseData.allow)
+      {
+        this.setState({loadingAccess:false,menuAllow:true});
+        this.fetchData();
+      }
+      else
+      {
+        // error message    
+        this.setState({loadingAccess:false,menuAllow:false});    
+        console.log(responseData.message);
+        if(responseData.message != '')
+        {
+          this.setState({alertStatus:0});
+          this.showAlertMessage(responseData.message);
+        }        
+      }
+    }).done();
+  }
+
+  fetchData = () => 
+  {
+
+  }
 
   goToMenu = (menuID) => 
   {
@@ -137,6 +194,14 @@ export default class SettingsPage extends React.Component {
 
 
   render() {
+    if(this.state.loadingAccess)
+    {
+      return(<View style={{alignItems:'center',justifyContent:'center',height:dimensions.fullHeight-100}}><ActivityIndicator animating size='small' /></View>);
+    }
+    if(!this.state.loadingAccess && !this.state.menuAllow)
+    {
+      return (<View style={{alignItems:'center',justifyContent:'center',height:dimensions.fullHeight-100}}><Text style={styles.menuAllow}>จำกัดการเข้าใช้</Text></View>);
+    }
     return (        
         <ScrollView contentContainerStyle={{flexGrow: 1}} keyboardShouldPersistTaps='handled'>
           <View style={{marginTop:20}}>
@@ -146,18 +211,20 @@ export default class SettingsPage extends React.Component {
               <TouchableHighlight underlayColor={colors.primary} activeOpacity={1} style={styles.button} 
                 onHideUnderlay={()=>this.onHideUnderlay()}
                 onShowUnderlay={()=>this.onShowUnderlay()}                                        
-                onPress={()=>{this.syncMarketplaceDataToApp()}} >         
-                  <View style={{display:'flex',flexDirection:'row',alignItems:'center',justifyContent:'center'}}>
-                    <View style={{width:30}}>                    
-                    </View>
-                    <Text style={
-                      this.state.pressStatus
-                        ? styles.textPress
-                        : styles.text
-                      }>Sync
-                    </Text>               
-                    <View style={{width:30}}>
-                      {this.state.loading && <ActivityIndicator animating size='small' style={styles.activityIndicator}/>}
+                onPress={()=>{this.syncMarketplaceDataToApp()}} >  
+                  <View style={{flex:1,justifyContent:'center'}}>       
+                    <View style={{display:'flex',flexDirection:'row',alignItems:'center',justifyContent:'center'}}>
+                      <View style={{width:30}}>                    
+                      </View>
+                      <Text style={
+                        this.state.pressStatus
+                          ? styles.textPress
+                          : styles.text
+                        }>Sync
+                      </Text>               
+                      <View style={{width:30}}>
+                        {this.state.loading && <ActivityIndicator animating size='small' style={styles.activityIndicator}/>}
+                      </View>
                     </View>
                   </View>
               </TouchableHighlight>                                                  
@@ -215,6 +282,13 @@ export default class SettingsPage extends React.Component {
 }
                       
 const styles = StyleSheet.create({
+  menuAllow:
+  {
+    paddingLeft:padding.xl,  
+    fontFamily: fonts.primary, 
+    fontSize: fonts.lg,
+    color:colors.secondary,    
+  },
   container:
   {
     flex:1,
@@ -230,7 +304,7 @@ const styles = StyleSheet.create({
   okButtonText:
   {
     color:colors.primary,
-    fontSize:18,
+    fontSize:fonts.md,
   },
   dialogFooter:
   {
@@ -238,13 +312,20 @@ const styles = StyleSheet.create({
   },
   textSuccess:
   {
-    color:colors.secondary,textAlign:'center', fontFamily:fonts.primary, fontSize:fonts.md
+    color:colors.secondary,
+    textAlign:'center', 
+    fontFamily:fonts.primaryMedium, 
+    fontSize:fonts.md
   },
   textFail:
   {
-    color:colors.error,textAlign:'center', fontFamily:fonts.primary, fontSize:fonts.md
+    color:colors.error,
+    textAlign:'center', 
+    fontFamily:fonts.primaryMedium, 
+    fontSize:fonts.md
   },
-  skus: {
+  skus: 
+  {
     fontFamily: fonts.primary,
     fontSize: 14,
     textAlign: 'left', 
@@ -289,19 +370,15 @@ const styles = StyleSheet.create({
   {   
     fontFamily: "Sarabun-SemiBold",   
     fontSize: 16,
-    textAlign: "center",
-    margin: 7,
-    color: "#ffffff",
-    textAlignVertical: 'center'
+    textAlign: "center",    
+    color: "#ffffff",    
   },
   textPress: 
   {  
     fontFamily: "Sarabun-SemiBold",   
     fontSize: 16,
-    textAlign: "center",
-    margin: 7,
+    textAlign: "center",    
     color: "#6EC417",
-    textAlignVertical: 'center'
   },
   activityIndicator:
   {    

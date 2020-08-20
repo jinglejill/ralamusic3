@@ -408,7 +408,6 @@ public class ToastModule extends ReactContextBaseJavaModule {
     @ReactMethod
     public void getPreferenceOrientation(Callback preferenceOrientationCallback) {
         SharedPreferences sharedPref = getReactApplicationContext().getSharedPreferences("com.jummumtech.ralamusic", getReactApplicationContext().MODE_PRIVATE);
-//        preferenceOrientationCallback.invoke(sharedPref.getString("orientation", ""));
 
         String preferenceOrientation = sharedPref.getString("orientation","");
         if(preferenceOrientation == "")
@@ -432,8 +431,8 @@ public class ToastModule extends ReactContextBaseJavaModule {
         editor.putString("autoCut", autoCut);
         editor.commit();
 
-        String orientationPref = sharedPref.getString("autoCut","");
-        Log.wtf("testprint"," preference autoCut save:"+orientationPref);
+        String autoCutPref = sharedPref.getString("autoCut","");
+        Log.wtf("testprint"," preference autoCut save:"+autoCutPref);
 
     }
 
@@ -462,8 +461,8 @@ public class ToastModule extends ReactContextBaseJavaModule {
         editor.putString("cutAtEnd", cutAtEnd);
         editor.commit();
 
-        String orientationPref = sharedPref.getString("cutAtEnd","");
-        Log.wtf("testprint"," preference cutAtEnd save:"+orientationPref);
+        String cutAtEndPref = sharedPref.getString("cutAtEnd","");
+        Log.wtf("testprint"," preference cutAtEnd save:"+cutAtEndPref);
 
     }
 
@@ -481,6 +480,70 @@ public class ToastModule extends ReactContextBaseJavaModule {
         {
             preferenceCutAtEndCallback.invoke(sharedPref.getString("cutAtEnd",""));
         }
+    }
+
+    @ReactMethod
+    public void savePreferenceUsername(String username) {
+        SharedPreferences sharedPref = getReactApplicationContext().getSharedPreferences("com.jummumtech.ralamusic",getReactApplicationContext().MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPref.edit();
+        editor.putString("username", username);
+        editor.commit();
+    }
+
+    @ReactMethod
+    public void getPreferenceUsername(Callback preferenceUsernameCallback) {
+        SharedPreferences sharedPref = getReactApplicationContext().getSharedPreferences("com.jummumtech.ralamusic",getReactApplicationContext().MODE_PRIVATE);
+
+        String preferenceUsername = sharedPref.getString("username","");
+        preferenceUsernameCallback.invoke(preferenceUsername);
+    }
+
+    @ReactMethod
+    public void savePreferencePassword(String password) {
+        SharedPreferences sharedPref = getReactApplicationContext().getSharedPreferences("com.jummumtech.ralamusic",getReactApplicationContext().MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPref.edit();
+        editor.putString("password", password);
+        editor.commit();
+    }
+
+    @ReactMethod
+    public void getPreferencePassword(Callback preferencePasswordCallback) {
+        SharedPreferences sharedPref = getReactApplicationContext().getSharedPreferences("com.jummumtech.ralamusic",getReactApplicationContext().MODE_PRIVATE);
+
+        String preferencePassword = sharedPref.getString("password","");
+        preferencePasswordCallback.invoke(preferencePassword);
+    }
+
+    @ReactMethod
+    public void savePreferenceRememberMe(Boolean rememberMe) {
+        SharedPreferences sharedPref = getReactApplicationContext().getSharedPreferences("com.jummumtech.ralamusic",getReactApplicationContext().MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPref.edit();
+        editor.putBoolean("rememberMe", rememberMe);
+        editor.commit();
+    }
+
+    @ReactMethod
+    public void getPreferenceRememberMe(Callback preferenceRememberMeCallback) {
+        SharedPreferences sharedPref = getReactApplicationContext().getSharedPreferences("com.jummumtech.ralamusic",getReactApplicationContext().MODE_PRIVATE);
+
+        Boolean preferenceRememberMe = sharedPref.getBoolean("rememberMe",false);
+        preferenceRememberMeCallback.invoke(preferenceRememberMe);
+    }
+
+    @ReactMethod
+    public void savePreferenceCurrentUsername(String username) {
+        SharedPreferences sharedPref = getReactApplicationContext().getSharedPreferences("com.jummumtech.ralamusic",getReactApplicationContext().MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPref.edit();
+        editor.putString("currentUsername", username);
+        editor.commit();
+    }
+
+    @ReactMethod
+    public void getPreferenceCurrentUsername(Callback preferenceCurrentUsernameCallback) {
+        SharedPreferences sharedPref = getReactApplicationContext().getSharedPreferences("com.jummumtech.ralamusic",getReactApplicationContext().MODE_PRIVATE);
+
+        String preferenceCurrentUsername = sharedPref.getString("currentUsername","");
+        preferenceCurrentUsernameCallback.invoke(preferenceCurrentUsername);
     }
 
     private static WritableMap convertJsonToMap(JSONObject jsonObject) throws JSONException {
