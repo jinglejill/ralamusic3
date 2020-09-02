@@ -33,6 +33,7 @@ import ResetPasswordExpiredPage from './pages/ResetPasswordExpiredPage.js';
 import UserManagementPage from './pages/UserManagementPage.js';
 import UserAddPage from './pages/UserAddPage.js';
 import MyProfilePage from './pages/MyProfilePage.js';
+import StockSharingListPage from './pages/StockSharingListPage.js';
 
 //Making TabNavigator which will be called in App StackNavigator
 //we can directly export the TabNavigator also but header will not be visible
@@ -92,6 +93,7 @@ const App = createStackNavigator({
   {
     screen: MainMenuPage,
     navigationOptions: {
+      headerLeft: null,
       headerStyle: {
         backgroundColor: colors.fourthiary,
       },
@@ -143,7 +145,7 @@ const App = createStackNavigator({
       },
       headerLeft: () => <HeaderBackButton tintColor="#FFFFFF"
           onPress={() => {
-            navigation.state.params.savedOrSynced?navigation.state.params.refresh():null;
+            navigation.state.params.savedOrSynced?navigation.state.params.refresh(navigation.state.params.product):null;
             navigation.goBack(null);}} />,
       headerRight: ()=> <View style={{display:'flex',flexDirection:'row',alignItem:'center',justifyContent:'center',width:110,}}>
                           <View style={{width:55}}>
@@ -468,9 +470,34 @@ const App = createStackNavigator({
       },                      
     }),
   },   
+  StockSharingList: 
+  {
+    screen: StockSharingListPage,
+    navigationOptions: ({navigation})=> ({
+      headerStyle: {
+        backgroundColor: colors.fourthiary,
+      },
+      headerTintColor: '#FFFFFF',
+      title: 'Stock sharing',
+      headerTitleStyle: {
+        fontFamily: "Sarabun-SemiBold",
+        fontSize: 18,
+      },       
+      headerRight: ()=>   
+                        <View style={{width:55,alignItem:'center',justifyContent:'center' }}>
+                        {
+                          navigation.state.params.animating?
+                          <ActivityIndicator animating size='small' style={{marginRight:padding.sm}}/>:                            
+                          <Button buttonStyle={styles.headerRightButton}
+                            titleStyle={{fontFamily: fonts.primaryBold}}
+                            title={"Save"}
+                            onPress={navigation.state.params.handleSave} 
+                          />
+                        }
+                        </View>
+                                           
+    }),
+  },   
 });
 export default createAppContainer(App);
-
-
-
 

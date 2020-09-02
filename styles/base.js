@@ -14,6 +14,9 @@ export const colors  = {
   separator: '#E0E0E0',
   border: '#CCCCCC',
   white: '#FFFFFF',
+  hilight: '#e2fbea',//'#b6e18b'
+  disabled: '#b3b3b3',
+  self: '#f7ea85',
 }
 
 export const padding = {

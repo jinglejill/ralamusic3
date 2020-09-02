@@ -254,7 +254,7 @@ export default class ProductListPage extends React.Component
         }  
     });
 
-    var url = this.state.selectedIndex?'SAIMProductScanOutUpdate.php':'SAIMProductScanInUpdate.php';
+    var url = this.state.selectedIndex?'SAIMProductScanOutUpdate2.php':'SAIMProductScanInUpdate2.php';
 
     //db updateQuantity
     fetch(this.state.apiPath + url,
@@ -279,6 +279,16 @@ export default class ProductListPage extends React.Component
       console.log("responseData.success:"+responseData.success);
       if(responseData.success == true)
       {
+        for(var i=0; i<responseData.stockSharingList.length; i++)
+        {
+          var shareSku = responseData.stockSharingList[i].Sku;
+          this.state.data.map((product)=>{      
+            if(product.Sku == shareSku)
+            {              
+              product.Quantity = responseData.quantity;            
+            }
+          });  
+        }        
       }
       else
       {
@@ -290,12 +300,12 @@ export default class ProductListPage extends React.Component
 
 
       this.state.data.map((product)=>{      
-          if(product.Sku == responseData.sku)
-          {
-            console.log("set animating false;"+responseData.sku+";"+responseData.quantity);            
-            product.Quantity = responseData.quantity;
-            product.Animating = false;
-          }
+        if(product.Sku == responseData.sku)
+        {
+          console.log("set animating false;"+responseData.sku+";"+responseData.quantity);            
+          // product.Quantity = responseData.quantity;
+          product.Animating = false;
+        }
       });
       this.setState((state)=>({refresh:!this.state.refresh}));
     }).done();
@@ -330,8 +340,29 @@ export default class ProductListPage extends React.Component
       'modifiedUser': this.state.modifiedUser,  
       'sku': sku,  
       'edit': true,
-      refresh: this.handleRefresh,      
+      searchTextFromProductListPage: this.state.search,
+      refresh: this.handleRefreshByItem,      
     });
+  }
+
+  handleRefreshByItem = (item) => 
+  {
+    console.log("handleRefreshByItem:"+JSON.stringify(item));
+    this.state.data.map((product)=>
+    {
+      if(product.Sku == item.Sku)
+      {
+        product.Name = item.Name;
+        product.Quantity = item.Quantity;
+        product.MainImage = item.Image[0].Image;
+        product.LazadaExist = item.LazadaExist;
+        product.ShopeeExist = item.ShopeeExist;
+        product.JdExist = item.JdExist;
+        product.WebExist = item.WebExist;
+      }
+    });
+    this.setState((state)=>({refresh:!this.state.refresh}));
+
   }
 
   containerTouched(event) 
@@ -480,7 +511,11 @@ export default class ProductListPage extends React.Component
             </View>
             
           )}
-          ListHeaderComponent={(<SearchBar ref='textInput' placeholder="Type Here..." onSubmitEditing={()=>{this.search()}} lightTheme containerStyle={styles.searchBarContainer} inputContainerStyle={styles.searchBarInputContainer} inputStyle={styles.searchBarInput} onChangeText={(text)=>this.updateSearch(text)}
+          ListHeaderComponent={(
+            <SearchBar ref='textInput' placeholder="Type Here..." 
+            onSubmitEditing={()=>{this.search()}} lightTheme containerStyle={styles.searchBarContainer} 
+            inputContainerStyle={styles.searchBarInputContainer} inputStyle={styles.searchBarInput} 
+            onChangeText={(text)=>this.updateSearch(text)}
             value={search}/>)}
           ListFooterComponent={this.renderFooter}
           keyExtractor={(item, index) => index}

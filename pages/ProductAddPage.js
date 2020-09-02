@@ -80,7 +80,8 @@ export default class ProductAddPage extends React.Component {
     this.state = {
       storeName: this.props.navigation.state.params.storeName,
       apiPath: this.props.navigation.state.params.apiPath,    
-      modifiedUser: this.props.navigation.state.params.modifiedUser,    
+      modifiedUser: this.props.navigation.state.params.modifiedUser,  
+      searchTextFromProductListPage: this.props.navigation.state.params.searchTextFromProductListPage,  
       edit: edit, 
       loading: loading,
       sku: sku,      
@@ -93,6 +94,8 @@ export default class ProductAddPage extends React.Component {
       imageSortTimeout:0,
       brands:[],
     };
+
+    console.log("searchTextFromProductListPage:"+this.state.searchTextFromProductListPage);
   }
   
   componentDidMount()
@@ -158,9 +161,10 @@ export default class ProductAddPage extends React.Component {
   {
     if(this.state.edit)
     {      
-      const url =  this.state.apiPath + 'SAIMMainProductDetailGet.php';
+      const url =  this.state.apiPath + 'SAIMMainProductDetailGet2.php';
       this.setState({ loading: true });
 
+      console.log("fetch data -> loading:true");
       fetch(url,
       {
         method: 'POST',
@@ -171,7 +175,7 @@ export default class ProductAddPage extends React.Component {
         body: JSON.stringify({                 
           sku:this.state.sku, 
           storeName: this.state.storeName,
-          modifiedUser: this.state.username,
+          modifiedUser: this.state.modifiedUser,
           modifiedDate: new Date().toLocaleString(),
           platForm: Platform.OS,
         })
@@ -309,6 +313,18 @@ export default class ProductAddPage extends React.Component {
     this.setState({ pressStatus: true });
   }
 
+  onHideUnderlayStockSharing = () => 
+  {
+    
+    this.setState({ pressStatusStockSharing: false });
+  }
+
+  onShowUnderlayStockSharing = () => 
+  {
+    
+    this.setState({ pressStatusStockSharing: true });
+  }
+
   onHideUnderlayPrint = () => 
   {
     console.log("button print press false");
@@ -386,7 +402,8 @@ export default class ProductAddPage extends React.Component {
           this.clearForm();
           this.setState({clearForm:false});
         }
-        // this.props.navigation.setParams({ savedOrSynced: true });//ยกเลิกสั่งให้ refresh หน้า list หลัง update เพราะจะได้ไม่ต้องรอโหลด
+        this.props.navigation.setParams({ savedOrSynced: true });
+        this.props.navigation.setParams({ product: this.state.item });
       }
       else
       {
@@ -511,7 +528,7 @@ export default class ProductAddPage extends React.Component {
     {
       'apiPath': this.state.apiPath,
       'storeName': this.state.storeName,
-      'username': this.state.username,  
+      'modifiedUser': this.state.modifiedUser,  
       'brand': this.state.item.Brand,
       'sku': this.state.item.Sku,
       'quantity': this.state.item.Quantity,
@@ -616,7 +633,7 @@ export default class ProductAddPage extends React.Component {
       body: JSON.stringify({                 
         searchText:this.state.item.Brand, 
         storeName: this.state.storeName,
-        modifiedUser: this.state.username,
+        modifiedUser: this.state.modifiedUser,
         modifiedDate: new Date().toLocaleString(),
         platForm: Platform.OS,
       })
@@ -713,7 +730,7 @@ export default class ProductAddPage extends React.Component {
       body: JSON.stringify({  
         sku: this.state.sku,
         storeName: this.state.storeName,
-        modifiedUser: this.state.username,
+        modifiedUser: this.state.modifiedUser,
         modifiedDate: new Date().toLocaleString(),
         platForm: Platform.OS,
       })
@@ -806,7 +823,7 @@ export default class ProductAddPage extends React.Component {
           sku: this.state.item.Sku,    
           insert: insert,    
           storeName: this.state.storeName,
-          modifiedUser: this.state.username,
+          modifiedUser: this.state.modifiedUser,
           modifiedDate: new Date().toLocaleString(),
           platForm: Platform.OS,
         })
@@ -866,7 +883,7 @@ export default class ProductAddPage extends React.Component {
             sku: this.state.item.Sku,    
             insert: insert,    
             storeName: this.state.storeName,
-            modifiedUser: this.state.username,
+            modifiedUser: this.state.modifiedUser,
             modifiedDate: new Date().toLocaleString(),
             platForm: Platform.OS,
           })
@@ -882,7 +899,8 @@ export default class ProductAddPage extends React.Component {
           {
             var item = this.state.item;
             item.ShopeeExist = 1;
-            // this.props.navigation.setParams({ savedOrSynced: true });
+            this.props.navigation.setParams({ savedOrSynced: true });
+            this.props.navigation.setParams({ product: this.state.item });
           }
           else
           {
@@ -916,7 +934,7 @@ export default class ProductAddPage extends React.Component {
             sku: this.state.item.Sku,    
             insert: insert,    
             storeName: this.state.storeName,
-            modifiedUser: this.state.username,
+            modifiedUser: this.state.modifiedUser,
             modifiedDate: new Date().toLocaleString(),
             platForm: Platform.OS,
           })
@@ -932,7 +950,8 @@ export default class ProductAddPage extends React.Component {
           {
             var item = this.state.item;
             item.JdExist = 1;
-            // this.props.navigation.setParams({ savedOrSynced: true });
+            this.props.navigation.setParams({ savedOrSynced: true });
+            this.props.navigation.setParams({ product: this.state.item });
           }
           else
           {
@@ -966,7 +985,7 @@ export default class ProductAddPage extends React.Component {
             sku: this.state.item.Sku,    
             insert: insert,    
             storeName: this.state.storeName,
-            modifiedUser: this.state.username,
+            modifiedUser: this.state.modifiedUser,
             modifiedDate: new Date().toLocaleString(),
             platForm: Platform.OS,
           })
@@ -982,7 +1001,8 @@ export default class ProductAddPage extends React.Component {
           {
             var item = this.state.item;
             item.WebExist = 1;
-            // this.props.navigation.setParams({ savedOrSynced: true });
+            this.props.navigation.setParams({ savedOrSynced: true });
+            this.props.navigation.setParams({ product: this.state.item });
           }
           else
           {
@@ -994,6 +1014,20 @@ export default class ProductAddPage extends React.Component {
         }).done();
       }
     }
+  }
+
+  editStockSharing = () =>
+  {
+    this.props.navigation.navigate('StockSharingList',
+    {
+      'apiPath': this.state.apiPath,
+      'storeName': this.state.storeName,
+      'modifiedUser': this.state.modifiedUser,        
+      'sku': this.state.item.Sku,  
+      skuImage: this.state.item.Image[0].Image,
+      searchTextFromProductListPage:this.state.searchTextFromProductListPage,
+      refresh: this.fetchData,         
+    });  
   }
 
   render() {
@@ -1134,6 +1168,38 @@ export default class ProductAddPage extends React.Component {
                 <Text style={styles.title}>ราคาทุน</Text>
                 <TextInput style={styles.valueHalf} value={this.state.item.Cost} keyboardType = 'decimal-pad' placeholder=' ' onChangeText={(text) => {this.onCostChanged(text)}}/> 
               </View>
+            </View>
+            <View style={styles.viewField}>              
+              <View style={{display:'flex', flexDirection:'row'}}>
+                <Text style={styles.title}>Stock sharing</Text>          
+                <TouchableHighlight underlayColor={colors.primary} activeOpacity={1} style={[styles.button,{width:45}]} 
+                  onHideUnderlay={()=>this.onHideUnderlayStockSharing()}
+                  onShowUnderlay={()=>this.onShowUnderlayStockSharing()}                                        
+                  onPress={()=>{this.editStockSharing()}} >  
+                    <View style={{flex:1,justifyContent:'center'}}>       
+                      <Text style={
+                        this.state.pressStatusStockSharing
+                          ? styles.textPressStockSharing
+                          : styles.textStockSharing
+                        }>Edit
+                      </Text>    
+                    </View>           
+                </TouchableHighlight>                                                                    
+              </View>
+              {this.state.item.StockSharingList && (this.state.item.StockSharingList.length == 0) && <Text style={styles.subtitle}>-</Text>}
+              {this.state.item.StockSharingList && (this.state.item.StockSharingList.length > 0) && <FlatList          
+                data={this.state.item.StockSharingList}
+                renderItem={({ item }) => ( 
+                  <View style={{display:'flex',flexDirection:'row'}}>
+                    <Image
+                      source={{uri: item.MainImage}}
+                      style={styles.imageStockSharing}
+                    />
+                    <Text style={[styles.subtitle]}>{item.Sku}</Text>
+                  </View>
+                )}          
+                keyExtractor={(item, index) => index}          
+              />}
             </View>
             <View style={styles.viewField}>        
               <Text style={styles.title}>หมายเหตุ</Text>
@@ -1456,6 +1522,13 @@ const styles = StyleSheet.create({
     textAlign: 'left',
     color: colors.secondary,
   },
+  subtitle: 
+  {        
+    fontFamily: fonts.primary,
+    fontSize: 14,
+    textAlign: 'left',
+    color: colors.black,
+  },
   value: 
   {
     fontFamily: fonts.primary,
@@ -1547,6 +1620,20 @@ const styles = StyleSheet.create({
     textAlign: "center",    
     color: colors.primary,    
   },
+  textStockSharing: 
+  {   
+    fontFamily: "Sarabun-SemiBold",   
+    fontSize: 16,
+    textAlign: "center",
+    color: colors.white,    
+  },
+  textPressStockSharing: 
+  {  
+    fontFamily: "Sarabun-SemiBold",   
+    fontSize: 16,
+    textAlign: "center",    
+    color: colors.primary,    
+  },
   deleteButton: 
   {    
     width: dimensions.fullWidth - 2*padding.xl,    
@@ -1594,6 +1681,12 @@ const styles = StyleSheet.create({
     fontSize: 16,
     textAlign: "center",
     color: colors.primary,    
+  },
+  imageStockSharing:
+  {
+    width:50,
+    height:50,
+    margin:5,
   },
   imageView:
   {
