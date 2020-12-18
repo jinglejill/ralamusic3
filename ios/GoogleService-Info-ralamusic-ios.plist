@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>CLIENT_ID</key>
+	<string>480203460949-560e57jnlmd2d2t31p3t1gm9ttcqvjep.apps.googleusercontent.com</string>
+	<key>REVERSED_CLIENT_ID</key>
+	<string>com.googleusercontent.apps.480203460949-560e57jnlmd2d2t31p3t1gm9ttcqvjep</string>
+	<key>API_KEY</key>
+	<string>AIzaSyB2R_R7DmdzBtV9CtBwM5L03N80j5aWbXU</string>
+	<key>GCM_SENDER_ID</key>
+	<string>480203460949</string>
+	<key>PLIST_VERSION</key>
+	<string>1</string>
+	<key>BUNDLE_ID</key>
+	<string>com.jummumtech.ralamusic</string>
+	<key>PROJECT_ID</key>
+	<string>ralamusic-noti-ios</string>
+	<key>STORAGE_BUCKET</key>
+	<string>ralamusic-noti-ios.appspot.com</string>
+	<key>IS_ADS_ENABLED</key>
+	<false></false>
+	<key>IS_ANALYTICS_ENABLED</key>
+	<false></false>
+	<key>IS_APPINVITE_ENABLED</key>
+	<true></true>
+	<key>IS_GCM_ENABLED</key>
+	<true></true>
+	<key>IS_SIGNIN_ENABLED</key>
+	<true></true>
+	<key>GOOGLE_APP_ID</key>
+	<string>1:480203460949:ios:70c010f3d9c64851df5fdc</string>
+</dict>
+</plist>
