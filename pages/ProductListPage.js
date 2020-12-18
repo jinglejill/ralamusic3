@@ -1,7 +1,7 @@
 // Home screen
 import React, { Component } from 'react';
 //import react in our code.
-import { Text, View, FlatList, ActivityIndicator, Dimensions, StyleSheet, Image, TouchableHighlight, TextInput, Platform, SafeAreaView, TouchableOpacity} from 'react-native';
+import { Text, View, FlatList, ActivityIndicator, Dimensions, StyleSheet, Image, TouchableHighlight, TextInput, Platform, SafeAreaView, TouchableOpacity, ScrollView} from 'react-native';
 import { List, ListItem, SearchBar } from "react-native-elements";
 import Dialog, { DialogContent, DialogTitle, SlideAnimation, DialogFooter, DialogButton } from 'react-native-popup-dialog';
 import InputSpinner from "react-native-input-spinner";
@@ -114,7 +114,7 @@ export default class ProductListPage extends React.Component
   { 
     console.log("makeRemoteRequest page:"+this.state.page+", searchText:"+this.state.search);      
     const { page, seed, search } = this.state;
-    const url = this.state.apiPath + 'SAIMMainProductGetList2.php?seed='+seed;          
+    const url = this.state.apiPath + 'SAIMMainProductGetList3.php?seed='+seed;          
     
     this.setState({loading:true});
     console.log("loading:"+this.state.loading);
@@ -254,7 +254,7 @@ export default class ProductListPage extends React.Component
         }  
     });
 
-    var url = this.state.selectedIndex?'SAIMProductScanOutUpdate2.php':'SAIMProductScanInUpdate2.php';
+    var url = this.state.selectedIndex?'SAIMProductScanOutUpdate4.php':'SAIMProductScanInUpdate4.php';
 
     //db updateQuantity
     fetch(this.state.apiPath + url,
@@ -279,16 +279,7 @@ export default class ProductListPage extends React.Component
       console.log("responseData.success:"+responseData.success);
       if(responseData.success == true)
       {
-        for(var i=0; i<responseData.stockSharingList.length; i++)
-        {
-          var shareSku = responseData.stockSharingList[i].Sku;
-          this.state.data.map((product)=>{      
-            if(product.Sku == shareSku)
-            {              
-              product.Quantity = responseData.quantity;            
-            }
-          });  
-        }        
+             
       }
       else
       {
@@ -298,12 +289,29 @@ export default class ProductListPage extends React.Component
         this.showAlertMessage(responseData.message);
       }
 
+      for(var i=0; i<responseData.stockSharingList.length; i++)
+      {
+        var shareSku = responseData.stockSharingList[i].Sku;
+        this.state.data.map((product)=>{      
+          if(product.Sku == shareSku)
+          {              
+            product.Quantity = responseData.quantity;
+
+
+            if(responseData.message != '')
+            {
+              product.LazadaExist = responseData.stockSharingList[i].LazadaExist;
+              product.ShopeeExist = responseData.stockSharingList[i].ShopeeExist;
+              product.JdExist = responseData.stockSharingList[i].JdExist;
+            }         
+          }
+        });  
+      }   
 
       this.state.data.map((product)=>{      
         if(product.Sku == responseData.sku)
         {
           console.log("set animating false;"+responseData.sku+";"+responseData.quantity);            
-          // product.Quantity = responseData.quantity;
           product.Animating = false;
         }
       });
@@ -348,6 +356,19 @@ export default class ProductListPage extends React.Component
   handleRefreshByItem = (item) => 
   {
     console.log("handleRefreshByItem:"+JSON.stringify(item));
+    if(item.Deleted)
+    {
+      this.setState({data: this.state.data.filter((product) => { 
+          return product.Sku !== item.Sku 
+      })});
+      return;
+    }
+    else
+    {
+      console.log("item deleted false");
+    }
+
+
     this.state.data.map((product)=>
     {
       if(product.Sku == item.Sku)
@@ -358,7 +379,7 @@ export default class ProductListPage extends React.Component
         product.LazadaExist = item.LazadaExist;
         product.ShopeeExist = item.ShopeeExist;
         product.JdExist = item.JdExist;
-        product.WebExist = item.WebExist;
+        product.WebExist = item.WebExist;          
       }
     });
     this.setState((state)=>({refresh:!this.state.refresh}));
@@ -553,69 +574,73 @@ export default class ProductListPage extends React.Component
         >
           <DialogContent>
             {
-              <View style={{alignItems:'center',justifyContent:'center'}}>
-                <View style={{marginTop:padding.xl+padding.lg,height:44,width:260,alignItems:'center',justifyContent:'center'}}>
-                  <SegmentedControlTab   
-                    tabStyle={{borderColor:colors.primary}}   
-                    tabTextStyle={styles.tabTextStyle}            
-                    activeTabStyle={{backgroundColor:colors.primary}}                                   
-                    values={["เพิ่ม", "ลด"]}
-                    selectedIndex={this.state.selectedIndex}
-                    onTabPress={this.handleIndexChange}
-                  />
-                </View> 
-                <View style={{display:'flex',flexDirection:'row',marginTop:padding.lg,width:260}}>
-                  <View style={{width:110}}>
-                    <View style={{height:44,alignItems:'flex-start',justifyContent:'center'}}>
-                      <Text style={styles.labelQuantity}> ปัจจุบัน</Text>
-                    </View>                    
-                    <View style={{height:54,alignItems:'flex-start',justifyContent:'center'}}>
-                      <Text style={this.state.selectedIndex == 0?styles.labelQuantityBoldIncrease:styles.labelQuantityBoldDecrease}> {this.state.increaseLabel}</Text>
-                    </View>
-                    <View style={{height:44,alignItems:'flex-start',justifyContent:'center'}}>
-                      <Text style={styles.labelQuantity}> ทั้งหมด</Text>                      
-                    </View>
-                  </View>
-                  <View style={{flex:1,alignItems:'center',justifyContent:'center',width:150}}>
-                    <View style={{flex:1,alignItems:'center',justifyContent:'center',height:44}}>
-                      <Text style={styles.labelQuantity}>{this.state.quantityCurrent}</Text>
-                    </View>
-                    <View style={{alignItems:'center',justifyContent:'center',height:54}} onLayout={(event) => {
-                      var {x, y, width, height} = event.nativeEvent.layout;
-                      console.log("width:"+width);
-                    }}>
-                      <InputSpinner                                                                      
-                        min={0}
-                        step={1}  
-                        color={colors.primary}  
-                        showBorder={true}
-                        rounded={false}
-                        style={{alignItems:'center',justifyContent:'center'}}
-                        inputStyle={{color:colors.tertiary,height:44}}                        
-                        buttonStyle={{width:44,height:44,fontSize:16,fontFamily:fonts.primaryBold}}                            
-                        value={this.state.quantityEditing}
-                        onChange={(text) => {this.onQuantityChanged(text)}}
-                      />                      
-                    </View>
-                    <View style={{flex:1,alignItems:'center',justifyContent:'center',width:150,height:44}}>
-                      <View style={{position:'absolute',left:0}}>
-                        <TouchableHighlight underlayColor={colors.primary} activeOpacity={1} style={styles.button} 
-                          onHideUnderlay={()=>this.onHideUnderlay()}
-                          onShowUnderlay={()=>this.onShowUnderlay()} 
-                          onPress={() => {this.setZero()}}>
-                            <Text style={
-                              this.state.pressStatus
-                                ? styles.textZeroPress
-                                : styles.textZero
-                              }>0                              
-                            </Text>
-                        </TouchableHighlight>
+              <ScrollView contentContainerStyle={{flexGrow: 1}} keyboardShouldPersistTaps='handled'>
+                <View style={{alignItems:'center',justifyContent:'center'}}>
+                  <View style={{marginTop:padding.xl+padding.lg,height:44,width:260,alignItems:'center',justifyContent:'center'}}>
+                    <SegmentedControlTab   
+                      tabStyle={{borderColor:colors.primary}}   
+                      tabTextStyle={styles.tabTextStyle}            
+                      activeTabStyle={{backgroundColor:colors.primary}}                                   
+                      values={["เพิ่ม", "ลด"]}
+                      selectedIndex={this.state.selectedIndex}
+                      onTabPress={this.handleIndexChange}
+                    />
+                  </View> 
+                  <View style={{display:'flex',flexDirection:'row',marginTop:padding.lg,width:260}}>
+                    <View style={{width:110}}>
+                      <View style={{height:44,alignItems:'flex-start',justifyContent:'center'}}>
+                        <Text style={styles.labelQuantity}> ปัจจุบัน</Text>
+                      </View>                    
+                      <View style={{height:54,alignItems:'flex-start',justifyContent:'center'}}>
+                        <Text style={this.state.selectedIndex == 0?styles.labelQuantityBoldIncrease:styles.labelQuantityBoldDecrease}> {this.state.increaseLabel}</Text>
                       </View>
-                      <Text style={styles.labelQuantity}>{this.state.quantityTotal}</Text>
+                      <View style={{height:44,alignItems:'flex-start',justifyContent:'center'}}>
+                        <Text style={styles.labelQuantity}> ทั้งหมด</Text>                      
+                      </View>
                     </View>
-                  </View>
-                </View>                 
-              </View>            
+                    <View style={{flex:1,alignItems:'center',justifyContent:'center',width:150}}>
+                      <View style={{flex:1,alignItems:'center',justifyContent:'center',height:44}}>
+                        <Text style={styles.labelQuantity}>{this.state.quantityCurrent}</Text>
+                      </View>
+                      <View style={{alignItems:'center',justifyContent:'center',height:54}} onLayout={(event) => {
+                        var {x, y, width, height} = event.nativeEvent.layout;
+                        console.log("width:"+width);
+                      }}>
+                        <InputSpinner                                                                      
+                          min={0}
+                          step={1}  
+                          color={colors.primary}  
+                          showBorder={true}
+                          rounded={false}
+                          style={{alignItems:'center',justifyContent:'center'}}
+                          inputStyle={{color:colors.tertiary,height:44}}                        
+                          buttonStyle={{width:44,height:44,fontSize:16,fontFamily:fonts.primaryBold}}                            
+                          value={this.state.quantityEditing}
+                          onChange={(text) => {this.onQuantityChanged(text)}}
+                        />                      
+                      </View>
+                      <View style={{flex:1,alignItems:'center',justifyContent:'center',width:150,height:44}}>
+                        <View style={{position:'absolute',left:0}}>
+                          <TouchableHighlight underlayColor={colors.primary} activeOpacity={1} style={styles.button} 
+                            onHideUnderlay={()=>this.onHideUnderlay()}
+                            onShowUnderlay={()=>this.onShowUnderlay()} 
+                            onPress={() => {this.setZero()}}>
+                              <View style={{flex:1,alignItems:'center',justifyContent:'center'}}>
+                                <Text style={
+                                  this.state.pressStatus
+                                    ? styles.textZeroPress
+                                    : styles.textZero
+                                  }>0                              
+                                </Text>
+                              </View>
+                          </TouchableHighlight>
+                        </View>
+                        <Text style={styles.labelQuantity}>{this.state.quantityTotal}</Text>
+                      </View>
+                    </View>
+                  </View>                 
+                </View> 
+              </ScrollView>           
             }
           </DialogContent>
         </Dialog>
@@ -817,7 +842,8 @@ const styles = StyleSheet.create({
     borderRadius:3,
     width:44,
     height:44,
-    backgroundColor:colors.primary
+    backgroundColor:colors.primary,
+    // justifyContent:'center'
   },
   textZero: 
   {   

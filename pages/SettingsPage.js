@@ -88,9 +88,9 @@ export default class SettingsPage extends React.Component {
     if(menuID == 1)
     {
       this.setState({loadingStock:true});
-
+      console.log("SAIMMarketPlaceStockToAppSync3");
       //sync stock
-      fetch(this.state.apiPath + 'SAIMMarketPlaceStockToAppSync.php',
+      fetch(this.state.apiPath + 'SAIMMarketPlaceStockToAppSync3.php',
       {      
         method: 'POST',
         headers: {

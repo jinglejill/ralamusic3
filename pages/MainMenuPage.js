@@ -1,7 +1,7 @@
 // Setting screen
 import React, { Component } from 'react';
 //import react in our code.
-import { Text, View, TextInput, StyleSheet, Dimensions, TouchableHighlight, FlatList, Image } from 'react-native';
+import { Text, View, TextInput, StyleSheet, Dimensions, TouchableHighlight, FlatList, Image, AsyncStorage } from 'react-native';
 //import all the components we are going to use.
 import {colors, fonts, padding, dimensions} from './../styles/base.js'
 import ToastExample from './../javaModule/ToastExample';
@@ -20,18 +20,18 @@ export default class MainMenuPage extends React.Component {
     };
   }
 
-  menu = [
-    { name : 'สินค้า', image : require('./../assets/images/product.png'), page : 'TabScreen' },  
-    { name : 'เพิ่มสินค้า', image : require('./../assets/images/productAdd.png'), page : 'ProductAdd' },  
-    { name : 'scan สินค้าเข้า', image : require('./../assets/images/scanIn.png'), page : 'ScanIn' },  
-    { name : 'scan สินค้าออก', image : require('./../assets/images/scanOut.png'), page : 'ScanOut' },  
-    { name : 'ตั้งค่า', image : require('./../assets/images/setting.png'), page : 'Settings' },
-    { name : 'Log out', image : require('./../assets/images/logout.png'), page : 'Logout' },
-  ];
+  // menu = [
+  //   { name : 'สินค้า', image : require('./../assets/images/product.png'), page : 'TabScreen' },  
+  //   { name : 'เพิ่มสินค้า', image : require('./../assets/images/productAdd.png'), page : 'ProductAdd' },  
+  //   { name : 'scan สินค้าเข้า', image : require('./../assets/images/scanIn.png'), page : 'ScanIn' },  
+  //   { name : 'scan สินค้าออก', image : require('./../assets/images/scanOut.png'), page : 'ScanOut' },  
+  //   { name : 'ตั้งค่า', image : require('./../assets/images/setting.png'), page : 'Settings' },
+  //   { name : 'Log out', image : require('./../assets/images/logout.png'), page : 'Logout' },
+  // ];
 
   componentDidMount()
-  {
-    fetch(this.state.apiPath + 'SAIMMenuByUserGetList.php',
+  {    
+    fetch(this.state.apiPath + 'SAIMMenuByUserGetList2.php',
     {
       method: 'POST',
       headers: {
@@ -48,13 +48,13 @@ export default class MainMenuPage extends React.Component {
     })
     .then((response) => response.json())
     .then((responseData) =>{
-      console.log(responseData);
-      console.log("responseData.success:"+responseData.success);
+      // console.log(responseData);
+      // console.log("responseData.success:"+responseData.success);
       
       this.setState({loading: false});
       if(responseData.success === true)
       {
-        console.log("menuList:"+JSON.stringify(responseData.menuList));
+        // console.log("menuList:"+JSON.stringify(responseData.menuList));
         this.setState({menu:responseData.menuList});
       }
       else
@@ -67,14 +67,29 @@ export default class MainMenuPage extends React.Component {
     }).done();
   }
 
+  setUserDefault = (username,password,rememberMe) => 
+  {
+    this.setUsername(username);
+    this.setPassword(password);
+    this.setRememberMe(rememberMe);    
+  }
+
   goToMenu = (page) => 
   {
     if(page == 'Logout')
     {
       //save preference
-      ToastExample.savePreferenceUsername("");
-      ToastExample.savePreferencePassword("");
-      ToastExample.savePreferenceRememberMe(false);  
+      if(Platform.OS == 'ios')
+      {
+        this.setUserDefault('','',false);   
+      }
+      else
+      {
+        ToastExample.savePreferenceUsername("");
+        ToastExample.savePreferencePassword("");
+        ToastExample.savePreferenceRememberMe(false);  
+      }
+      
 
       //go back to login page and clear control
       this.props.navigation.state.params.setControl();
@@ -82,6 +97,7 @@ export default class MainMenuPage extends React.Component {
     }
     else
     {
+      console.log("menu click:"+page);
       this.props.navigation.navigate(page,
       {
         'apiPath': this.state.apiPath,
@@ -90,6 +106,39 @@ export default class MainMenuPage extends React.Component {
       });  
     }    
   }
+
+  setUsername = async (username) => {
+    try {
+      await AsyncStorage.setItem(
+        'username',
+        username
+      );        
+    } catch (error) {
+      // Error saving data      
+    }
+  };
+
+  setPassword = async (password) => {
+    try {
+      await AsyncStorage.setItem(
+        'password',
+        password
+      );        
+    } catch (error) {
+      // Error saving data
+    }
+  };
+
+  setRememberMe = async (rememberMe) => {
+    try {
+      await AsyncStorage.setItem(
+        'rememberMe',
+        JSON.stringify(rememberMe)
+      );        
+    } catch (error) {
+      // Error saving data
+    }
+  };
 
   render() {
     return (
@@ -117,11 +166,8 @@ const styles = StyleSheet.create({
   image: 
   {
     width:dimensions.fullWidth/3/3,
-    height:dimensions.fullWidth/3/3,  
-    // marginTop:10,  
-    marginBottom:20,  
-    // marginLeft:10,  
-    // marginRight:10,  
+    height:dimensions.fullWidth/3/3,      
+    marginBottom:20,   
   },
   menuName:
   {
@@ -137,11 +183,18 @@ const styles = StyleSheet.create({
     alignItems:'center',
     justifyContent:'center',
     margin:3,
-    backgroundColor:'white',    
-    // shadowColor: '#000',
-    // shadowOffset: { width: 0, height: 1 },
-    shadowOpacity: 0.8,
+    backgroundColor:'white',     
     shadowRadius: 2,  
-    elevation: 5
+
+
+    //***android
+    // shadowOpacity: 0.8,
+    // elevation: 5
+
+
+    //***ios
+    shadowOpacity: 0.2,
+    shadowOffset: { height: 2, width: 2 },
+    
   },
 });

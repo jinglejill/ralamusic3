@@ -34,6 +34,11 @@ import UserManagementPage from './pages/UserManagementPage.js';
 import UserAddPage from './pages/UserAddPage.js';
 import MyProfilePage from './pages/MyProfilePage.js';
 import StockSharingListPage from './pages/StockSharingListPage.js';
+import OrderGroupListPage from './pages/OrderGroupListPage.js';
+import OrderNoScanPage from './pages/OrderNoScanPage.js';
+import OrderDetailPage from './pages/OrderDetailPage.js';
+import LargeImagePage from './pages/LargeImagePage.js';
+import OrderDetailListPage from './pages/OrderDetailListPage.js';
 
 //Making TabNavigator which will be called in App StackNavigator
 //we can directly export the TabNavigator also but header will not be visible
@@ -93,7 +98,7 @@ const App = createStackNavigator({
   {
     screen: MainMenuPage,
     navigationOptions: {
-      headerLeft: null,
+      headerLeft: ()=>null,
       headerStyle: {
         backgroundColor: colors.fourthiary,
       },
@@ -145,7 +150,7 @@ const App = createStackNavigator({
       },
       headerLeft: () => <HeaderBackButton tintColor="#FFFFFF"
           onPress={() => {
-            navigation.state.params.savedOrSynced?navigation.state.params.refresh(navigation.state.params.product):null;
+            navigation.state.params.edit && navigation.state.params.savedOrSynced?navigation.state.params.refresh(navigation.state.params.product):null;
             navigation.goBack(null);}} />,
       headerRight: ()=> <View style={{display:'flex',flexDirection:'row',alignItem:'center',justifyContent:'center',width:110,}}>
                           <View style={{width:55}}>
@@ -210,7 +215,7 @@ const App = createStackNavigator({
         fontFamily: "Sarabun-SemiBold",
         fontSize: 18,
       },   
-      headerLeft: <HeaderBackButton tintColor="#FFFFFF" onPress={navigation.state.params.handleGoBack} />,   
+      headerLeft:()=> <HeaderBackButton tintColor="#FFFFFF" onPress={navigation.state.params.handleGoBack} />,   
     }),
   }, 
   ChooseModel: 
@@ -497,7 +502,137 @@ const App = createStackNavigator({
                         </View>
                                            
     }),
-  },   
-});
+  }, 
+  OrderGroupList: 
+  {
+    screen: OrderGroupListPage,
+    navigationOptions: ({navigation})=> ({
+      headerStyle: {
+        backgroundColor: colors.fourthiary,
+      },
+      headerTintColor: '#FFFFFF',
+      title: 'Order Delivery Recheck',
+      headerTitleStyle: {
+        fontFamily: "Sarabun-SemiBold",
+        fontSize: 18,
+      },       
+      headerRight: ()=>   
+                        <View style={{width:55,alignItem:'center',justifyContent:'center' }}>
+                        <Button buttonStyle={styles.headerRightButton}
+                          titleStyle={{fontFamily: fonts.primaryBold}}
+                          title={"Add"}
+                          onPress={navigation.state.params.handleAdd} 
+                        />
+                        </View>
+                                           
+    }),
+  },
+  OrderNoScan: 
+  {
+    screen: OrderNoScanPage,
+    navigationOptions: ({navigation})=> ({
+      headerStyle: {
+        backgroundColor: colors.fourthiary,
+      },
+      headerTintColor: '#FFFFFF',
+      title: 'Scan Order No.',
+      headerTitleStyle: {
+        fontFamily: "Sarabun-SemiBold",
+        fontSize: 18,
+      },
+      headerLeft: () => <HeaderBackButton tintColor="#FFFFFF"
+            onPress={navigation.state.params.handleFinish}
+          />,       
+      headerRight: ()=>   
+                  <View style={{width:59,alignItem:'center',justifyContent:'center' }}>
+                  {
+                    navigation.state.params.animating?
+                    <ActivityIndicator animating size='small' style={{marginRight:padding.sm}}/>:                            
+                    <Button buttonStyle={styles.headerRightButton}
+                      titleStyle={{fontFamily: fonts.primaryBold}}
+                      title={"Finish"}
+                      onPress={navigation.state.params.handleFinish} 
+                    />
+                  }
+                  </View>
+    }),
+  }, 
+  OrderDetail: 
+  {
+    screen: OrderDetailPage,
+    navigationOptions: ({navigation})=> ({
+      headerStyle: {
+        backgroundColor: colors.fourthiary,
+      },
+      headerTintColor: '#FFFFFF',
+      title: 'รายละเอียดคำสั่งซื้อ',
+      headerTitleStyle: {
+        fontFamily: "Sarabun-SemiBold",
+        fontSize: 18,
+      },   
+      headerLeft: () => <HeaderBackButton tintColor="#FFFFFF"
+          onPress={() => {
+            navigation.state.params.edit?null:
+            navigation.state.params.resetSkuDetected();
+            navigation.goBack(null);}} />,   
+      headerRight: ()=>   
+                        <View style={{width:55,alignItem:'center',justifyContent:'center' }}>
+                        {
+                          navigation.state.params.animating?
+                          <ActivityIndicator animating size='small' style={{marginRight:padding.sm}}/>:                            
+                          <Button buttonStyle={styles.headerRightButton}
+                            titleStyle={{fontFamily: fonts.primaryBold}}
+                            title={"Save"}
+                            onPress={navigation.state.params.handleSave} 
+                          />
+                        }
+                        </View>
+    }),
+  },  
+  LargeImage: 
+  {
+    screen: LargeImagePage,
+    navigationOptions: ({navigation})=> ({
+      headerStyle: {
+        backgroundColor: colors.fourthiary,
+      },
+      headerTintColor: '#FFFFFF',
+      title: 'Image',
+      headerTitleStyle: {
+        fontFamily: "Sarabun-SemiBold",
+        fontSize: 18,
+      }, 
+      headerRight: ()=>   
+                        <View style={{width:63,alignItem:'center',justifyContent:'center' }}>
+                        {
+                          navigation.state.params.allowDelete?                          
+                          <Button buttonStyle={styles.headerRightButton}
+                            titleStyle={{fontFamily: fonts.primaryBold}}
+                            title={"Delete"}
+                            onPress={navigation.state.params.handleDelete} 
+                          />
+                          :
+                          null
+                        }
+                        </View>              
+    }),
+  },
+  OrderDetailList: 
+  {
+    screen: OrderDetailListPage,
+    navigationOptions: ({navigation})=> ({
+      headerStyle: {
+        backgroundColor: colors.fourthiary,
+      },
+      headerTintColor: '#FFFFFF',
+      title: navigation.state.params.pageTitle,//'รายการคำสั่งซื้อ',
+      headerTitleStyle: {
+        fontFamily: "Sarabun-SemiBold",
+        fontSize: 18,
+      },               
+    }),
+  },    
+},
+);
 export default createAppContainer(App);
 

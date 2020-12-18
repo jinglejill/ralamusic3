@@ -26,6 +26,13 @@ export default class ProductAddPage extends React.Component {
       {Id:7,Image:"",Base64:"",Type:""},
       {Id:8,Image:"",Base64:"",Type:""},
     ];
+    var mapSku = 
+    {
+      LazadaSku:"",
+      ShopeeSku:"",
+      JdSku:"",
+      WebSku:""
+    };
     var item = {
       Brand:"",
       Name:"",
@@ -38,7 +45,8 @@ export default class ProductAddPage extends React.Component {
       AnimatingLazada:false,
       AnimatingShopee:false,
       AnimatingJd:false,   
-      AnimatingWeb:false,   
+      AnimatingWeb:false,  
+      MapSku:mapSku, 
     };
 
 
@@ -52,6 +60,13 @@ export default class ProductAddPage extends React.Component {
       {Id:7,Image:"",Base64:"",Type:""},
       {Id:8,Image:"",Base64:"",Type:""},
     ];
+    var previousMapSku = 
+    {
+      LazadaSku:"",
+      ShopeeSku:"",
+      JdSku:"",
+      WebSku:""
+    }
     var previousItem = {
       Brand:"",
       Name:"",
@@ -64,7 +79,8 @@ export default class ProductAddPage extends React.Component {
       AnimatingLazada:false,
       AnimatingShopee:false,
       AnimatingJd:false,      
-      AnimatingWeb:false,      
+      AnimatingWeb:false,  
+      MapSku:previousMapSku,     
     };
 
     var edit = false;
@@ -103,11 +119,13 @@ export default class ProductAddPage extends React.Component {
     this.props.navigation.setParams({ handleSave: this.saveProduct });
     this.props.navigation.setParams({ animating: false });
     this.props.navigation.setParams({ savedOrSynced: false });
+    this.props.navigation.setParams({ edit: true });
     if(!this.state.edit)
     {
+      this.props.navigation.setParams({ edit: false });
       this.props.navigation.setParams({ handleNew: this.newForm });  
     }
-
+    
     this.handleRefresh();
   }
 
@@ -159,9 +177,10 @@ export default class ProductAddPage extends React.Component {
 
   fetchData = () => 
   {
+    console.log("fetchData product detail");
     if(this.state.edit)
     {      
-      const url =  this.state.apiPath + 'SAIMMainProductDetailGet2.php';
+      const url =  this.state.apiPath + 'SAIMMainProductDetailGet3.php';
       this.setState({ loading: true });
 
       console.log("fetch data -> loading:true");
@@ -202,54 +221,64 @@ export default class ProductAddPage extends React.Component {
     console.log("onEditorInitialized callback");
   }
 
+  rearrangeImage = () =>//timeout or done button pressed
+  {
+    console.log("rearrangeImage");
+    this.setState({enableImageSort:false,buttonText:"+"});
+      
+    //move not blank images to front
+    var newImageList = [];
+    for(var i=0; i<this.state.item.Image.length; i++)
+    {   
+      if(this.state.item.Image[i].Image != '')
+      {
+        newImageList.push(this.state.item.Image[i]);
+      }
+    }
+
+    var emptyImageList = [];
+    for(var i=0; i<(8-newImageList.length); i++)
+    {
+      emptyImageList.push({Id:i,Image:''});
+    }
+
+    newImageList.push(...emptyImageList);
+    for(var i=0; i<newImageList.length; i++)
+    {
+      newImageList[i].Id = i+1;
+    }
+
+    var item = this.state.item;
+    item.Image = newImageList;
+    this.setState({item:item});
+
+    // console.log(JSON.stringify(this.state.item.Image));
+  }
+
+  addOrDone = () =>
+  {
+    if(this.state.enableImageSort)
+    {
+      this.rearrangeImage();
+    }
+    else
+    {
+      this.addImage();
+    }
+  }
+
   addImage = () => 
   {    
     console.log("add image");
-    
-    if(this.state.enableImageSort)//finish remove image or sort
+    if(this.state.item.Image[7].Image == "")
     {
-      this.setState({enableImageSort:false,buttonText:"+"});
-      
-      //move not blank images to front
-      var newImageList = [];
-      for(var i=0; i<this.state.item.Image.length; i++)
-      {   
-        if(this.state.item.Image[i].Image != '')
-        {
-          newImageList.push(this.state.item.Image[i]);
-        }
-      }
-
-      var emptyImageList = [];
-      for(var i=0; i<(8-newImageList.length); i++)
-      {
-        emptyImageList.push({Id:i,Image:''});
-      }
-
-      newImageList.push(...emptyImageList);
-      for(var i=0; i<newImageList.length; i++)
-      {
-        newImageList[i].Id = i+1;
-      }
-
-      var item = this.state.item;
-      item.Image = newImageList;
-      this.setState({item:item});
-
-      console.log(JSON.stringify(this.state.item.Image));
+      console.log("image index 7 empty");      
+      this.setState({addImageVisible:true});
     }
-    else//addImage
+    else
     {
-      if(this.state.item.Image[7].Image == "")
-      {
-        console.log("image index 7 empty");      
-        this.setState({addImageVisible:true});
-      }
-      else
-      {
-        console.log("สามารถใส่รูปได้สูงสุด 8 รูป");       
-      }  
-    }    
+      console.log("สามารถใส่รูปได้สูงสุด 8 รูป");       
+    }  
   }
 
   chooseFromGallery = () => 
@@ -271,9 +300,10 @@ export default class ProductAddPage extends React.Component {
   {
     ImagePicker.openCamera({
       includeBase64: true,
-      width: 300,
-      height: 400,
-      cropping: true,
+      width: 720,
+      height: 720,
+      // height: 1280,
+      // cropping: true,
     }).then(image => {
       console.log(image);
 
@@ -371,7 +401,7 @@ export default class ProductAddPage extends React.Component {
 
         
 
-    fetch(this.state.apiPath + 'SAIMMainProductInsert.php',
+    fetch(this.state.apiPath + 'SAIMMainProductInsert2.php',
     {
       method: 'POST',
       headers: {
@@ -382,7 +412,7 @@ export default class ProductAddPage extends React.Component {
         item: this.state.item,    
         insert: insert,    
         storeName: this.state.storeName,
-        modifiedUser: this.state.username,
+        modifiedUser: this.state.modifiedUser,
         modifiedDate: new Date().toLocaleString(),
         platForm: Platform.OS,
       })
@@ -394,6 +424,22 @@ export default class ProductAddPage extends React.Component {
       this.props.navigation.setParams({ animating: false });
       if(responseData.success == true)
       {
+        //case update 
+        if(responseData.product)
+        {
+          var item = this.state.item;
+          console.log("WebSku:"+responseData.product.WebExist);
+          item.LazadaExist = responseData.product.LazadaExist;
+          item.ShopeeExist = responseData.product.ShopeeExist;
+          item.JdExist = responseData.product.JdExist;
+          item.WebExist = responseData.product.WebExist;
+          this.setState({item:item});
+        }
+        else
+        {
+          console.log("responseData.product is null");
+        }
+
         //set previous item
         this.setPreviousItem();
 
@@ -402,6 +448,7 @@ export default class ProductAddPage extends React.Component {
           this.clearForm();
           this.setState({clearForm:false});
         }
+
         this.props.navigation.setParams({ savedOrSynced: true });
         this.props.navigation.setParams({ product: this.state.item });
       }
@@ -433,6 +480,15 @@ export default class ProductAddPage extends React.Component {
           previousImageList[i].Type = imageList[i].Type;
         }
       }
+      else if(key == 'MapSku')
+      {
+        var previousMapSku = previousItem[key];
+        var mapSku = item[key];
+        previousMapSku.LazadaSku = mapSku.LazadaSku;
+        previousMapSku.ShopeeSku = mapSku.ShopeeSku;
+        previousMapSku.JdSku = mapSku.JdSku;
+        previousMapSku.WebSku = mapSku.WebSku;
+      }
       else
       {
         previousItem[key] = item[key];
@@ -463,6 +519,20 @@ export default class ProductAddPage extends React.Component {
             this.setState({clearFormVisible:true});
             return;              
           }
+        }
+      }
+      else if(key == 'MapSku')
+      {
+        var previousMapSku = previousItem[key];
+        var mapSku = item[key];
+        if((previousMapSku.LazadaSku != mapSku.LazadaSku) || 
+            (previousMapSku.ShopeeSku != mapSku.ShopeeSku) || 
+            (previousMapSku.JdSku != mapSku.JdSku) ||
+            (previousMapSku.WebSku != mapSku.WebSku)
+            ) 
+        {
+          this.setState({clearFormVisible:true});
+          return;              
         }
       }
       else
@@ -500,6 +570,20 @@ export default class ProductAddPage extends React.Component {
           imageList[i].Base64 = "";
           imageList[i].Type = "";
         }
+      }
+      else if(key == 'MapSku')
+      {
+        var previousMapSku = previousItem[key];
+        var mapSku = item[key];
+        previousMapSku.LazadaSku = "";
+        previousMapSku.ShopeeSku = "";
+        previousMapSku.JdSku = "";
+        previousMapSku.WebSku = "";
+        
+        mapSku.LazadaSku = "";
+        mapSku.ShopeeSku = "";
+        mapSku.JdSku = "";
+        mapSku.WebSku = "";        
       }
       else
       {
@@ -546,15 +630,15 @@ export default class ProductAddPage extends React.Component {
     return false;
   }
 
-  onStartShouldSetResponder = (evt) => 
+  onStartShouldSetResponder = (evt,index) => 
   {
-    console.log("onStartShouldSetResponder");
-    if(this.state.enableImageSort)
-    {
-      return false;
-    }
-
-        
+    console.log("onStartShouldSetResponder:"+index);
+    // if(this.state.enableImageSort)
+    // {
+    //   return false;
+    // }    
+     
+    this.setState({imageIndex:index});
     this.setState({longPressTimeout:setTimeout(()=>
       {
         if(!this.imageEmpty())
@@ -562,12 +646,14 @@ export default class ProductAddPage extends React.Component {
 
           this.setState({enableImageSort:true,buttonText:"Done",imageSortTimeout:setTimeout(()=>
             {
-              this.addImage();
+              // this.addImage();              
+              this.rearrangeImage();
             },30000)
           });  
         }        
       },1000)});
 
+    console.log("onStartShouldSetResponder return true");
     return true;
   }
 
@@ -575,8 +661,59 @@ export default class ProductAddPage extends React.Component {
   {
     if(this.state.longPressTimeout)
     {
-      clearTimeout(this.state.longPressTimeout);  
+      clearTimeout(this.state.longPressTimeout);        
+      // this.setState({resizeImageVisible:true}); 
+      console.log("show resize popup");     
     }
+  }
+
+  resizeImage = () => 
+  {
+    var item = this.state.item;    
+    var imageList = this.state.item.Image;        
+    imageList[this.state.imageIndex-1].Resizing = true;
+    item.Image = imageList;
+    this.setState({item:item,resizeImageVisible:false});
+
+    const url =  this.state.apiPath + 'SAIMMainProductImageResizeUpdate.php';
+    fetch(url,
+    {
+      method: 'POST',
+      headers: {
+                  'Accept': 'application/json',
+                  'Content-Type': 'application/json',
+                },
+      body: JSON.stringify({                 
+        sku:this.state.sku, 
+        index:this.state.imageIndex, 
+        storeName: this.state.storeName,
+        modifiedUser: this.state.modifiedUser,
+        modifiedDate: new Date().toLocaleString(),
+        platForm: Platform.OS,
+      })
+    })
+    .then(res => res.json())
+    .then(res => {
+      
+      if(res.success == true)
+      {
+        //set image with new path  
+        var item = this.state.item;    
+        var imageList = this.state.item.Image;        
+        imageList[this.state.imageIndex-1].Image = res.imageUrl;
+        imageList[this.state.imageIndex-1].Resizing = false;
+        item.Image = imageList;
+        this.setState({item:item});
+      }
+      else
+      {
+        // error message        
+        console.log(res.message);
+        this.setState({alertStatus:0});
+        this.showAlertMessage(res.message);
+      }
+    })
+    .done();
   }
 
   deleteImage = () => 
@@ -674,6 +811,34 @@ export default class ProductAddPage extends React.Component {
     this.setState({item:item});
   }
 
+  onLazadaSkuChanged = (text) => 
+  {
+    var item = this.state.item;
+    item.MapSku.LazadaSku = text;
+    this.setState({item:item});
+  }
+
+  onShopeeSkuChanged = (text) => 
+  {
+    var item = this.state.item;
+    item.MapSku.ShopeeSku = text;
+    this.setState({item:item});
+  }
+
+  onJdSkuChanged = (text) => 
+  {
+    var item = this.state.item;
+    item.MapSku.JdSku = text;
+    this.setState({item:item});
+  }
+
+  onWebSkuChanged = (text) => 
+  {
+    var item = this.state.item;
+    item.MapSku.WebSku = text;
+    this.setState({item:item});
+  }
+
   onQuantityChanged = (text) => 
   {
     if (/^\d+$/.test(text)) {      
@@ -720,7 +885,7 @@ export default class ProductAddPage extends React.Component {
   deleteProduct = () => 
   {
     this.setState({deleteProductVisible:false,deleteLoading:true});
-    fetch(this.state.apiPath + 'SAIMMainProductDelete.php',
+    fetch(this.state.apiPath + 'SAIMMainProductDelete2.php',
     {
       method: 'POST',
       headers: {
@@ -743,8 +908,13 @@ export default class ProductAddPage extends React.Component {
       this.setState({deleteLoading:false});
       if(responseData.success == true)
       {
-        this.props.navigation.state.params.refresh();
-        this.props.navigation.goBack();
+        var item = this.state.item;
+        item.Deleted = true;
+        this.setState({item:item},()=>
+          {
+            this.props.navigation.state.params.refresh(this.state.item);    
+            this.props.navigation.goBack();
+          });        
       }
       else
       {
@@ -763,14 +933,14 @@ export default class ProductAddPage extends React.Component {
 
   updateMarketplaceProduct = (marketplace) => 
   {
-    return;
+    return; //ไม่ให้ update    
     if(marketplace == 1)
     {
       //update field จากแอป
       var insert = false;
       this.setState({AnimatingLazada:true});
       
-      fetch(this.state.apiPath + 'SAIMLazadaProductInsert.php',
+      fetch(this.state.apiPath + 'SAIMLazadaProductInsert2.php',
       {
         method: 'POST',
         headers: {
@@ -812,7 +982,7 @@ export default class ProductAddPage extends React.Component {
       var insert = false;
       this.setState({AnimatingShopee:true});
       
-      fetch(this.state.apiPath + 'SAIMShopeeProductInsert.php',
+      fetch(this.state.apiPath + 'SAIMShopeeProductInsert2.php',
       {
         method: 'POST',
         headers: {
@@ -856,6 +1026,20 @@ export default class ProductAddPage extends React.Component {
 
   insertMarketplaceProduct = (marketplace) => 
   {
+    var item = this.state.item;
+    var imageList = this.state.item.Image;
+    for(var i=0; i<imageList.count; i++)
+    {
+      if(imageList[i].Resizing)
+      {
+        this.setState({alertStatus:false});
+        this.showAlertMessage("ไม่สามารถเพิ่มสินค้าตอนนี้ ให้ลดขนาดภาพเสริ็จสิ้นก่อน");
+        return;
+      }
+    }
+
+
+
     if(marketplace == 1)
     {
       this.setState({alertStatus:false});
@@ -872,7 +1056,7 @@ export default class ProductAddPage extends React.Component {
       {
         var insert = true;
         this.setState({AnimatingShopee:true});
-        fetch(this.state.apiPath + 'SAIMShopeeProductInsert.php',
+        fetch(this.state.apiPath + 'SAIMShopeeProductInsert2.php',
         {
           method: 'POST',
           headers: {
@@ -1159,6 +1343,35 @@ export default class ProductAddPage extends React.Component {
                 </View>
               </View>
             )}
+            {
+              this.state.edit && (<View style={[styles.viewField]}>  
+                <Text style={styles.title}>Marketplace sku</Text>      
+                <View style={{display:'flex',flexDirection:'row'}}>   
+                  <View style={styles.channelSkuView}>                      
+                    <Image source={require('./../assets/images/lazadaIcon.png')} style={styles.imageIconSmall}/>
+                  </View>
+                  <TextInput style={styles.skuValue} value={this.state.item.MapSku.LazadaSku} placeholder=' Ex. Fender-Mustang-LT50' onChangeText={(text) => {this.onLazadaSkuChanged(text)}}/>                                            
+                </View>
+                <View style={{display:'flex',flexDirection:'row'}}>   
+                  <View style={styles.channelSkuView}>                      
+                    <Image source={require('./../assets/images/shopeeIcon.png')} style={styles.imageIconSmall}/>
+                  </View>
+                  <TextInput style={styles.skuValue} value={this.state.item.MapSku.ShopeeSku} placeholder=' Ex. Fender-Mustang-LT50' onChangeText={(text) => {this.onShopeeSkuChanged(text)}}/>                                            
+                </View>
+                <View style={{display:'flex',flexDirection:'row'}}>   
+                  <View style={styles.channelSkuView}>                      
+                    <Image source={require('./../assets/images/jdIcon.png')} style={styles.imageIconSmall}/>
+                  </View>
+                  <TextInput style={styles.skuValue} value={this.state.item.MapSku.JdSku} placeholder=' Ex. Fender-Mustang-LT50' onChangeText={(text) => {this.onJdSkuChanged(text)}}/>                                                              
+                </View>
+                <View style={{display:'flex',flexDirection:'row'}}>   
+                  <View style={styles.channelSkuView}>                      
+                    <Image source={require('./../assets/images/webIcon.png')} style={styles.imageIconSmall}/>
+                  </View>
+                  <TextInput style={styles.skuValue} value={this.state.item.MapSku.WebSku} placeholder=' Ex. Fender-Mustang-LT50' onChangeText={(text) => {this.onWebSkuChanged(text)}}/>                                            
+                </View>
+              </View>
+            )}
             <View style={{display:'flex',flexDirection:'row'}}>
               <View style={styles.viewField}>        
                 <Text style={styles.title}>ราคาขาย</Text>
@@ -1215,7 +1428,7 @@ export default class ProductAddPage extends React.Component {
                 <TouchableHighlight underlayColor={colors.primary} activeOpacity={1} style={[styles.button,this.state.enableImageSort?{width:60}:{width:30}]} 
                   onHideUnderlay={()=>this.onHideUnderlay()}
                   onShowUnderlay={()=>this.onShowUnderlay()}                                        
-                  onPress={()=>{this.addImage()}} >  
+                  onPress={()=>{this.addOrDone()}} >  
                     <View style={{flex:1,justifyContent:'center'}}>       
                       <Text style={
                         this.state.pressStatus
@@ -1243,26 +1456,42 @@ export default class ProductAddPage extends React.Component {
                       }
                       this.setState({item: item,imageSortTimeout:setTimeout(()=>
                         {
-                          this.addImage();
+                          // this.addImage();
+                          this.rearrangeImage();
                         },30000)
                       })                      
                     }
                   }}
                   onClickItem={(data,item,index)=>
-                    {                  
+                    {      
+                      console.log("on onClickItem");            
                       if(this.state.imageSortTimeout)
                       {
                         clearTimeout(this.state.imageSortTimeout);  
                       }
                       this.setState({imageSortTimeout:setTimeout(()=>
                         {
-                          this.addImage();
+                          // this.addImage();
+                          this.rearrangeImage();
                         },30000)
                       });
 
-                      if(item.Image != "" && this.state.enableImageSort)
+                      if(item.Image != "")
                       {
-                        this.setState({deleteIndex:index,deleteVisible:true});
+                        if(this.state.enableImageSort)
+                        {
+                          this.setState({deleteIndex:index,deleteVisible:true});
+                          console.log("show delete dialog");
+                        }
+                        else
+                        {
+                          console.log("show action dialog");
+                        }
+                        
+                      }
+                      else
+                      {
+                        console.log("item.Image empty");
                       }
                     }
                   }
@@ -1271,9 +1500,7 @@ export default class ProductAddPage extends React.Component {
                     ( 
                       <Animatable.View animation="swing" iterationCount="infinite">
                         <View 
-                          style={styles.imageView}
-                          onStartShouldSetResponder = {this.onStartShouldSetResponder}
-                          onResponderRelease = {this.onResponderRelease}
+                          style={styles.imageView}                          
                         >
                           <Image 
                             ref={'image'+item.Id}
@@ -1293,14 +1520,18 @@ export default class ProductAddPage extends React.Component {
                     (
                       <View
                         style={styles.imageView}
-                        onStartShouldSetResponder = {this.onStartShouldSetResponder}
+                        onStartShouldSetResponder = {(evt,index)=>this.onStartShouldSetResponder(evt,item.Id)}
                         onResponderRelease = {this.onResponderRelease}
                       >
                         <Image
-                          source={item.Image == ""?require('./../assets/images/blank.gif'):{uri: item.Image}}
-                          style={styles.image}
-                        />                      
-                      </View>
+                              source={item.Image == ""?require('./../assets/images/blank.gif'):{uri: item.Image}}
+                              style={styles.image}
+                        />
+                        {
+                          item.Resizing && (<View style={{position:'absolute',top:6+20,left:20}}><ActivityIndicator size="small" animating={true} color='white'/></View>)
+                        }
+                          
+                      </View>                  
                     )
                   }
                 />
@@ -1384,6 +1615,39 @@ export default class ProductAddPage extends React.Component {
                 {
                   <View style={{alignItems:'center',justifyContent:'center'}}>
                     <Text style={styles.textFail}>ยืนยันลบรูปภาพใช่หรือไม่</Text>
+                  </View>            
+                }
+              </DialogContent>
+            </Dialog>
+
+            <Dialog
+              visible={this.state.resizeImageVisible}
+              width={0.8}
+              footer=
+              {
+                <DialogFooter style={styles.dialogFooter}>
+                  <DialogButton
+                    text="NO"
+                    style={styles.cancelButton}
+                    textStyle={styles.cancelButtonText}
+                    onPress={() => {this.setState({ resizeImageVisible: false })}}
+                  />
+                  <DialogButton
+                    text="YES"
+                    style={styles.okButton}
+                    textStyle={styles.okButtonText}
+                    onPress={() => {this.resizeImage()}}
+                  />
+                </DialogFooter>
+              }
+              onTouchOutside={() => {
+                this.setState({ resizeImageVisible: false });
+              }}          
+            >
+              <DialogContent>
+                {
+                  <View style={{alignItems:'center',justifyContent:'center'}}>
+                    <Text style={styles.textFail}>ยืนยันลดขนาดรูปภาพใช่หรือไม่</Text>
                   </View>            
                 }
               </DialogContent>
@@ -1573,6 +1837,21 @@ const styles = StyleSheet.create({
     paddingTop:0,
     paddingBottom:0,    
     textAlignVertical: 'top'
+  },
+  skuValue: 
+  {
+    fontFamily: fonts.primary,
+    fontSize: 14,
+    textAlign: 'left',     
+    width: dimensions.fullWidth - padding.xl*2 - 31,    
+    height: 30,
+    backgroundColor: 'white',
+    borderColor: '#CCCCCC',
+    borderWidth: 1,
+    borderRadius: 5,
+    paddingTop:0,
+    paddingBottom:0,    
+    textAlignVertical: 'center'
   },
   spinnerView:
   {
@@ -1771,10 +2050,23 @@ const styles = StyleSheet.create({
     alignItems:'center',
     justifyContent:'center',
   }, 
+  channelSkuView: 
+  {
+    marginLeft:padding.md,
+    marginRight:padding.md,
+    alignItems:'center',
+    justifyContent:'center',
+  }, 
   imageIcon: 
   {
     width:30,
     height:30,
     borderRadius:20
+  },
+  imageIconSmall: 
+  {
+    width:15,
+    height:15,
+    borderRadius:7
   },
 });

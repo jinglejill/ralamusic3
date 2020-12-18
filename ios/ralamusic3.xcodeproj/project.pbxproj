@@ -20,7 +20,11 @@
 		4A0D8A0FD5B17F6D3F84D766 /* libPods-ralamusic3-tvOS.a in Frameworks */ = {isa = PBXBuildFile; fileRef = D53E2FCEF0EEBF72A80F7FFF /* libPods-ralamusic3-tvOS.a */; };
 		B6A7B6BA0B8AB568BF7BDB8B /* libPods-ralamusic3.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 5A3C015D979E048B3DABD929 /* libPods-ralamusic3.a */; };
 		DCEBBA4CB1ACD8369A1A5C57 /* libPods-ralamusic3-ralamusic3Tests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = ED86BEEDD672358598E4CB0B /* libPods-ralamusic3-ralamusic3Tests.a */; };
-		EF6F104F2485F94500AF2D2F /* libreact-native-webview.a in Frameworks */ = {isa = PBXBuildFile; fileRef = EF6F104E2485F94500AF2D2F /* libreact-native-webview.a */; settings = {ATTRIBUTES = (Required, ); }; };
+		EF19FF882514BFDB003CB451 /* Sarabun-SemiBold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = EFDD8A5024861EC1002B4420 /* Sarabun-SemiBold.ttf */; };
+		EF19FF892514BFDD003CB451 /* Sarabun-Light.ttf in Resources */ = {isa = PBXBuildFile; fileRef = EFDD8A5424861EC1002B4420 /* Sarabun-Light.ttf */; };
+		EF19FF8A2514C1F5003CB451 /* Sarabun-LightItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = EFDD8A5624861EC1002B4420 /* Sarabun-LightItalic.ttf */; };
+		EF19FF8B2514C2B0003CB451 /* Sarabun-Medium.ttf in Resources */ = {isa = PBXBuildFile; fileRef = EFDD8A5224861EC1002B4420 /* Sarabun-Medium.ttf */; };
+		EF3E8BE82546BDDC0050CF41 /* ExternalAccessory.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EF3E8BE72546BDDC0050CF41 /* ExternalAccessory.framework */; };
 		EFA37B1D2478EE3800EFE784 /* Icon.png in Resources */ = {isa = PBXBuildFile; fileRef = EFA37B082478EE3800EFE784 /* Icon.png */; };
 		EFA37B1E2478EE3800EFE784 /* Icon-76@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = EFA37B092478EE3800EFE784 /* Icon-76@2x.png */; };
 		EFA37B1F2478EE3800EFE784 /* iTunesArtwork in Resources */ = {isa = PBXBuildFile; fileRef = EFA37B0A2478EE3800EFE784 /* iTunesArtwork */; };
@@ -43,39 +47,13 @@
 		EFA37B302478EE3800EFE784 /* Icon-Small@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = EFA37B1B2478EE3800EFE784 /* Icon-Small@2x.png */; };
 		EFA37B312478EE3800EFE784 /* iTunesArtwork@2x in Resources */ = {isa = PBXBuildFile; fileRef = EFA37B1C2478EE3800EFE784 /* iTunesArtwork@2x */; };
 		EFA37B332478EED200EFE784 /* Icon-1024.png in Resources */ = {isa = PBXBuildFile; fileRef = EFA37B322478EED200EFE784 /* Icon-1024.png */; };
-		EFDD8A5924861EC1002B4420 /* Fontisto.ttf in Resources */ = {isa = PBXBuildFile; fileRef = EFDD8A3824861EC1002B4420 /* Fontisto.ttf */; };
-		EFDD8A5A24861EC1002B4420 /* Octicons.ttf in Resources */ = {isa = PBXBuildFile; fileRef = EFDD8A3924861EC1002B4420 /* Octicons.ttf */; };
-		EFDD8A5B24861EC2002B4420 /* Feather.ttf in Resources */ = {isa = PBXBuildFile; fileRef = EFDD8A3A24861EC1002B4420 /* Feather.ttf */; };
-		EFDD8A5C24861EC2002B4420 /* Sarabun-Italic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = EFDD8A3B24861EC1002B4420 /* Sarabun-Italic.ttf */; };
-		EFDD8A5D24861EC2002B4420 /* Sarabun-ExtraLightItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = EFDD8A3C24861EC1002B4420 /* Sarabun-ExtraLightItalic.ttf */; };
-		EFDD8A5E24861EC2002B4420 /* Entypo.ttf in Resources */ = {isa = PBXBuildFile; fileRef = EFDD8A3D24861EC1002B4420 /* Entypo.ttf */; };
-		EFDD8A5F24861EC2002B4420 /* FontAwesome5_Brands.ttf in Resources */ = {isa = PBXBuildFile; fileRef = EFDD8A3E24861EC1002B4420 /* FontAwesome5_Brands.ttf */; };
-		EFDD8A6024861EC2002B4420 /* MaterialCommunityIcons.ttf in Resources */ = {isa = PBXBuildFile; fileRef = EFDD8A3F24861EC1002B4420 /* MaterialCommunityIcons.ttf */; };
-		EFDD8A6124861EC2002B4420 /* Sarabun-ExtraBold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = EFDD8A4024861EC1002B4420 /* Sarabun-ExtraBold.ttf */; };
-		EFDD8A6224861EC2002B4420 /* Sarabun-ExtraLight.ttf in Resources */ = {isa = PBXBuildFile; fileRef = EFDD8A4124861EC1002B4420 /* Sarabun-ExtraLight.ttf */; };
-		EFDD8A6324861EC2002B4420 /* Sarabun-Thin.ttf in Resources */ = {isa = PBXBuildFile; fileRef = EFDD8A4224861EC1002B4420 /* Sarabun-Thin.ttf */; };
-		EFDD8A6424861EC2002B4420 /* Sarabun-ThinItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = EFDD8A4324861EC1002B4420 /* Sarabun-ThinItalic.ttf */; };
-		EFDD8A6524861EC2002B4420 /* AntDesign.ttf in Resources */ = {isa = PBXBuildFile; fileRef = EFDD8A4424861EC1002B4420 /* AntDesign.ttf */; };
-		EFDD8A6624861EC2002B4420 /* Sarabun-BoldItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = EFDD8A4524861EC1002B4420 /* Sarabun-BoldItalic.ttf */; };
-		EFDD8A6724861EC2002B4420 /* Foundation.ttf in Resources */ = {isa = PBXBuildFile; fileRef = EFDD8A4624861EC1002B4420 /* Foundation.ttf */; };
-		EFDD8A6824861EC2002B4420 /* Ionicons.ttf in Resources */ = {isa = PBXBuildFile; fileRef = EFDD8A4724861EC1002B4420 /* Ionicons.ttf */; };
-		EFDD8A6924861EC2002B4420 /* FontAwesome5_Solid.ttf in Resources */ = {isa = PBXBuildFile; fileRef = EFDD8A4824861EC1002B4420 /* FontAwesome5_Solid.ttf */; };
-		EFDD8A6A24861EC2002B4420 /* FontAwesome5_Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = EFDD8A4924861EC1002B4420 /* FontAwesome5_Regular.ttf */; };
-		EFDD8A6B24861EC2002B4420 /* Sarabun-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = EFDD8A4A24861EC1002B4420 /* Sarabun-Regular.ttf */; };
-		EFDD8A6C24861EC2002B4420 /* Sarabun-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = EFDD8A4B24861EC1002B4420 /* Sarabun-Bold.ttf */; };
-		EFDD8A6D24861EC2002B4420 /* FontAwesome.ttf in Resources */ = {isa = PBXBuildFile; fileRef = EFDD8A4C24861EC1002B4420 /* FontAwesome.ttf */; };
-		EFDD8A6E24861EC2002B4420 /* Zocial.ttf in Resources */ = {isa = PBXBuildFile; fileRef = EFDD8A4D24861EC1002B4420 /* Zocial.ttf */; };
-		EFDD8A6F24861EC2002B4420 /* EvilIcons.ttf in Resources */ = {isa = PBXBuildFile; fileRef = EFDD8A4E24861EC1002B4420 /* EvilIcons.ttf */; };
-		EFDD8A7024861EC2002B4420 /* OFL.txt in Resources */ = {isa = PBXBuildFile; fileRef = EFDD8A4F24861EC1002B4420 /* OFL.txt */; };
-		EFDD8A7124861EC2002B4420 /* Sarabun-SemiBold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = EFDD8A5024861EC1002B4420 /* Sarabun-SemiBold.ttf */; };
-		EFDD8A7224861EC2002B4420 /* Sarabun-SemiBoldItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = EFDD8A5124861EC1002B4420 /* Sarabun-SemiBoldItalic.ttf */; };
-		EFDD8A7324861EC2002B4420 /* Sarabun-Medium.ttf in Resources */ = {isa = PBXBuildFile; fileRef = EFDD8A5224861EC1002B4420 /* Sarabun-Medium.ttf */; };
-		EFDD8A7424861EC2002B4420 /* Sarabun-ExtraBoldItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = EFDD8A5324861EC1002B4420 /* Sarabun-ExtraBoldItalic.ttf */; };
-		EFDD8A7524861EC2002B4420 /* Sarabun-Light.ttf in Resources */ = {isa = PBXBuildFile; fileRef = EFDD8A5424861EC1002B4420 /* Sarabun-Light.ttf */; };
-		EFDD8A7624861EC2002B4420 /* SimpleLineIcons.ttf in Resources */ = {isa = PBXBuildFile; fileRef = EFDD8A5524861EC1002B4420 /* SimpleLineIcons.ttf */; };
-		EFDD8A7724861EC2002B4420 /* Sarabun-LightItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = EFDD8A5624861EC1002B4420 /* Sarabun-LightItalic.ttf */; };
-		EFDD8A7824861EC2002B4420 /* Sarabun-MediumItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = EFDD8A5724861EC1002B4420 /* Sarabun-MediumItalic.ttf */; };
-		EFDD8A7924861EC2002B4420 /* MaterialIcons.ttf in Resources */ = {isa = PBXBuildFile; fileRef = EFDD8A5824861EC1002B4420 /* MaterialIcons.ttf */; };
+		EFC404512519F44900E7B4C2 /* main.jsbundle in Resources */ = {isa = PBXBuildFile; fileRef = EFC404502519F44900E7B4C2 /* main.jsbundle */; };
+		EFC404522519F44900E7B4C2 /* main.jsbundle in Resources */ = {isa = PBXBuildFile; fileRef = EFC404502519F44900E7B4C2 /* main.jsbundle */; };
+		EFF62A88258A971C00F9961C /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = EFF62A87258A971C00F9961C /* GoogleService-Info.plist */; };
+		EFF62A89258A971C00F9961C /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = EFF62A87258A971C00F9961C /* GoogleService-Info.plist */; };
+		EFFE1AE0253462F7004308EF /* ConnectBrotherPrinter.m in Sources */ = {isa = PBXBuildFile; fileRef = EFFE1ADF253462F7004308EF /* ConnectBrotherPrinter.m */; };
+		EFFE1AF3253703FE004308EF /* BRLMPrinterKitW.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EFFE1AED2536D474004308EF /* BRLMPrinterKitW.framework */; };
+		EFFE1AF4253703FE004308EF /* BRLMPrinterKitW.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = EFFE1AED2536D474004308EF /* BRLMPrinterKitW.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -95,8 +73,21 @@
 		};
 /* End PBXContainerItemProxy section */
 
+/* Begin PBXCopyFilesBuildPhase section */
+		EFFE1AF5253703FE004308EF /* Embed Frameworks */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+				EFFE1AF4253703FE004308EF /* BRLMPrinterKitW.framework in Embed Frameworks */,
+			);
+			name = "Embed Frameworks";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
 /* Begin PBXFileReference section */
-		008F07F21AC5B25A0029DE68 /* main.jsbundle */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = main.jsbundle; sourceTree = "<group>"; };
 		00E356EE1AD99517003FC87E /* ralamusic3Tests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = ralamusic3Tests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		00E356F11AD99517003FC87E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		00E356F21AD99517003FC87E /* ralamusic3Tests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ralamusic3Tests.m; sourceTree = "<group>"; };
@@ -123,8 +114,11 @@
 		ED297162215061F000B7C4FE /* JavaScriptCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = JavaScriptCore.framework; path = System/Library/Frameworks/JavaScriptCore.framework; sourceTree = SDKROOT; };
 		ED2971642150620600B7C4FE /* JavaScriptCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = JavaScriptCore.framework; path = Platforms/AppleTVOS.platform/Developer/SDKs/AppleTVOS12.0.sdk/System/Library/Frameworks/JavaScriptCore.framework; sourceTree = DEVELOPER_DIR; };
 		ED86BEEDD672358598E4CB0B /* libPods-ralamusic3-ralamusic3Tests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-ralamusic3-ralamusic3Tests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		EF3E8BE62546BDDC0050CF41 /* Rala Music.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; name = "Rala Music.entitlements"; path = "ralamusic3/Rala Music.entitlements"; sourceTree = "<group>"; };
+		EF3E8BE72546BDDC0050CF41 /* ExternalAccessory.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ExternalAccessory.framework; path = System/Library/Frameworks/ExternalAccessory.framework; sourceTree = SDKROOT; };
 		EF6F104C24850EB200AF2D2F /* libreact-native-webview.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; path = "libreact-native-webview.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		EF6F104E2485F94500AF2D2F /* libreact-native-webview.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; path = "libreact-native-webview.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		EFA178992514AFEA0029BD70 /* fonts */ = {isa = PBXFileReference; lastKnownFileType = folder; path = fonts; sourceTree = "<group>"; };
 		EFA37B082478EE3800EFE784 /* Icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Icon.png; sourceTree = "<group>"; };
 		EFA37B092478EE3800EFE784 /* Icon-76@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Icon-76@2x.png"; sourceTree = "<group>"; };
 		EFA37B0A2478EE3800EFE784 /* iTunesArtwork */ = {isa = PBXFileReference; lastKnownFileType = file; path = iTunesArtwork; sourceTree = "<group>"; };
@@ -147,6 +141,7 @@
 		EFA37B1B2478EE3800EFE784 /* Icon-Small@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Icon-Small@2x.png"; sourceTree = "<group>"; };
 		EFA37B1C2478EE3800EFE784 /* iTunesArtwork@2x */ = {isa = PBXFileReference; lastKnownFileType = file; path = "iTunesArtwork@2x"; sourceTree = "<group>"; };
 		EFA37B322478EED200EFE784 /* Icon-1024.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Icon-1024.png"; sourceTree = "<group>"; };
+		EFC404502519F44900E7B4C2 /* main.jsbundle */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = main.jsbundle; path = ralamusic3/main.jsbundle; sourceTree = "<group>"; };
 		EFDD8A3824861EC1002B4420 /* Fontisto.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = Fontisto.ttf; sourceTree = "<group>"; };
 		EFDD8A3924861EC1002B4420 /* Octicons.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = Octicons.ttf; sourceTree = "<group>"; };
 		EFDD8A3A24861EC1002B4420 /* Feather.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = Feather.ttf; sourceTree = "<group>"; };
@@ -180,6 +175,10 @@
 		EFDD8A5624861EC1002B4420 /* Sarabun-LightItalic.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Sarabun-LightItalic.ttf"; sourceTree = "<group>"; };
 		EFDD8A5724861EC1002B4420 /* Sarabun-MediumItalic.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Sarabun-MediumItalic.ttf"; sourceTree = "<group>"; };
 		EFDD8A5824861EC1002B4420 /* MaterialIcons.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = MaterialIcons.ttf; sourceTree = "<group>"; };
+		EFF62A87258A971C00F9961C /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
+		EFFE1ADE253462F7004308EF /* ConnectBrotherPrinter.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ConnectBrotherPrinter.h; sourceTree = "<group>"; };
+		EFFE1ADF253462F7004308EF /* ConnectBrotherPrinter.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ConnectBrotherPrinter.m; sourceTree = "<group>"; };
+		EFFE1AED2536D474004308EF /* BRLMPrinterKitW.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = BRLMPrinterKitW.framework; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -195,8 +194,9 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				EF6F104F2485F94500AF2D2F /* libreact-native-webview.a in Frameworks */,
+				EF3E8BE82546BDDC0050CF41 /* ExternalAccessory.framework in Frameworks */,
 				B6A7B6BA0B8AB568BF7BDB8B /* libPods-ralamusic3.a in Frameworks */,
+				EFFE1AF3253703FE004308EF /* BRLMPrinterKitW.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -239,7 +239,9 @@
 		13B07FAE1A68108700A75B9A /* ralamusic3 */ = {
 			isa = PBXGroup;
 			children = (
-				008F07F21AC5B25A0029DE68 /* main.jsbundle */,
+				EFF62A87258A971C00F9961C /* GoogleService-Info.plist */,
+				EF3E8BE62546BDDC0050CF41 /* Rala Music.entitlements */,
+				EFC404502519F44900E7B4C2 /* main.jsbundle */,
 				13B07FAF1A68108700A75B9A /* AppDelegate.h */,
 				13B07FB01A68108700A75B9A /* AppDelegate.m */,
 				13B07FB51A68108700A75B9A /* Images.xcassets */,
@@ -268,6 +270,8 @@
 		2D16E6871FA4F8E400B85C8A /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				EF3E8BE72546BDDC0050CF41 /* ExternalAccessory.framework */,
+				EFA178992514AFEA0029BD70 /* fonts */,
 				EF6F104E2485F94500AF2D2F /* libreact-native-webview.a */,
 				EF6F104C24850EB200AF2D2F /* libreact-native-webview.a */,
 				ED297162215061F000B7C4FE /* JavaScriptCore.framework */,
@@ -280,18 +284,11 @@
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
-		832341AE1AAA6A7D00B99B32 /* Libraries */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			name = Libraries;
-			sourceTree = "<group>";
-		};
 		83CBB9F61A601CBA00E9B192 = {
 			isa = PBXGroup;
 			children = (
+				EFFE1ADD253462B1004308EF /* nativeModule */,
 				13B07FAE1A68108700A75B9A /* ralamusic3 */,
-				832341AE1AAA6A7D00B99B32 /* Libraries */,
 				00E356EF1AD99517003FC87E /* ralamusic3Tests */,
 				83CBBA001A601CBA00E9B192 /* Products */,
 				2D16E6871FA4F8E400B85C8A /* Frameworks */,
@@ -355,41 +352,51 @@
 		EFDD8A3724861EC1002B4420 /* fonts */ = {
 			isa = PBXGroup;
 			children = (
-				EFDD8A3824861EC1002B4420 /* Fontisto.ttf */,
-				EFDD8A3924861EC1002B4420 /* Octicons.ttf */,
-				EFDD8A3A24861EC1002B4420 /* Feather.ttf */,
-				EFDD8A3B24861EC1002B4420 /* Sarabun-Italic.ttf */,
-				EFDD8A3C24861EC1002B4420 /* Sarabun-ExtraLightItalic.ttf */,
-				EFDD8A3D24861EC1002B4420 /* Entypo.ttf */,
-				EFDD8A3E24861EC1002B4420 /* FontAwesome5_Brands.ttf */,
-				EFDD8A3F24861EC1002B4420 /* MaterialCommunityIcons.ttf */,
-				EFDD8A4024861EC1002B4420 /* Sarabun-ExtraBold.ttf */,
-				EFDD8A4124861EC1002B4420 /* Sarabun-ExtraLight.ttf */,
-				EFDD8A4224861EC1002B4420 /* Sarabun-Thin.ttf */,
-				EFDD8A4324861EC1002B4420 /* Sarabun-ThinItalic.ttf */,
 				EFDD8A4424861EC1002B4420 /* AntDesign.ttf */,
-				EFDD8A4524861EC1002B4420 /* Sarabun-BoldItalic.ttf */,
+				EFDD8A3D24861EC1002B4420 /* Entypo.ttf */,
+				EFDD8A4E24861EC1002B4420 /* EvilIcons.ttf */,
+				EFDD8A3A24861EC1002B4420 /* Feather.ttf */,
+				EFDD8A4C24861EC1002B4420 /* FontAwesome.ttf */,
+				EFDD8A3E24861EC1002B4420 /* FontAwesome5_Brands.ttf */,
+				EFDD8A4924861EC1002B4420 /* FontAwesome5_Regular.ttf */,
+				EFDD8A4824861EC1002B4420 /* FontAwesome5_Solid.ttf */,
+				EFDD8A3824861EC1002B4420 /* Fontisto.ttf */,
 				EFDD8A4624861EC1002B4420 /* Foundation.ttf */,
 				EFDD8A4724861EC1002B4420 /* Ionicons.ttf */,
-				EFDD8A4824861EC1002B4420 /* FontAwesome5_Solid.ttf */,
-				EFDD8A4924861EC1002B4420 /* FontAwesome5_Regular.ttf */,
-				EFDD8A4A24861EC1002B4420 /* Sarabun-Regular.ttf */,
-				EFDD8A4B24861EC1002B4420 /* Sarabun-Bold.ttf */,
-				EFDD8A4C24861EC1002B4420 /* FontAwesome.ttf */,
-				EFDD8A4D24861EC1002B4420 /* Zocial.ttf */,
-				EFDD8A4E24861EC1002B4420 /* EvilIcons.ttf */,
+				EFDD8A3F24861EC1002B4420 /* MaterialCommunityIcons.ttf */,
+				EFDD8A5824861EC1002B4420 /* MaterialIcons.ttf */,
+				EFDD8A3924861EC1002B4420 /* Octicons.ttf */,
 				EFDD8A4F24861EC1002B4420 /* OFL.txt */,
+				EFDD8A4B24861EC1002B4420 /* Sarabun-Bold.ttf */,
+				EFDD8A4524861EC1002B4420 /* Sarabun-BoldItalic.ttf */,
+				EFDD8A4024861EC1002B4420 /* Sarabun-ExtraBold.ttf */,
+				EFDD8A5324861EC1002B4420 /* Sarabun-ExtraBoldItalic.ttf */,
+				EFDD8A4124861EC1002B4420 /* Sarabun-ExtraLight.ttf */,
+				EFDD8A3C24861EC1002B4420 /* Sarabun-ExtraLightItalic.ttf */,
+				EFDD8A3B24861EC1002B4420 /* Sarabun-Italic.ttf */,
+				EFDD8A5424861EC1002B4420 /* Sarabun-Light.ttf */,
+				EFDD8A5624861EC1002B4420 /* Sarabun-LightItalic.ttf */,
+				EFDD8A5224861EC1002B4420 /* Sarabun-Medium.ttf */,
+				EFDD8A5724861EC1002B4420 /* Sarabun-MediumItalic.ttf */,
+				EFDD8A4A24861EC1002B4420 /* Sarabun-Regular.ttf */,
 				EFDD8A5024861EC1002B4420 /* Sarabun-SemiBold.ttf */,
 				EFDD8A5124861EC1002B4420 /* Sarabun-SemiBoldItalic.ttf */,
-				EFDD8A5224861EC1002B4420 /* Sarabun-Medium.ttf */,
-				EFDD8A5324861EC1002B4420 /* Sarabun-ExtraBoldItalic.ttf */,
-				EFDD8A5424861EC1002B4420 /* Sarabun-Light.ttf */,
+				EFDD8A4224861EC1002B4420 /* Sarabun-Thin.ttf */,
+				EFDD8A4324861EC1002B4420 /* Sarabun-ThinItalic.ttf */,
 				EFDD8A5524861EC1002B4420 /* SimpleLineIcons.ttf */,
-				EFDD8A5624861EC1002B4420 /* Sarabun-LightItalic.ttf */,
-				EFDD8A5724861EC1002B4420 /* Sarabun-MediumItalic.ttf */,
-				EFDD8A5824861EC1002B4420 /* MaterialIcons.ttf */,
+				EFDD8A4D24861EC1002B4420 /* Zocial.ttf */,
 			);
 			path = fonts;
+			sourceTree = "<group>";
+		};
+		EFFE1ADD253462B1004308EF /* nativeModule */ = {
+			isa = PBXGroup;
+			children = (
+				EFFE1AED2536D474004308EF /* BRLMPrinterKitW.framework */,
+				EFFE1ADE253462F7004308EF /* ConnectBrotherPrinter.h */,
+				EFFE1ADF253462F7004308EF /* ConnectBrotherPrinter.m */,
+			);
+			path = nativeModule;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -425,8 +432,8 @@
 				13B07F8C1A680F5B00A75B9A /* Frameworks */,
 				13B07F8E1A680F5B00A75B9A /* Resources */,
 				00DD1BFF1BD5951E006B06BC /* Bundle React Native code and images */,
-				EFA37B342478F64200EFE784 /* ShellScript */,
 				632A161E053C6B393C0A83B8 /* [CP] Copy Pods Resources */,
+				EFFE1AF5253703FE004308EF /* Embed Frameworks */,
 			);
 			buildRules = (
 			);
@@ -491,6 +498,7 @@
 					13B07F861A680F5B00A75B9A = {
 						DevelopmentTeam = DF8AZLDC5D;
 						LastSwiftMigration = 1120;
+						ProvisioningStyle = Automatic;
 					};
 					2D02E47A1E0B4A5D006451C7 = {
 						CreatedOnToolsVersion = 8.2.1;
@@ -536,63 +544,36 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				EFDD8A6A24861EC2002B4420 /* FontAwesome5_Regular.ttf in Resources */,
+				EF19FF892514BFDD003CB451 /* Sarabun-Light.ttf in Resources */,
+				EF19FF882514BFDB003CB451 /* Sarabun-SemiBold.ttf in Resources */,
+				EF19FF8A2514C1F5003CB451 /* Sarabun-LightItalic.ttf in Resources */,
+				EF19FF8B2514C2B0003CB451 /* Sarabun-Medium.ttf in Resources */,
 				EFA37B1D2478EE3800EFE784 /* Icon.png in Resources */,
-				EFDD8A6C24861EC2002B4420 /* Sarabun-Bold.ttf in Resources */,
 				EFA37B2D2478EE3800EFE784 /* Icon@2x.png in Resources */,
 				EFA37B232478EE3800EFE784 /* Icon-Spotlight-40@3x.png in Resources */,
-				EFDD8A7624861EC2002B4420 /* SimpleLineIcons.ttf in Resources */,
 				13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */,
-				EFDD8A7224861EC2002B4420 /* Sarabun-SemiBoldItalic.ttf in Resources */,
-				EFDD8A7024861EC2002B4420 /* OFL.txt in Resources */,
 				EFA37B282478EE3800EFE784 /* Icon-Small-50@2x.png in Resources */,
 				13B07FBD1A68108700A75B9A /* LaunchScreen.xib in Resources */,
-				EFDD8A6024861EC2002B4420 /* MaterialCommunityIcons.ttf in Resources */,
 				EFA37B262478EE3800EFE784 /* Icon-60.png in Resources */,
-				EFDD8A7524861EC2002B4420 /* Sarabun-Light.ttf in Resources */,
-				EFDD8A7324861EC2002B4420 /* Sarabun-Medium.ttf in Resources */,
-				EFDD8A5924861EC1002B4420 /* Fontisto.ttf in Resources */,
-				EFDD8A6724861EC2002B4420 /* Foundation.ttf in Resources */,
-				EFDD8A6824861EC2002B4420 /* Ionicons.ttf in Resources */,
-				EFDD8A5F24861EC2002B4420 /* FontAwesome5_Brands.ttf in Resources */,
 				EFA37B242478EE3800EFE784 /* Icon-iPadPro@2x.png in Resources */,
-				EFDD8A6324861EC2002B4420 /* Sarabun-Thin.ttf in Resources */,
-				EFDD8A5C24861EC2002B4420 /* Sarabun-Italic.ttf in Resources */,
 				EFA37B1E2478EE3800EFE784 /* Icon-76@2x.png in Resources */,
-				EFDD8A7924861EC2002B4420 /* MaterialIcons.ttf in Resources */,
-				EFDD8A5A24861EC1002B4420 /* Octicons.ttf in Resources */,
 				EFA37B212478EE3800EFE784 /* Icon-Small.png in Resources */,
-				EFDD8A5E24861EC2002B4420 /* Entypo.ttf in Resources */,
 				EFA37B272478EE3800EFE784 /* Icon-Spotlight-40.png in Resources */,
 				EFA37B2B2478EE3800EFE784 /* Icon-Spotlight-40@2x.png in Resources */,
-				EFDD8A7824861EC2002B4420 /* Sarabun-MediumItalic.ttf in Resources */,
 				EFA37B252478EE3800EFE784 /* Icon-76.png in Resources */,
-				EFDD8A6624861EC2002B4420 /* Sarabun-BoldItalic.ttf in Resources */,
-				EFDD8A7124861EC2002B4420 /* Sarabun-SemiBold.ttf in Resources */,
-				EFDD8A6424861EC2002B4420 /* Sarabun-ThinItalic.ttf in Resources */,
-				EFDD8A6224861EC2002B4420 /* Sarabun-ExtraLight.ttf in Resources */,
+				EFF62A88258A971C00F9961C /* GoogleService-Info.plist in Resources */,
 				EFA37B2A2478EE3800EFE784 /* Icon-72@2x.png in Resources */,
 				EFA37B2C2478EE3800EFE784 /* Icon-60@2x.png in Resources */,
 				EFA37B332478EED200EFE784 /* Icon-1024.png in Resources */,
 				EFA37B2E2478EE3800EFE784 /* Icon-Small@3x.png in Resources */,
 				EFA37B292478EE3800EFE784 /* Icon-72.png in Resources */,
 				EFA37B202478EE3800EFE784 /* Icon-76@3x.png in Resources */,
-				EFDD8A6124861EC2002B4420 /* Sarabun-ExtraBold.ttf in Resources */,
 				EFA37B222478EE3800EFE784 /* Icon-60@3x.png in Resources */,
-				EFDD8A7424861EC2002B4420 /* Sarabun-ExtraBoldItalic.ttf in Resources */,
 				EFA37B2F2478EE3800EFE784 /* Icon-Small-50.png in Resources */,
 				EFA37B302478EE3800EFE784 /* Icon-Small@2x.png in Resources */,
+				EFC404512519F44900E7B4C2 /* main.jsbundle in Resources */,
 				EFA37B312478EE3800EFE784 /* iTunesArtwork@2x in Resources */,
 				EFA37B1F2478EE3800EFE784 /* iTunesArtwork in Resources */,
-				EFDD8A7724861EC2002B4420 /* Sarabun-LightItalic.ttf in Resources */,
-				EFDD8A6924861EC2002B4420 /* FontAwesome5_Solid.ttf in Resources */,
-				EFDD8A5B24861EC2002B4420 /* Feather.ttf in Resources */,
-				EFDD8A6D24861EC2002B4420 /* FontAwesome.ttf in Resources */,
-				EFDD8A5D24861EC2002B4420 /* Sarabun-ExtraLightItalic.ttf in Resources */,
-				EFDD8A6B24861EC2002B4420 /* Sarabun-Regular.ttf in Resources */,
-				EFDD8A6E24861EC2002B4420 /* Zocial.ttf in Resources */,
-				EFDD8A6524861EC2002B4420 /* AntDesign.ttf in Resources */,
-				EFDD8A6F24861EC2002B4420 /* EvilIcons.ttf in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -601,6 +582,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				2D02E4BD1E0B4A84006451C7 /* Images.xcassets in Resources */,
+				EFC404522519F44900E7B4C2 /* main.jsbundle in Resources */,
+				EFF62A89258A971C00F9961C /* GoogleService-Info.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -626,7 +609,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "export NODE_BINARY=node\n../node_modules/react-native/scripts/react-native-xcode.sh";
+			shellScript = "export NODE_BINARY=node\n../node_modules/react-native/scripts/react-native-xcode.sh\n";
 		};
 		11D5AC3534D6CD269FCED3AF /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -834,23 +817,6 @@
 			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-ralamusic3-ralamusic3Tests/Pods-ralamusic3-ralamusic3Tests-resources.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
-		EFA37B342478F64200EFE784 /* ShellScript */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-			);
-			inputPaths = (
-			);
-			outputFileListPaths = (
-			);
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "buildNumber=$(/usr/libexec/PlistBuddy -c \"Print CFBundleVersion\" \"$INFOPLIST_FILE\")\nbuildNumber=$(($buildNumber + 1))\n/usr/libexec/PlistBuddy -c \"Set :CFBundleVersion $buildNumber\" \"$INFOPLIST_FILE\"\nproductVersion=$(/usr/libexec/PlistBuddy -c \"Print CFBundleShortVersionString\" \"$INFOPLIST_FILE\")\n/usr/libexec/PlistBuddy -c \"Set :CFBundleShortVersionString $productVersion\" \"$INFOPLIST_FILE\"\n";
-		};
 		FD10A7F022414F080027D42C /* Start Packager */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -906,6 +872,7 @@
 			files = (
 				13B07FBC1A68108700A75B9A /* AppDelegate.m in Sources */,
 				13B07FC11A68108700A75B9A /* main.m in Sources */,
+				EFFE1AE0253462F7004308EF /* ConnectBrotherPrinter.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -964,7 +931,7 @@
 					"$(inherited)",
 				);
 				INFOPLIST_FILE = ralamusic3Tests/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 13.5;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				OTHER_LDFLAGS = (
 					"-ObjC",
@@ -984,7 +951,7 @@
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				COPY_PHASE_STRIP = NO;
 				INFOPLIST_FILE = ralamusic3Tests/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 13.5;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				OTHER_LDFLAGS = (
 					"-ObjC",
@@ -1001,18 +968,87 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = DBF30FD76BC9C3F8BB81FC8A /* Pods-ralamusic3.debug.xcconfig */;
 			buildSettings = {
+				ARCHS = "$(ARCHS_STANDARD)";
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
-				CURRENT_PROJECT_VERSION = 1;
+				CODE_SIGN_ENTITLEMENTS = "ralamusic3/Rala Music.entitlements";
+				CODE_SIGN_IDENTITY = "Apple Development";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 302;
 				DEVELOPMENT_TEAM = DF8AZLDC5D;
 				ENABLE_BITCODE = NO;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/nativeModule",
+				);
 				GCC_PREPROCESSOR_DEFINITIONS = (
 					"$(inherited)",
 					"FB_SONARKIT_ENABLED=1",
 				);
+				HEADER_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"${PODS_ROOT}/Headers/Public\"",
+					"\"${PODS_ROOT}/Headers/Public/CocoaAsyncSocket\"",
+					"\"${PODS_ROOT}/Headers/Public/CocoaLibEvent\"",
+					"\"${PODS_ROOT}/Headers/Public/DoubleConversion\"",
+					"\"${PODS_ROOT}/Headers/Public/FBLazyVector\"",
+					"\"${PODS_ROOT}/Headers/Public/FBReactNativeSpec\"",
+					"\"${PODS_ROOT}/Headers/Public/Firebase\"",
+					"\"${PODS_ROOT}/Headers/Public/FirebaseCore\"",
+					"\"${PODS_ROOT}/Headers/Public/FirebaseCoreDiagnostics\"",
+					"\"${PODS_ROOT}/Headers/Public/FirebaseInstallations\"",
+					"\"${PODS_ROOT}/Headers/Public/Flipper\"",
+					"\"${PODS_ROOT}/Headers/Public/Flipper-DoubleConversion\"",
+					"\"${PODS_ROOT}/Headers/Public/Flipper-Folly\"",
+					"\"${PODS_ROOT}/Headers/Public/Flipper-Glog\"",
+					"\"${PODS_ROOT}/Headers/Public/Flipper-PeerTalk\"",
+					"\"${PODS_ROOT}/Headers/Public/Flipper-RSocket\"",
+					"\"${PODS_ROOT}/Headers/Public/FlipperKit\"",
+					"\"${PODS_ROOT}/Headers/Public/GTMSessionFetcher\"",
+					"\"${PODS_ROOT}/Headers/Public/GoogleAPIClientForREST\"",
+					"\"${PODS_ROOT}/Headers/Public/GoogleDataTransport\"",
+					"\"${PODS_ROOT}/Headers/Public/GoogleToolboxForMac\"",
+					"\"${PODS_ROOT}/Headers/Public/GoogleUtilities\"",
+					"\"${PODS_ROOT}/Headers/Public/OpenSSL-Universal\"",
+					"\"${PODS_ROOT}/Headers/Public/Permission-Camera\"",
+					"\"${PODS_ROOT}/Headers/Public/PromisesObjC\"",
+					"\"${PODS_ROOT}/Headers/Public/Protobuf\"",
+					"\"${PODS_ROOT}/Headers/Public/RCTRequired\"",
+					"\"${PODS_ROOT}/Headers/Public/RCTTypeSafety\"",
+					"\"${PODS_ROOT}/Headers/Public/RNCMaskedView\"",
+					"\"${PODS_ROOT}/Headers/Public/RNDeviceInfo\"",
+					"\"${PODS_ROOT}/Headers/Public/RNGestureHandler\"",
+					"\"${PODS_ROOT}/Headers/Public/RNImageCropPicker\"",
+					"\"${PODS_ROOT}/Headers/Public/RNPermissions\"",
+					"\"${PODS_ROOT}/Headers/Public/RNReanimated\"",
+					"\"${PODS_ROOT}/Headers/Public/RNSVG\"",
+					"\"${PODS_ROOT}/Headers/Public/RNScreens\"",
+					"\"${PODS_ROOT}/Headers/Public/RNSoundPlayer\"",
+					"\"${PODS_ROOT}/Headers/Public/RNVectorIcons\"",
+					"\"${PODS_ROOT}/Headers/Public/React-Core\"",
+					"\"${PODS_ROOT}/Headers/Public/React-RCTText\"",
+					"\"${PODS_ROOT}/Headers/Public/React-cxxreact\"",
+					"\"${PODS_ROOT}/Headers/Public/React-jsi\"",
+					"\"${PODS_ROOT}/Headers/Public/React-jsiexecutor\"",
+					"\"${PODS_ROOT}/Headers/Public/React-jsinspector\"",
+					"\"${PODS_ROOT}/Headers/Public/ReactCommon\"",
+					"\"${PODS_ROOT}/Headers/Public/TOCropViewController\"",
+					"\"${PODS_ROOT}/Headers/Public/Yoga\"",
+					"\"${PODS_ROOT}/Headers/Public/YogaKit\"",
+					"\"${PODS_ROOT}/Headers/Public/glog\"",
+					"\"${PODS_ROOT}/Headers/Public/nanopb\"",
+					"\"${PODS_ROOT}/Headers/Public/react-native-camera\"",
+					"\"${PODS_ROOT}/Headers/Public/react-native-safe-area-context\"",
+					"\"${PODS_ROOT}/Headers/Public/react-native-view-shot\"",
+					"$(inherited)",
+					"${PODS_ROOT}/Firebase/CoreOnly/Sources",
+					"\"${PODS_TARGET_SRCROOT}/Sources/FBLPromises/include\"",
+					"\"$(PODS_ROOT)/Headers/Private/React-Core\"",
+					"$(SRCROOT)/../node_modules/@react-native-community/push-notification-ios/ios",
+				);
 				INFOPLIST_FILE = ralamusic3/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				MARKETING_VERSION = 1.5;
+				MARKETING_VERSION = 1.9;
 				OTHER_LDFLAGS = (
 					"$(inherited)",
 					"-ObjC",
@@ -1020,6 +1056,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.jummumtech.ralamusic;
 				PRODUCT_NAME = "Rala Music";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 5.0;
 				VALID_ARCHS = "arm64 arm64e";
@@ -1031,13 +1068,82 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = A37694FD1C40B3BDEC31D941 /* Pods-ralamusic3.release.xcconfig */;
 			buildSettings = {
+				ARCHS = "$(ARCHS_STANDARD)";
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
-				CURRENT_PROJECT_VERSION = 1;
+				CODE_SIGN_ENTITLEMENTS = "ralamusic3/Rala Music.entitlements";
+				CODE_SIGN_IDENTITY = "Apple Development";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 302;
 				DEVELOPMENT_TEAM = DF8AZLDC5D;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/nativeModule",
+				);
+				HEADER_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"${PODS_ROOT}/Headers/Public\"",
+					"\"${PODS_ROOT}/Headers/Public/CocoaAsyncSocket\"",
+					"\"${PODS_ROOT}/Headers/Public/CocoaLibEvent\"",
+					"\"${PODS_ROOT}/Headers/Public/DoubleConversion\"",
+					"\"${PODS_ROOT}/Headers/Public/FBLazyVector\"",
+					"\"${PODS_ROOT}/Headers/Public/FBReactNativeSpec\"",
+					"\"${PODS_ROOT}/Headers/Public/Firebase\"",
+					"\"${PODS_ROOT}/Headers/Public/FirebaseCore\"",
+					"\"${PODS_ROOT}/Headers/Public/FirebaseCoreDiagnostics\"",
+					"\"${PODS_ROOT}/Headers/Public/FirebaseInstallations\"",
+					"\"${PODS_ROOT}/Headers/Public/Flipper\"",
+					"\"${PODS_ROOT}/Headers/Public/Flipper-DoubleConversion\"",
+					"\"${PODS_ROOT}/Headers/Public/Flipper-Folly\"",
+					"\"${PODS_ROOT}/Headers/Public/Flipper-Glog\"",
+					"\"${PODS_ROOT}/Headers/Public/Flipper-PeerTalk\"",
+					"\"${PODS_ROOT}/Headers/Public/Flipper-RSocket\"",
+					"\"${PODS_ROOT}/Headers/Public/FlipperKit\"",
+					"\"${PODS_ROOT}/Headers/Public/GTMSessionFetcher\"",
+					"\"${PODS_ROOT}/Headers/Public/GoogleAPIClientForREST\"",
+					"\"${PODS_ROOT}/Headers/Public/GoogleDataTransport\"",
+					"\"${PODS_ROOT}/Headers/Public/GoogleToolboxForMac\"",
+					"\"${PODS_ROOT}/Headers/Public/GoogleUtilities\"",
+					"\"${PODS_ROOT}/Headers/Public/OpenSSL-Universal\"",
+					"\"${PODS_ROOT}/Headers/Public/Permission-Camera\"",
+					"\"${PODS_ROOT}/Headers/Public/PromisesObjC\"",
+					"\"${PODS_ROOT}/Headers/Public/Protobuf\"",
+					"\"${PODS_ROOT}/Headers/Public/RCTRequired\"",
+					"\"${PODS_ROOT}/Headers/Public/RCTTypeSafety\"",
+					"\"${PODS_ROOT}/Headers/Public/RNCMaskedView\"",
+					"\"${PODS_ROOT}/Headers/Public/RNDeviceInfo\"",
+					"\"${PODS_ROOT}/Headers/Public/RNGestureHandler\"",
+					"\"${PODS_ROOT}/Headers/Public/RNImageCropPicker\"",
+					"\"${PODS_ROOT}/Headers/Public/RNPermissions\"",
+					"\"${PODS_ROOT}/Headers/Public/RNReanimated\"",
+					"\"${PODS_ROOT}/Headers/Public/RNSVG\"",
+					"\"${PODS_ROOT}/Headers/Public/RNScreens\"",
+					"\"${PODS_ROOT}/Headers/Public/RNSoundPlayer\"",
+					"\"${PODS_ROOT}/Headers/Public/RNVectorIcons\"",
+					"\"${PODS_ROOT}/Headers/Public/React-Core\"",
+					"\"${PODS_ROOT}/Headers/Public/React-RCTText\"",
+					"\"${PODS_ROOT}/Headers/Public/React-cxxreact\"",
+					"\"${PODS_ROOT}/Headers/Public/React-jsi\"",
+					"\"${PODS_ROOT}/Headers/Public/React-jsiexecutor\"",
+					"\"${PODS_ROOT}/Headers/Public/React-jsinspector\"",
+					"\"${PODS_ROOT}/Headers/Public/ReactCommon\"",
+					"\"${PODS_ROOT}/Headers/Public/TOCropViewController\"",
+					"\"${PODS_ROOT}/Headers/Public/Yoga\"",
+					"\"${PODS_ROOT}/Headers/Public/YogaKit\"",
+					"\"${PODS_ROOT}/Headers/Public/glog\"",
+					"\"${PODS_ROOT}/Headers/Public/nanopb\"",
+					"\"${PODS_ROOT}/Headers/Public/react-native-camera\"",
+					"\"${PODS_ROOT}/Headers/Public/react-native-safe-area-context\"",
+					"\"${PODS_ROOT}/Headers/Public/react-native-view-shot\"",
+					"$(inherited)",
+					"${PODS_ROOT}/Firebase/CoreOnly/Sources",
+					"\"${PODS_TARGET_SRCROOT}/Sources/FBLPromises/include\"",
+					"\"$(PODS_ROOT)/Headers/Private/React-Core\"",
+					"$(SRCROOT)/../node_modules/@react-native-community/push-notification-ios/ios",
+				);
 				INFOPLIST_FILE = ralamusic3/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				MARKETING_VERSION = 1.5;
+				MARKETING_VERSION = 1.9;
 				OTHER_LDFLAGS = (
 					"$(inherited)",
 					"-ObjC",
@@ -1045,6 +1151,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.jummumtech.ralamusic;
 				PRODUCT_NAME = "Rala Music";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_VERSION = 5.0;
 				VALID_ARCHS = "arm64 arm64e";
 				VERSIONING_SYSTEM = "apple-generic";
@@ -1208,7 +1315,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
 				LD_RUNPATH_SEARCH_PATHS = "/usr/lib/swift $(inherited)";
 				LIBRARY_SEARCH_PATHS = (
 					"\"$(TOOLCHAIN_DIR)/usr/lib/swift/$(PLATFORM_NAME)\"",
@@ -1261,7 +1368,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
 				LD_RUNPATH_SEARCH_PATHS = "/usr/lib/swift $(inherited)";
 				LIBRARY_SEARCH_PATHS = (
 					"\"$(TOOLCHAIN_DIR)/usr/lib/swift/$(PLATFORM_NAME)\"",

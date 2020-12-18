@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "902087359172",
+    "project_id": "ralamusic-noti-android",
+    "storage_bucket": "ralamusic-noti-android.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:902087359172:android:30a10153e66705b284e791",
+        "android_client_info": {
+          "package_name": "com.jummumtech.ralamusic"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "902087359172-ksap5fkm7i7qbq8ubv019k9jn8ppfren.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDxtZllelAK7dBuh-NL2Uznw-b1qTYNO8M"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "902087359172-ksap5fkm7i7qbq8ubv019k9jn8ppfren.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

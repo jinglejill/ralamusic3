@@ -1,5 +1,5 @@
 apply plugin: "com.android.application"
-
+apply plugin: 'com.google.gms.google-services'
 import com.android.build.OutputFile
 
 //project.ext.react = [
@@ -141,7 +141,7 @@ android {
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
         versionCode 1
-        versionName "1.9"
+        versionName "3.0"
         missingDimensionStrategy 'react-native-camera', 'general'
         multiDexEnabled true
         vectorDrawables.useSupportLibrary = true
@@ -207,6 +207,10 @@ android {
 }
 
 dependencies {
+    implementation platform('com.google.firebase:firebase-bom:26.1.1')
+
+    implementation 'com.google.firebase:firebase-analytics'
+    implementation project(':react-native-push-notification')
     implementation 'com.android.support:multidex:1.0.3'
     implementation 'com.google.code.gson:gson:2.8.6'
     implementation project(":BrotherPrintLibrary")
