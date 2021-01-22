@@ -373,6 +373,8 @@ PODS:
     - React-Core
   - react-native-camera/RN (3.40.0):
     - React-Core
+  - react-native-cameraroll (4.0.1):
+    - React
   - react-native-safe-area-context (1.0.2):
     - React
   - react-native-segmented-control (2.2.2):
@@ -438,6 +440,8 @@ PODS:
     - React-cxxreact (= 0.62.2)
     - React-jsi (= 0.62.2)
     - ReactCommon/callinvoker (= 0.62.2)
+  - rn-fetch-blob (0.12.0):
+    - React-Core
   - RNCMaskedView (0.1.10):
     - React
   - RNCPushNotificationIOS (1.8.0):
@@ -513,6 +517,7 @@ DEPENDENCIES:
   - React-jsiexecutor (from `../node_modules/react-native/ReactCommon/jsiexecutor`)
   - React-jsinspector (from `../node_modules/react-native/ReactCommon/jsinspector`)
   - react-native-camera/BarcodeDetectorMLKit (from `../node_modules/react-native-camera`)
+  - "react-native-cameraroll (from `../node_modules/@react-native-community/cameraroll`)"
   - react-native-safe-area-context (from `../node_modules/react-native-safe-area-context`)
   - "react-native-segmented-control (from `../node_modules/@react-native-community/segmented-control`)"
   - react-native-view-shot (from `../node_modules/react-native-view-shot`)
@@ -527,6 +532,7 @@ DEPENDENCIES:
   - React-RCTVibration (from `../node_modules/react-native/Libraries/Vibration`)
   - ReactCommon/callinvoker (from `../node_modules/react-native/ReactCommon`)
   - ReactCommon/turbomodule/core (from `../node_modules/react-native/ReactCommon`)
+  - rn-fetch-blob (from `../node_modules/rn-fetch-blob`)
   - "RNCMaskedView (from `../node_modules/@react-native-community/masked-view`)"
   - "RNCPushNotificationIOS (from `../node_modules/@react-native-community/push-notification-ios`)"
   - RNDeviceInfo (from `../node_modules/react-native-device-info`)
@@ -608,6 +614,8 @@ EXTERNAL SOURCES:
     :path: "../node_modules/react-native/ReactCommon/jsinspector"
   react-native-camera:
     :path: "../node_modules/react-native-camera"
+  react-native-cameraroll:
+    :path: "../node_modules/@react-native-community/cameraroll"
   react-native-safe-area-context:
     :path: "../node_modules/react-native-safe-area-context"
   react-native-segmented-control:
@@ -634,6 +642,8 @@ EXTERNAL SOURCES:
     :path: "../node_modules/react-native/Libraries/Vibration"
   ReactCommon:
     :path: "../node_modules/react-native/ReactCommon"
+  rn-fetch-blob:
+    :path: "../node_modules/rn-fetch-blob"
   RNCMaskedView:
     :path: "../node_modules/@react-native-community/masked-view"
   RNCPushNotificationIOS:
@@ -706,6 +716,7 @@ SPEC CHECKSUMS:
   React-jsiexecutor: 1540d1c01bb493ae3124ed83351b1b6a155db7da
   React-jsinspector: 512e560d0e985d0e8c479a54a4e5c147a9c83493
   react-native-camera: 35854c4f764a4a6cf61c1c3525888b92f0fe4b31
+  react-native-cameraroll: 60ba0068826eab1c8d43146191bafd4363ea58a7
   react-native-safe-area-context: 9d9640a9085014864052e38496fc1dfde0b93974
   react-native-segmented-control: 65df6cd0619b780b3843d574a72d4c7cec396097
   react-native-view-shot: 4475fde003fe8a210053d1f98fb9e06c1d834e1c
@@ -719,6 +730,7 @@ SPEC CHECKSUMS:
   React-RCTText: fae545b10cfdb3d247c36c56f61a94cfd6dba41d
   React-RCTVibration: 4356114dbcba4ce66991096e51a66e61eda51256
   ReactCommon: ed4e11d27609d571e7eee8b65548efc191116eb3
+  rn-fetch-blob: f065bb7ab7fb48dd002629f8bdcb0336602d3cba
   RNCMaskedView: 5a8ec07677aa885546a0d98da336457e2bea557f
   RNCPushNotificationIOS: 61a7c72bd1ebad3568025957d001e0f0e7b32191
   RNDeviceInfo: 5be12a5bfbb8da3528c43ee4373abd9c30d04616
@@ -734,6 +746,6 @@ SPEC CHECKSUMS:
   Yoga: 3ebccbdd559724312790e7742142d062476b698e
   YogaKit: f782866e155069a2cca2517aafea43200b01fd5a
 
-PODFILE CHECKSUM: 43fa513efbb0052ea7e69ac907491fe68d6c76c7
+PODFILE CHECKSUM: e8da6a5db4b20f487ac9e2656b46a28c32ac5b15
 
 COCOAPODS: 1.9.1

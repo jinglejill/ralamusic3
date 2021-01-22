@@ -16,32 +16,11 @@ import {colors, fonts, padding, dimensions} from './../styles/base.js';
 
 
 export default class OrderDetailListPage extends React.Component {
+  
   controller = new AbortController();
   constructor(props) {
     super(props);
-    // var mapSku = 
-    // {
-    //   LazadaSku:"",
-    //   ShopeeSku:"",
-    //   JdSku:"",
-    //   WebSku:""
-    // };
-    // var item = {
-    //   Brand:"",
-    //   Name:"",
-    //   Sku:"",
-    //   Quantity:"",
-    //   Price:"", 
-    //   Cost:"",
-    //   Remark:"",     
-    //   Image:imageList, 
-    //   AnimatingLazada:false,
-    //   AnimatingShopee:false,
-    //   AnimatingJd:false,   
-    //   AnimatingWeb:false,  
-    //   MapSku:mapSku, 
-    // };
-
+    
     var imageList = [
       {Id:1,Image:"",Base64:"",Type:""},
       {Id:2,Image:"",Base64:"",Type:""},
@@ -53,6 +32,7 @@ export default class OrderDetailListPage extends React.Component {
       {Id:8,Image:"",Base64:"",Type:""},
     ];
 
+
     var items = [];
     
     var order = {
@@ -61,50 +41,6 @@ export default class OrderDetailListPage extends React.Component {
       Items:items,     
       Images:imageList,       
     };
-
-
-    // var previousImageList = [
-    //   {Id:1,Image:"",Base64:"",Type:""},
-    //   {Id:2,Image:"",Base64:"",Type:""},
-    //   {Id:3,Image:"",Base64:"",Type:""},
-    //   {Id:4,Image:"",Base64:"",Type:""},
-    //   {Id:5,Image:"",Base64:"",Type:""},
-    //   {Id:6,Image:"",Base64:"",Type:""},
-    //   {Id:7,Image:"",Base64:"",Type:""},
-    //   {Id:8,Image:"",Base64:"",Type:""},
-    // ];
-    // var previousMapSku = 
-    // {
-    //   LazadaSku:"",
-    //   ShopeeSku:"",
-    //   JdSku:"",
-    //   WebSku:""
-    // }
-    // var previousItem = {
-    //   Brand:"",
-    //   Name:"",
-    //   Sku:"",
-    //   Quantity:"",
-    //   Price:"",     
-    //   Cost:"",
-    //   Remark:"", 
-    //   Image:previousImageList, 
-    //   AnimatingLazada:false,
-    //   AnimatingShopee:false,
-    //   AnimatingJd:false,      
-    //   AnimatingWeb:false,  
-    //   MapSku:previousMapSku,     
-    // };
-
-    // var edit = false;
-    // var loading = false;
-    // var sku = "";    
-    // if(this.props.navigation.state.params.edit)
-    // {
-    //   edit = true;
-    //   loading = true;
-    //   sku = this.props.navigation.state.params.sku;
-    // }
 
     this.onEndReachedCalledDuringMomentum = true;
     
@@ -117,32 +53,16 @@ export default class OrderDetailListPage extends React.Component {
       page: 1,
       seed: 1,
       search:"",
-      // item:item,    
       refreshing: false,
       loading: true,
       data:[],
 
-
-      // searchTextFromProductListPage: this.props.navigation.state.params.searchTextFromProductListPage,      
-      // edit: edit,       
-      // sku: sku,      
-      // previousItem:previousItem,
-      // printEnabled:false,
-      // addImageVisible:false, 
-      // buttonText:"+",
-      // longPressTimeout:0,
-      // imageSortTimeout:0,
-      // brands:[],
-      
     };
   }
   
   componentDidMount()
   {            
-    this.handleRefresh2();
-    // this.props.navigation.setOptions({
-    //   title: 'รายการคำสั่งซื้อ #',
-    // })
+    this.handleRefresh2();    
     this.props.navigation.setParams({ pageTitle: 'รายการคำสั่งซื้อ #'+this.state.orderDeliveryGroupID });
   }
 
@@ -197,7 +117,7 @@ export default class OrderDetailListPage extends React.Component {
     console.log("fetchData order detail list");
     this.setState({loading:true});
     const { page, seed, search } = this.state;
-    const url =  this.state.apiPath + 'SAIMOrderDeliveryGetList.php?seed='+seed;     
+    const url =  this.state.apiPath + 'SAIMOrderDeliveryGetList2.php?seed='+seed;     
         
     fetch(url,
     {
@@ -220,15 +140,31 @@ export default class OrderDetailListPage extends React.Component {
     })
     .then(res => res.json())
     .then(res => {
-      console.log("order detail:"+JSON.stringify(res));
+    
+      //input width and height
+      for(var i=0; i < res.OrderDeliveryList.length; i++)
+      {
+        for(var j=0; j < res.OrderDeliveryList[i].Images.length; j++)
+        {
+          let image = res.OrderDeliveryList[i].Images[j];  
+          image.Width = 0;
+          image.Height = 0;        
+          Image.getSize(image.Image, (width, height) => 
+            {
+              image.Width = width;
+              image.Height = height;
+              this.setState((state)=>({refresh:!this.state.refresh}));
+            }
+          );          
+        }
+      }
+      
       this.setState({
         data: page === 1 ? res.OrderDeliveryList : [...this.state.data, ...res.OrderDeliveryList],              
         error: res.error || null,
         loading: false,
         refreshing: false
       });
-
-      console.log("item:"+JSON.stringify(this.state.item));
     })
     .catch(error => {
       this.setState({ error, loading: false });
@@ -524,55 +460,6 @@ export default class OrderDetailListPage extends React.Component {
     }
   }
 
-  // resizeImage = () => 
-  // {
-  //   var item = this.state.item;    
-  //   var imageList = this.state.item.Image;        
-  //   imageList[this.state.imageIndex-1].Resizing = true;
-  //   item.Image = imageList;
-  //   this.setState({item:item,resizeImageVisible:false});
-
-  //   const url =  this.state.apiPath + 'SAIMMainProductImageResizeUpdate.php';
-  //   fetch(url,
-  //   {
-  //     method: 'POST',
-  //     headers: {
-  //                 'Accept': 'application/json',
-  //                 'Content-Type': 'application/json',
-  //               },
-  //     body: JSON.stringify({                 
-  //       sku:this.state.sku, 
-  //       index:this.state.imageIndex, 
-  //       storeName: this.state.storeName,
-  //       modifiedUser: this.state.modifiedUser,
-  //       modifiedDate: new Date().toLocaleString(),
-  //       platForm: Platform.OS,
-  //     })
-  //   })
-  //   .then(res => res.json())
-  //   .then(res => {
-      
-  //     if(res.success == true)
-  //     {
-  //       //set image with new path  
-  //       var item = this.state.item;    
-  //       var imageList = this.state.item.Image;        
-  //       imageList[this.state.imageIndex-1].Image = res.imageUrl;
-  //       imageList[this.state.imageIndex-1].Resizing = false;
-  //       item.Image = imageList;
-  //       this.setState({item:item});
-  //     }
-  //     else
-  //     {
-  //       // error message        
-  //       console.log(res.message);
-  //       this.setState({alertStatus:0});
-  //       this.showAlertMessage(res.message);
-  //     }
-  //   })
-  //   .done();
-  // }
-
   deleteImage = () => 
   {
     var imageList = this.state.order.Images;
@@ -610,99 +497,6 @@ export default class OrderDetailListPage extends React.Component {
     
   };
 
-  updateMarketplaceProduct = (marketplace) => 
-  {
-    return; //ไม่ให้ update    
-    if(marketplace == 1)
-    {
-      //update field จากแอป
-      var insert = false;
-      this.setState({AnimatingLazada:true});
-      
-      fetch(this.state.apiPath + 'SAIMLazadaProductInsert2.php',
-      {
-        method: 'POST',
-        headers: {
-                    'Accept': 'application/json',
-                    'Content-Type': 'application/json',
-                  },
-        body: JSON.stringify({  
-          sku: this.state.item.Sku,    
-          insert: insert,    
-          storeName: this.state.storeName,
-          modifiedUser: this.state.username,
-          modifiedDate: new Date().toLocaleString(),
-          platForm: Platform.OS,
-        })
-      })
-      .then((response) => response.json())
-      .then((responseData) =>{
-        console.log(responseData);
-        console.log("responseData.success:"+responseData.success);
-        this.setState({AnimatingLazada:false});
-
-        
-        if(responseData.success == true)
-        {
-          
-        }
-        else
-        {
-          // error message        
-          console.log(responseData.message);
-          this.setState({alertStatus:0});
-          this.showAlertMessage(responseData.message);
-        }
-      }).done();
-    }
-    else if(marketplace == 2)
-    {
-      //update field ด้วย lazada (เหมือนของ insert)
-      var insert = false;
-      this.setState({AnimatingShopee:true});
-      
-      fetch(this.state.apiPath + 'SAIMShopeeProductInsert2.php',
-      {
-        method: 'POST',
-        headers: {
-                    'Accept': 'application/json',
-                    'Content-Type': 'application/json',
-                  },
-        body: JSON.stringify({  
-          sku: this.state.item.Sku,    
-          insert: insert,    
-          storeName: this.state.storeName,
-          modifiedUser: this.state.modifiedUser,
-          modifiedDate: new Date().toLocaleString(),
-          platForm: Platform.OS,
-        })
-      })
-      .then((response) => response.json())
-      .then((responseData) =>{
-        console.log(responseData);
-        console.log("responseData.success:"+responseData.success);
-        this.setState({AnimatingShopee:false});
-
-        
-        if(responseData.success == true)
-        {
-          
-        }
-        else
-        {
-          // error message        
-          console.log(responseData.message);
-          this.setState({alertStatus:0});
-          this.showAlertMessage(responseData.message);
-        }
-      }).done();
-    }
-    else if(marketplace == 3)
-    {
-      //update field ด้วย lazada (เหมือนของ insert)
-    }
-  }
-
   enlargeImage = (imageUrl,image) => 
   {
     console.log("imageUrl:"+imageUrl);
@@ -718,6 +512,7 @@ export default class OrderDetailListPage extends React.Component {
 
   goToOrderDetail = (orderNo,orderDeliveryID) =>
   {
+    console.log("orderNo:"+orderNo+", orderDeliveryID:"+orderDeliveryID);
     this.props.navigation.navigate('OrderDetail',
     {
       orderNo: orderNo,
@@ -740,12 +535,31 @@ export default class OrderDetailListPage extends React.Component {
 
   updateOrder = (order) =>
   {
+    
+
+
     console.log("images length:"+order.Images.length);
     this.state.data.map((orderDelivery)=>
     {
       if(orderDelivery.OrderNo == order.OrderNo)
       {
         orderDelivery.Images = order.Images;
+
+
+        //input width and height
+        for(var j=0; j < orderDelivery.Images.length; j++)
+        {
+          let image = orderDelivery.Images[j];  
+          image.Width = 0;
+          image.Height = 0;        
+          Image.getSize(image.Image, (width, height) => 
+            {
+              image.Width = width;
+              image.Height = height;
+              this.setState((state)=>({refresh:!this.state.refresh}));
+            }
+          );          
+        }
       }
     });
     this.setState((state)=>({refresh:!this.state.refresh}));
@@ -785,10 +599,8 @@ export default class OrderDetailListPage extends React.Component {
     );
   };
 
-
   render() {
-    console.log('dimensions.fullWidth:'+dimensions.fullWidth);
-    console.log("render data:"+JSON.stringify(this.state.data));
+    console.log("data:"+JSON.stringify(this.state.data));
     const { search } = this.state;
     const comp = (a, b) => a.toLowerCase().trim() === b.toLowerCase().trim();
     if(this.state.loadingAccess)
@@ -805,8 +617,8 @@ export default class OrderDetailListPage extends React.Component {
         data={this.state.data}
         renderItem={({ item }) => (   
           <TouchableHighlight 
-                underlayColor={'transparent'} activeOpacity={1}
-                onPress={()=>{this.goToOrderDetail(item.OrderNo, item.OrderDeliveryID)}} > 
+            underlayColor={'transparent'} activeOpacity={1}
+            onPress={()=>{this.goToOrderDetail(item.OrderNo, item.OrderDeliveryID)}} > 
             <View style={{flex:1}}>   
               <View style={{display:'flex',flexDirection:'row'}}> 
                 <Text style={styles.title2}>Order no. {item.OrderNo}</Text>
@@ -821,7 +633,7 @@ export default class OrderDetailListPage extends React.Component {
               <FlatList                      
                 data={item.Items}
                 renderItem={({ item }) => (   
-                  <View style={{ flex: 1}}>
+                  <View style={{ flex: 1 }}>
                     <View style={{display:'flex',flexDirection:'row'}}>
                       <Image
                         source={item.Image != ''?{uri: item.Image}:require('./../assets/images/noImage.jpg')}
@@ -843,8 +655,39 @@ export default class OrderDetailListPage extends React.Component {
                               </View>
                             </View>
                           </View>  
+                        </View>
+
+                        <View style={styles.accessories}>
+                          {item.AccImages.length > 0?<Text style={styles.accessoriesLabel}>Accessories</Text>:null}
+                          <DragSortableView
+                            dataSource={item.AccImages}
+                            parentWidth={dimensions.fullWidth-8-70-10-8}
+                            childrenWidth= {72}
+                            childrenHeight={72}
+                            keyExtractor={(item,index)=> item.Id}
+                            onDataChange = {(data)=>{                                    
+                              {         
+                                console.log("onDataChange");                                
+                              }
+                            }}
+                            onClickItem={(data,item,index)=>
+                              {      
+                                console.log("on onClickItem");                                          
+                              }
+                            }
+                            renderItem={(itemAcc,index)=>
+                              <TouchableHighlight underlayColor={'transparent'} activeOpacity={1} onPress={()=>{this.goToOrderDetail(item.OrderNo, item.OrderDeliveryID)}} > 
+                                <View style={styles.imageView}>
+                                  <Image
+                                    source={itemAcc.ImageUrl == ""?require('./../assets/images/blank.gif'):{uri: itemAcc.ImageUrl}}
+                                    style={styles.imageAccessories}
+                                  />
+                                </View>
+                              </TouchableHighlight>                                     
+                            }
+                          />                        
                         </View>                                                 
-                      </View>
+                      </View> 
                     </View> 
                     <View style={styles.separator}/>
                   </View>                
@@ -853,14 +696,13 @@ export default class OrderDetailListPage extends React.Component {
                 removeClippedSubviews={false}
                 keyboardShouldPersistTaps='always'
               />
-
               <FlatList              
                 data={item.Images}
                 renderItem={({ item }) => (   
-                  <View style={{flex:1}}>
+                  <View style={[{flex:1}]}>
                     <Image
                       source={item.Image != ''?{uri: item.Image}:require('./../assets/images/noImage.jpg')}
-                      style={styles.image}
+                      style={[item.Width == 0?null:{width:dimensions.fullWidth,height:item.Height/item.Width*dimensions.fullWidth}]}
                     />
                     <View style={{height:padding.sm}}>
                     </View>
@@ -1009,6 +851,12 @@ const styles = StyleSheet.create({
   {
     width:60,
   }, 
+  accessoriesLabel: 
+  {
+    fontFamily: fonts.primaryItalic,
+    fontSize: fonts.sm,
+    color: colors.secondary,
+  },
   title2:
   {
     paddingLeft: padding.xl,
@@ -1025,11 +873,11 @@ const styles = StyleSheet.create({
   },
   separator: 
   {
-    width:dimensions.fullWidth-2*20,
+    width:dimensions.fullWidth-8-70-10-20,
     height:1,
     backgroundColor:colors.separator,
-    left:20,
-    marginTop:padding.md,
+    left:8+70+10,
+    marginTop:padding.sm,
   }, 
   searchBarContainer: 
   {
@@ -1055,6 +903,24 @@ const styles = StyleSheet.create({
     flex: 1,
     width: dimensions.fullWidth,
     height: dimensions.fullWidth,
-    resizeMode: 'contain'
+    resizeMode: 'contain'    
   }, 
+  imageView:
+  {
+    width:66,
+    height:66,
+  },
+  imageAccessories: 
+  {
+    width:60,
+    height:60,
+    marginTop:6, 
+    // borderWidth:1,
+    // borderColor:'#CCCCCC',     
+  },
+  accessories:
+  {
+    marginLeft:10,
+    width:dimensions.fullWidth-8-70-10-8,//dimensions.fullWidth,    
+  },
 });

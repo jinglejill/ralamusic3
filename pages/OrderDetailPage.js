@@ -193,7 +193,7 @@ export default class OrderDetailPage extends React.Component {
   {      
     if(this.state.edit)
     {
-      const url =  this.state.apiPath + 'SAIMOrderDeliveryGet.php';
+      const url =  this.state.apiPath + 'SAIMOrderDeliveryGet2.php';
       this.setState({ loading: true });
 
       console.log("fetch data -> loading:true");
@@ -668,8 +668,8 @@ export default class OrderDetailPage extends React.Component {
 
                   <View style={{display:'flex',flexDirection:'row'}}>
                     <Image
-                    source={item.Image != ''?{uri: item.Image}:require('./../assets/images/noImage.jpg')}
-                    style={styles.imageSku}
+                      source={item.Image != ''?{uri: item.Image}:require('./../assets/images/noImage.jpg')}
+                      style={styles.imageSku}
                     />                    
                     <View style={{ flex: 1}}>                  
                       <Text style={styles.name}>{item.Name}</Text>   
@@ -688,6 +688,37 @@ export default class OrderDetailPage extends React.Component {
                           </View>
                         </View>  
                       </View>                                                 
+
+                      <View style={styles.accessories}>
+                        {item.AccImages.length > 0?<Text style={styles.accessoriesLabel}>Accessories</Text>:null}
+                        <DragSortableView
+                          dataSource={item.AccImages}
+                          parentWidth={dimensions.fullWidth-8-70-10-8}
+                          childrenWidth= {72}
+                          childrenHeight={72}
+                          keyExtractor={(item,index)=> item.Id}
+                          onDataChange = {(data)=>{                                    
+                            {         
+                              console.log("onDataChange");                                
+                            }
+                          }}
+                          onClickItem={(data,item,index)=>
+                            {      
+                              console.log("on onClickItem");                                          
+                            }
+                          }
+                          renderItem={(item,index)=>
+                            <TouchableHighlight underlayColor={'transparent'} activeOpacity={1} onPress={ () => this.enlargeImage(item.ImageUrl,false,-1)}>
+                              <View style={styles.imageView}>
+                                <Image
+                                  source={item.ImageUrl == ""?require('./../assets/images/blank.gif'):{uri: item.ImageUrl}}
+                                  style={[styles.image,{borderWidth:0}]}
+                                />
+                              </View>
+                            </TouchableHighlight>                                     
+                          }
+                        />                        
+                      </View>
                     </View>
                   </View>  
                 </TouchableHighlight>  
@@ -802,8 +833,8 @@ export default class OrderDetailPage extends React.Component {
                         onResponderRelease = {this.onResponderRelease}
                       >
                         <Image
-                              source={item.Image == ""?require('./../assets/images/blank.gif'):{uri: item.Image}}
-                              style={styles.image}
+                          source={item.Image == ""?require('./../assets/images/blank.gif'):{uri: item.Image}}
+                          style={styles.image}
                         />
                         {
                           item.Resizing && (<View style={{position:'absolute',top:6+20,left:20}}><ActivityIndicator size="small" animating={true} color='white'/></View>)
@@ -1248,7 +1279,7 @@ const styles = StyleSheet.create({
   imageView:
   {
     width:66,
-    height:66,
+    height:66,       
   },
   image: 
   {
@@ -1413,6 +1444,25 @@ const styles = StyleSheet.create({
     paddingLeft: padding.xl,
     fontFamily: fonts.primaryItalic,
     fontSize: fonts.lg,
+    color: colors.secondary,
+  },
+  separator: 
+  {
+    width:dimensions.fullWidth-8-70-10-20,
+    height:1,
+    backgroundColor:colors.separator,
+    left:8+70+10,
+    marginTop:padding.sm,
+  }, 
+  accessories:
+  {
+    marginLeft:10,
+    width:dimensions.fullWidth-8-70-10-8,//dimensions.fullWidth,    
+  },
+  accessoriesLabel: 
+  {
+    fontFamily: fonts.primaryItalic,
+    fontSize: fonts.sm,
     color: colors.secondary,
   },
 });

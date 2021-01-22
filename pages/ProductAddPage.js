@@ -26,6 +26,16 @@ export default class ProductAddPage extends React.Component {
       {Id:7,Image:"",Base64:"",Type:""},
       {Id:8,Image:"",Base64:"",Type:""},
     ];
+    var accImageList = [
+      {Id:1,Image:"",Base64:"",Type:""},
+      {Id:2,Image:"",Base64:"",Type:""},
+      {Id:3,Image:"",Base64:"",Type:""},
+      {Id:4,Image:"",Base64:"",Type:""},
+      {Id:5,Image:"",Base64:"",Type:""},
+      {Id:6,Image:"",Base64:"",Type:""},
+      {Id:7,Image:"",Base64:"",Type:""},
+      {Id:8,Image:"",Base64:"",Type:""},
+    ];
     var mapSku = 
     {
       LazadaSku:"",
@@ -42,6 +52,7 @@ export default class ProductAddPage extends React.Component {
       Cost:"",
       Remark:"",     
       Image:imageList, 
+      AccImage:accImageList,
       AnimatingLazada:false,
       AnimatingShopee:false,
       AnimatingJd:false,   
@@ -106,8 +117,11 @@ export default class ProductAddPage extends React.Component {
       printEnabled:false,
       addImageVisible:false, 
       buttonText:"+",
+      buttonTextAccessories:"+",
       longPressTimeout:0,
+      longPressTimeoutAccessories:0,
       imageSortTimeout:0,
+      imageSortTimeoutAccessories:0,
       brands:[],
     };
 
@@ -180,7 +194,7 @@ export default class ProductAddPage extends React.Component {
     console.log("fetchData product detail");
     if(this.state.edit)
     {      
-      const url =  this.state.apiPath + 'SAIMMainProductDetailGet3.php';
+      const url =  this.state.apiPath + 'SAIMMainProductDetailGet4.php';
       this.setState({ loading: true });
 
       console.log("fetch data -> loading:true");
@@ -221,18 +235,31 @@ export default class ProductAddPage extends React.Component {
     console.log("onEditorInitialized callback");
   }
 
-  rearrangeImage = () =>//timeout or done button pressed
+  rearrangeImage = (type) =>//timeout or done button pressed
   {
+
     console.log("rearrangeImage");
-    this.setState({enableImageSort:false,buttonText:"+"});
-      
+    var imageList;
+    if(type == "productImage")
+    {
+      this.setState({enableImageSort:false,buttonText:"+"});  
+      imageList = this.state.item.Image;    
+    }
+    else if(type == "accessoriesImage")
+    {
+      this.setState({enableImageSortAccessories:false,buttonTextAccessories:"+"});  
+      imageList = this.state.item.AccImage;
+    }
+
+    
     //move not blank images to front
     var newImageList = [];
-    for(var i=0; i<this.state.item.Image.length; i++)
+    
+    for(var i=0; i<imageList.length; i++)
     {   
-      if(this.state.item.Image[i].Image != '')
+      if(imageList[i].Image != '')
       {
-        newImageList.push(this.state.item.Image[i]);
+        newImageList.push(imageList[i]);
       }
     }
 
@@ -248,37 +275,76 @@ export default class ProductAddPage extends React.Component {
       newImageList[i].Id = i+1;
     }
 
-    var item = this.state.item;
-    item.Image = newImageList;
-    this.setState({item:item});
+      
+    if(type == "productImage")
+    {
+      var item = this.state.item;
+      item.Image = newImageList;
+      this.setState({item:item});
+    }
+    else if(type == "accessoriesImage")
+    {
+      var item = this.state.item;
+      item.AccImage = newImageList;
+      this.setState({item:item});
+    } 
+    
 
-    // console.log(JSON.stringify(this.state.item.Image));
   }
 
-  addOrDone = () =>
+  addOrDone = (type) =>
   {
-    if(this.state.enableImageSort)
+    if(type == "productImage")
     {
-      this.rearrangeImage();
+      if(this.state.enableImageSort)
+      {
+        this.rearrangeImage(type);
+      }
+      else
+      {
+        this.addImage(type);
+      }
     }
-    else
+    else if(type == "accessoriesImage")
     {
-      this.addImage();
+      if(this.state.enableImageSortAccessories)
+      {
+        this.rearrangeImage(type);
+      }
+      else
+      {
+        this.addImage(type);
+      }  
     }
   }
 
-  addImage = () => 
+  addImage = (type) => 
   {    
     console.log("add image");
-    if(this.state.item.Image[7].Image == "")
+    if(type == "productImage")
     {
-      console.log("image index 7 empty");      
-      this.setState({addImageVisible:true});
+      if(this.state.item.Image[7].Image == "")
+      {
+        console.log("image index 7 empty");      
+        this.setState({addImageVisible:true,type:'productImage'});
+      }
+      else
+      {
+        console.log("สามารถใส่รูปได้สูงสุด 8 รูป");       
+      }  
     }
-    else
+    else if(type == "accessoriesImage")
     {
-      console.log("สามารถใส่รูปได้สูงสุด 8 รูป");       
-    }  
+      if(this.state.item.AccImage[7].Image == "")
+      {
+        console.log("image index 7 empty");      
+        this.setState({addImageVisible:true,type:'accessoriesImage'});
+      }
+      else
+      {
+        console.log("สามารถใส่รูปได้สูงสุด 8 รูป");       
+      }  
+    }
   }
 
   chooseFromGallery = () => 
@@ -313,31 +379,54 @@ export default class ProductAddPage extends React.Component {
 
   setImage = (image) => 
   {
-    var item = this.state.item;
-    var imageList = item.Image;
-    for(var i=0; i<8; i++)
+    var type = this.state.type;
+    if(type == "productImage")
     {
-      if(imageList[i].Image == "")
+      var item = this.state.item;
+      var imageList = item.Image;
+      for(var i=0; i<8; i++)
       {
-        imageList[i].Image = image.path;
-        imageList[i].Base64 = image.data;
-        imageList[i].Type = image.mime.split("/")[1];
-        console.log("imagePath:"+imageList[i].Image);
-        break;
+        if(imageList[i].Image == "")
+        {
+          imageList[i].Image = image.path;
+          imageList[i].Base64 = image.data;
+          imageList[i].Type = image.mime.split("/")[1];
+          console.log("imagePath:"+imageList[i].Image);
+          break;
+        }
       }
+      
+      item.Image = imageList;
+      this.setState({item:item,addImageVisible:false})  
     }
-    
-    item.Image = imageList;
-    this.setState({item:item,addImageVisible:false}) 
+    else if(type == "accessoriesImage")
+    {
+      var item = this.state.item;
+      var imageList = item.AccImage;
+      for(var i=0; i<8; i++)
+      {
+        if(imageList[i].Image == "")
+        {
+          imageList[i].Image = image.path;
+          imageList[i].Base64 = image.data;
+          imageList[i].Type = image.mime.split("/")[1];
+          console.log("imagePath:"+imageList[i].Image);
+          break;
+        }
+      }
+      
+      item.AccImage = imageList;
+      this.setState({item:item,addImageVisible:false})  
+    } 
   }
 
-  onHideUnderlay = () => 
+  onHideUnderlay = (pressStatus) => 
   {
     console.log("button press false");
     this.setState({ pressStatus: false });
   }
 
-  onShowUnderlay = () => 
+  onShowUnderlay = (pressStatus) => 
   {
     console.log("button press true");
     this.setState({ pressStatus: true });
@@ -401,7 +490,7 @@ export default class ProductAddPage extends React.Component {
 
         
 
-    fetch(this.state.apiPath + 'SAIMMainProductInsert2.php',
+    fetch(this.state.apiPath + 'SAIMMainProductInsert3.php',
     {
       method: 'POST',
       headers: {
@@ -620,38 +709,62 @@ export default class ProductAddPage extends React.Component {
     });    
   }
 
-  imageEmpty = () => 
+  imageEmpty = (type) => 
   {
-    var imageList = this.state.item.Image;
-    if(imageList[0].Image == '')
+    if(type == "productImage")
     {
-      return true;
+      var imageList = this.state.item.Image;
+      if(imageList[0].Image == '')
+      {
+        return true;
+      }
     }
+    else if(type == "accessoriesImage")
+    {
+      var imageList = this.state.item.AccImage;
+      if(imageList[0].Image == '')
+      {
+        return true;
+      }
+    }
+
     return false;
   }
 
-  onStartShouldSetResponder = (evt,index) => 
-  {
-    console.log("onStartShouldSetResponder:"+index);
-    // if(this.state.enableImageSort)
-    // {
-    //   return false;
-    // }    
-     
-    this.setState({imageIndex:index});
-    this.setState({longPressTimeout:setTimeout(()=>
-      {
-        if(!this.imageEmpty())
+  onStartShouldSetResponder = (evt,index,type) => 
+  {      
+    if(type == "productImage")
+    {
+      this.setState({imageIndex:index,type:type});
+      this.setState({longPressTimeout:setTimeout(()=>
         {
+          if(!this.imageEmpty(type))
+          {
 
-          this.setState({enableImageSort:true,buttonText:"Done",imageSortTimeout:setTimeout(()=>
-            {
-              // this.addImage();              
-              this.rearrangeImage();
-            },30000)
-          });  
-        }        
-      },1000)});
+            this.setState({enableImageSort:true,buttonText:"Done",imageSortTimeout:setTimeout(()=>
+              {
+                this.rearrangeImage(type);
+              },30000)
+            });  
+          }        
+        },1000)});
+    }
+    else if(type == "accessoriesImage")
+    {
+      this.setState({accessoriesImageIndex:index,type:type});
+      this.setState({longPressTimeoutAccessories:setTimeout(()=>
+        {
+          if(!this.imageEmpty(type))
+          {
+
+            this.setState({enableImageSortAccessories:true,buttonTextAccessories:"Done",imageSortTimeoutAccessories:setTimeout(()=>
+              {
+                this.rearrangeImage(type);
+              },30000)
+            });  
+          }        
+        },1000)});
+    }
 
     console.log("onStartShouldSetResponder return true");
     return true;
@@ -659,11 +772,33 @@ export default class ProductAddPage extends React.Component {
 
   onResponderRelease = () =>
   {
-    if(this.state.longPressTimeout)
+    
+    var type = this.state.type;   
+    console.log("onResponderRelease, type:"+type);
+    if(type == 'productImage')
     {
-      clearTimeout(this.state.longPressTimeout);        
-      // this.setState({resizeImageVisible:true}); 
-      console.log("show resize popup");     
+      if(this.state.longPressTimeout)
+      {
+        clearTimeout(this.state.longPressTimeout);                
+
+        if(this.state.item.Image[this.state.imageIndex-1].Image != '')
+        {
+          this.enlargeImage(this.state.item.Image[this.state.imageIndex-1].Image,true,this.state.imageIndex-1);  
+        }         
+      }
+    }
+    else if(type == 'accessoriesImage')
+    {
+      if(this.state.longPressTimeoutAccessories)
+      {
+        clearTimeout(this.state.longPressTimeoutAccessories);        
+        console.log("accessoriesImage enlargeImage");   
+
+        if(this.state.item.AccImage[this.state.accessoriesImageIndex-1].Image != '')
+        {
+          this.enlargeImage(this.state.item.AccImage[this.state.accessoriesImageIndex-1].Image,true,this.state.accessoriesImageIndex-1);  
+        }     
+      } 
     }
   }
 
@@ -718,7 +853,17 @@ export default class ProductAddPage extends React.Component {
 
   deleteImage = () => 
   {
-    var imageList = this.state.item.Image;
+    var type = this.state.type;
+    var imageList;
+    if(type == 'productImage')
+    {
+      imageList = this.state.item.Image;
+    }
+    else if(type == 'accessoriesImage')
+    {
+      imageList = this.state.item.AccImage;
+    }
+
 
     var newImageList = [];
     for(var i=0; i<imageList.length; i++)
@@ -737,8 +882,17 @@ export default class ProductAddPage extends React.Component {
       newImageList[i].Id = i+1;
     }
 
-    var item = this.state.item;
-    item.Image = newImageList;
+
+    if(type == 'productImage')
+    {
+      var item = this.state.item;
+      item.Image = newImageList;
+    }
+    else if(type == 'accessoriesImage')
+    {
+      var item = this.state.item;
+      item.AccImage = newImageList;
+    }
 
     this.setState({item:item,deleteVisible:false});
   }
@@ -885,7 +1039,7 @@ export default class ProductAddPage extends React.Component {
   deleteProduct = () => 
   {
     this.setState({deleteProductVisible:false,deleteLoading:true});
-    fetch(this.state.apiPath + 'SAIMMainProductDelete2.php',
+    fetch(this.state.apiPath + 'SAIMMainProductDelete3.php',
     {
       method: 'POST',
       headers: {
@@ -1214,6 +1368,27 @@ export default class ProductAddPage extends React.Component {
     });  
   }
 
+  enlargeImage = (imageUrl,allowDelete,imageIndex) => 
+  {
+    console.log("imageUrl:"+imageUrl);
+    this.props.navigation.navigate('LargeImage',
+    {
+      imageUrl: imageUrl,   
+      allowDelete: allowDelete, 
+      deleteIndex: imageIndex,
+      deleteImageIndex: this.deleteImageIndex,
+      'apiPath': this.state.apiPath,
+      'storeName': this.state.storeName,
+      'modifiedUser': this.state.modifiedUser,        
+    });  
+  }
+
+  deleteImageIndex = (imageIndex) =>
+  {
+    console.log('deleteImageIndex:'+imageIndex);
+    this.setState({deleteIndex:imageIndex},()=>{this.deleteImage();});        
+  }
+
   render() {
     const comp = (a, b) => a.toLowerCase().trim() === b.toLowerCase().trim();
     if(this.state.loadingAccess)
@@ -1225,7 +1400,7 @@ export default class ProductAddPage extends React.Component {
       return (<View style={{alignItems:'center',justifyContent:'center',height:dimensions.fullHeight-100}}><Text style={styles.menuAllow}>จำกัดการเข้าใช้</Text></View>);
     }
     return (
-      <ScrollView scrollEnabled={!this.state.enableImageSort}>
+      <ScrollView scrollEnabled={!this.state.enableImageSort && !this.state.enableImageSortAccessories}>
         {this.state.loading && 
           (<View style={{marginTop:padding.lg}}>
             <ActivityIndicator animating size='large' />
@@ -1414,10 +1589,123 @@ export default class ProductAddPage extends React.Component {
                 keyExtractor={(item, index) => index}          
               />}
             </View>
+            <View style={[styles.viewField,{marginBottom:padding.xl}]}>        
+              <View style={{display:'flex', flexDirection:'row'}}>
+                <Text style={styles.title}>Accessories</Text>          
+                <TouchableHighlight underlayColor={colors.primary} activeOpacity={1} style={[styles.button,this.state.enableImageSortAccessories?{width:60}:{width:30}]} 
+                  onHideUnderlay={()=>this.onHideUnderlay('pressStatusAccessories')}
+                  onShowUnderlay={()=>this.onShowUnderlay('pressStatusAccessories')}                                        
+                  onPress={()=>{this.addOrDone('accessoriesImage')}} >  
+                    <View style={{flex:1,justifyContent:'center'}}>       
+                      <Text style={
+                        this.state.pressStatusAccessories
+                          ? styles.textPress
+                          : styles.text
+                        }>{this.state.buttonTextAccessories}
+                      </Text>    
+                    </View>           
+                </TouchableHighlight>                                                                    
+              </View>
+              <View style={{marginTop:padding.sm}}>
+                <DragSortableView
+                  dataSource={this.state.item.AccImage}
+                  parentWidth={dimensions.fullWidth-2*padding.xl}
+                  childrenWidth= {72}
+                  childrenHeight={72}
+                  keyExtractor={(item,index)=> item.Id}
+                  onDataChange = {(data)=>{                                    
+                    {                      
+                      var item = this.state.item;                                                
+                      item.AccImage = data;
+                      if(this.state.imageSortTimeoutAccessories)
+                      {
+                        clearTimeout(this.state.imageSortTimeoutAccessories);  
+                      }
+                      this.setState({item: item,imageSortTimeoutAccessories:setTimeout(()=>
+                        {                          
+                          this.rearrangeImage('accessoriesImage');
+                        },30000)
+                      })                      
+                    }
+                  }}
+                  onClickItem={(data,item,index)=>
+                    {      
+                      console.log("on onClickItem");            
+                      if(this.state.imageSortTimeoutAccessories)
+                      {
+                        clearTimeout(this.state.imageSortTimeoutAccessories);  
+                      }
+                      this.setState({imageSortTimeoutAccessories:setTimeout(()=>
+                        {                          
+                          this.rearrangeImage('accessoriesImage');
+                        },30000)
+                      });
+
+                      if(item.Image != "")
+                      {
+                        if(this.state.enableImageSortAccessories)
+                        {
+                          this.setState({deleteIndex:index,deleteVisible:true,type:'accessoriesImage'});
+                          console.log("show delete dialog");
+                        }
+                        else
+                        {
+                          console.log("show action dialog");
+                        }
+                        
+                      }
+                      else
+                      {
+                        console.log("item.Image empty");
+                      }
+                    }
+                  }
+                  renderItem={(item,index)=>
+                    this.state.enableImageSortAccessories?
+                    ( 
+                      <Animatable.View animation="swing" iterationCount="infinite">
+                        <View 
+                          style={styles.imageView}                          
+                        >
+                          <Image 
+                            ref={'image'+item.Id}
+                            onLoad={this.handleImageLoaded.bind(this)}
+                            source={item.Image == ""?require('./../assets/images/blank.gif'):{uri: item.Image}} 
+                            style={styles.image}
+                          />  
+                          {item.Image != '' && (<Image
+                            source={require('./../assets/images/delete.png')}
+                            style={styles.deleteImageButton}
+                            />)
+                          }                    
+                        </View>
+                      </Animatable.View>                  
+                    )
+                    :
+                    (
+                      <View
+                        style={styles.imageView}
+                        onStartShouldSetResponder = {(evt,index)=>this.onStartShouldSetResponder(evt,item.Id,'accessoriesImage')}
+                        onResponderRelease = {this.onResponderRelease}
+                      >
+                        <Image
+                              source={item.Image == ""?require('./../assets/images/blank.gif'):{uri: item.Image}}
+                              style={styles.image}
+                        />
+                        {
+                          item.Resizing && (<View style={{position:'absolute',top:6+20,left:20}}><ActivityIndicator size="small" animating={true} color='white'/></View>)
+                        }
+                          
+                      </View>                  
+                    )
+                  }
+                />
+              </View> 
+            </View>
             <View style={styles.viewField}>        
               <Text style={styles.title}>หมายเหตุ</Text>
               <TextInput style={styles.valueMultiline} value={this.state.item.Remark} placeholder=' ' multiline onChangeText={(text) => {this.onRemarkChanged(text)}}/>                
-            </View> 
+            </View>             
             <View style={styles.viewField}>        
               <Text style={styles.title}>ชื่อสินค้า</Text>
               <TextInput style={styles.valueMultiline} value={this.state.item.Name} placeholder=' ' multiline onChangeText={(text) => {this.onNameChanged(text)}}/>                
@@ -1426,9 +1714,9 @@ export default class ProductAddPage extends React.Component {
               <View style={{display:'flex', flexDirection:'row'}}>
                 <Text style={styles.title}>รูป</Text>          
                 <TouchableHighlight underlayColor={colors.primary} activeOpacity={1} style={[styles.button,this.state.enableImageSort?{width:60}:{width:30}]} 
-                  onHideUnderlay={()=>this.onHideUnderlay()}
-                  onShowUnderlay={()=>this.onShowUnderlay()}                                        
-                  onPress={()=>{this.addOrDone()}} >  
+                  onHideUnderlay={()=>this.onHideUnderlay('pressStatus')}
+                  onShowUnderlay={()=>this.onShowUnderlay('pressStatus')}                                        
+                  onPress={()=>{this.addOrDone('productImage')}} >  
                     <View style={{flex:1,justifyContent:'center'}}>       
                       <Text style={
                         this.state.pressStatus
@@ -1455,9 +1743,8 @@ export default class ProductAddPage extends React.Component {
                         clearTimeout(this.state.imageSortTimeout);  
                       }
                       this.setState({item: item,imageSortTimeout:setTimeout(()=>
-                        {
-                          // this.addImage();
-                          this.rearrangeImage();
+                        {                          
+                          this.rearrangeImage('productImage');
                         },30000)
                       })                      
                     }
@@ -1470,9 +1757,8 @@ export default class ProductAddPage extends React.Component {
                         clearTimeout(this.state.imageSortTimeout);  
                       }
                       this.setState({imageSortTimeout:setTimeout(()=>
-                        {
-                          // this.addImage();
-                          this.rearrangeImage();
+                        {                          
+                          this.rearrangeImage('productImage');
                         },30000)
                       });
 
@@ -1520,7 +1806,7 @@ export default class ProductAddPage extends React.Component {
                     (
                       <View
                         style={styles.imageView}
-                        onStartShouldSetResponder = {(evt,index)=>this.onStartShouldSetResponder(evt,item.Id)}
+                        onStartShouldSetResponder = {(evt,index)=>this.onStartShouldSetResponder(evt,item.Id,'productImage')}
                         onResponderRelease = {this.onResponderRelease}
                       >
                         <Image

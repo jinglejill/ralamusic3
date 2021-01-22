@@ -23,7 +23,7 @@ export default class OrderGroupListPage extends React.Component
       storeName: this.props.navigation.state.params.storeName,
       apiPath: this.props.navigation.state.params.apiPath,  
       modifiedUser: this.props.navigation.state.params.modifiedUser,
-      selectedStartDate: null,             
+      
       loading: false,
       data: [],
       page: 1,
@@ -33,14 +33,9 @@ export default class OrderGroupListPage extends React.Component
       visible: false,
       alertVisible: false,
       alertMessage:'',      
-      quantityEditing:0,
-      skuEditing:'',
+      toDeleteOrderDeliveryID:0,
       typingTimeout: 0,
-      selectedIndex: 0,
-      increaseLabel:'เพิ่ม',
-      quantityCurrent:0,
-      quantityTotal:0,
-      outOfStock: this.props.navigation.getParam('outOfStock',false),
+      
     };
     console.log("sku:"+this.state.sku);
     
@@ -325,7 +320,7 @@ export default class OrderGroupListPage extends React.Component
 
   deleteGroup = (orderDeliveryGroupID) =>
   {
-    this.setState({loading:true});    
+    this.setState({loading:true,deleteVisible:false});    
     const url = this.state.apiPath + 'SAIMOrderDeliveryGroupDelete.php';          
       
     fetch(url,
@@ -369,6 +364,47 @@ export default class OrderGroupListPage extends React.Component
     this.swipeRowRef[orderDeliveryGroupID] = ref;
   }
 
+  confirmDeleteGroup = (orderDeliveryGroupID) => 
+  {
+    this.setState({loading:true});    
+    const url = this.state.apiPath + 'saimorderdeliverygroupconfirmdelete.php';          
+      
+    fetch(url,
+    {
+      method: 'POST',
+      headers: {
+                  'Accept': 'application/json',
+                  'Content-Type': 'application/json',
+                },
+      body: JSON.stringify({                 
+        orderDeliveryGroupID:orderDeliveryGroupID,
+        storeName: this.state.storeName,
+        modifiedUser: this.state.modifiedUser,
+        modifiedDate: new Date().toLocaleString(),
+        platForm: Platform.OS,
+      })
+    })
+    .then(res => res.json())
+    .then(res => {      
+      if(res.success == true)
+      {
+        //remove from List
+        this.swipeRowRef[orderDeliveryGroupID].closeRow();
+        this.setState({data: this.state.data.filter((orderDeliveryGroup) => { 
+            return orderDeliveryGroup.OrderDeliveryGroupID !== orderDeliveryGroupID 
+        }),loading:false});        
+      }
+      else
+      {
+        // error message        
+        console.log(JSON.stringify(res));
+        this.setState({toDeleteOrderDeliveryID:orderDeliveryGroupID,deleteVisible:true,confirmDeleteText:res.message});        
+      }
+    }).done();
+
+    
+  }
+
   render() {
     const { selectedStartDate } = this.state;
     const startDate = selectedStartDate ? selectedStartDate.toString() : '';
@@ -405,7 +441,7 @@ export default class OrderGroupListPage extends React.Component
                 <View style={styles.standaloneRowBack}>
                   <TouchableHighlight
                     underlayColor={'transparent'} activeOpacity={1} style={{height:40,backgroundColor:colors.error}}
-                    onPress={()=>{this.deleteGroup(item.OrderDeliveryGroupID)}} >
+                    onPress={()=>{this.confirmDeleteGroup(item.OrderDeliveryGroupID)}} >
                     <View style={{justifyContent:'center',width:100,height:40}}>
                       <Text style={{width:100,color:'white',textAlign:'center'}}>Delete</Text>                      
                     </View>
@@ -484,6 +520,39 @@ export default class OrderGroupListPage extends React.Component
             {
               <View style={{alignItems:'center',justifyContent:'center',paddingTop:20}}>                
                 <Text style={this.state.alertStatus?styles.textSuccess:styles.textFail}>{this.state.alertMessage}</Text>
+              </View>            
+            }
+          </DialogContent>
+        </Dialog>
+
+        <Dialog
+          visible={this.state.deleteVisible}
+          width={0.8}
+          footer=
+          {
+            <DialogFooter style={styles.dialogFooter}>
+              <DialogButton
+                text="NO"
+                style={styles.cancelButton}
+                textStyle={styles.cancelButtonText}
+                onPress={() => {this.setState({ deleteVisible: false })}}
+              />
+              <DialogButton
+                text="YES"
+                style={styles.okButton}
+                textStyle={styles.okButtonText}
+                onPress={() => {this.deleteGroup(this.state.toDeleteOrderDeliveryID)}}
+              />
+            </DialogFooter>
+          }
+          onTouchOutside={() => {
+            this.setState({ deleteVisible: false });
+          }}          
+        >
+          <DialogContent>
+            {
+              <View style={{alignItems:'center',justifyContent:'center'}}>
+                <Text style={styles.textFail}>{this.state.confirmDeleteText}</Text>
               </View>            
             }
           </DialogContent>

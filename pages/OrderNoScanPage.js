@@ -158,7 +158,7 @@ export default class OrderNoScanPage extends React.Component {
     console.log("orderNo detected:"+orderNo);   
 
     
-    const url =  this.state.apiPath + 'SAIMOrderDeliveryGet.php';
+    const url =  this.state.apiPath + 'SAIMOrderDeliveryGet2.php';
     this.setState({ loading: true });
 
     console.log("fetch data -> loading:true");

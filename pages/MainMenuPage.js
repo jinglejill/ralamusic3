@@ -187,9 +187,9 @@ const styles = StyleSheet.create({
     shadowRadius: 2,  
 
 
-    //***android
+    // // ***android
     // shadowOpacity: 0.8,
-    // elevation: 5
+    // elevation: 5,
 
 
     //***ios

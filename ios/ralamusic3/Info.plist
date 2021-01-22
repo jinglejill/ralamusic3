@@ -48,7 +48,7 @@
 	<key>NSCameraUsageDescription</key>
 	<string>use camera to scan qr code</string>
 	<key>NSPhotoLibraryAddUsageDescription</key>
-	<string>choose photo for scanning qr</string>
+	<string>choose photo for scanning qr/save photo to camera roll</string>
 	<key>NSPhotoLibraryUsageDescription</key>
 	<string>choose photo for product</string>
 	<key>UIAppFonts</key>

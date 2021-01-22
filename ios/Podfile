@@ -93,6 +93,8 @@ target 'ralamusic3' do
 
 
   
+  pod 'react-native-cameraroll', :path => '../node_modules/@react-native-community/cameraroll'
+
   target 'ralamusic3Tests' do
     inherit! :complete
     # Pods for testing

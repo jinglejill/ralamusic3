@@ -974,7 +974,7 @@
 				CODE_SIGN_ENTITLEMENTS = "ralamusic3/Rala Music.entitlements";
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 302;
+				CURRENT_PROJECT_VERSION = 306;
 				DEVELOPMENT_TEAM = DF8AZLDC5D;
 				ENABLE_BITCODE = NO;
 				FRAMEWORK_SEARCH_PATHS = (
@@ -1048,7 +1048,7 @@
 				);
 				INFOPLIST_FILE = ralamusic3/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				MARKETING_VERSION = 1.9;
+				MARKETING_VERSION = 1.11;
 				OTHER_LDFLAGS = (
 					"$(inherited)",
 					"-ObjC",
@@ -1074,7 +1074,7 @@
 				CODE_SIGN_ENTITLEMENTS = "ralamusic3/Rala Music.entitlements";
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 302;
+				CURRENT_PROJECT_VERSION = 306;
 				DEVELOPMENT_TEAM = DF8AZLDC5D;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
@@ -1143,7 +1143,7 @@
 				);
 				INFOPLIST_FILE = ralamusic3/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				MARKETING_VERSION = 1.9;
+				MARKETING_VERSION = 1.11;
 				OTHER_LDFLAGS = (
 					"$(inherited)",
 					"-ObjC",
