@@ -100,7 +100,7 @@ export default class OrderGroupListPage extends React.Component
 
     this.setState({loading:true});
     const { page, seed, search } = this.state;
-    const url = this.state.apiPath + 'SAIMOrderDeliveryGroupGetList.php?seed='+seed;          
+    const url = this.state.apiPath + 'SAIMOrderDeliveryGroupGetList2.php?seed='+seed;          
       
     console.log("loading:"+this.state.loading);
     
@@ -254,9 +254,25 @@ export default class OrderGroupListPage extends React.Component
         'apiPath': this.state.apiPath,
         'storeName': this.state.storeName,
         'modifiedUser': this.state.modifiedUser,        
-        'refresh': this.handleRefresh,
+        'refresh': this.handleRefresh,    
       });  
     });      
+  }
+
+  hilightGroup = (orderDeliveryGroupID,checked) =>
+  {
+    // alert('orderDeliveryGroupID:'+orderDeliveryGroupID+', checked:'+checked);
+    console.log('orderDeliveryGroupID:'+orderDeliveryGroupID+', checked:'+checked);
+    if(checked == 1)
+    {
+      this.state.data.map((orderDeliveryGroup)=>{      
+        if(orderDeliveryGroup.OrderDeliveryGroupID == orderDeliveryGroupID)
+        {                
+          orderDeliveryGroup.Checked = checked;
+        }
+      });
+      this.setState((state)=>({refresh:!this.state.refresh}));
+    }
   }
 
   goToDetailList = (orderDeliveryGroupID) => 
@@ -266,7 +282,9 @@ export default class OrderGroupListPage extends React.Component
       orderDeliveryGroupID:orderDeliveryGroupID,
       'apiPath': this.state.apiPath,
       'storeName': this.state.storeName,
-      'modifiedUser': this.state.modifiedUser,        
+      'modifiedUser': this.state.modifiedUser, 
+      'hilightGroup': this.hilightGroup, 
+      
     });  
   }
 
@@ -448,7 +466,7 @@ export default class OrderGroupListPage extends React.Component
                   </TouchableHighlight>
                 </View>
                 <View style={styles.standaloneRowFront}>
-                  <View style={{ flex: 1}}>
+                  <View style={{ flex: 1, backgroundColor:item.Checked == 1?colors.hilight:'white'}}>
                     <TouchableHighlight
                       underlayColor={'transparent'} activeOpacity={1} style={{height:40}}
                       onPress={()=>{this.goToDetailList(item.OrderDeliveryGroupID)}} >

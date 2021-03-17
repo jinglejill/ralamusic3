@@ -4,7 +4,7 @@ import React, { Component } from 'react';
 import { Text, View, StyleSheet, Image, TouchableHighlight, ActivityIndicator, Platform, FlatList, TouchableOpacity, TextInput, ScrollView} from 'react-native';
 import Dialog, { DialogContent, DialogTitle, SlideAnimation, DialogFooter, DialogButton } from 'react-native-popup-dialog';
 //import all the components we are going to use.
-import {colors, fonts, padding, dimensions} from './../styles/base.js'
+import {colors, fonts, padding, dimensions, settings} from './../styles/base.js'
 import { RNCamera } from 'react-native-camera';
 import InputSpinner from "react-native-input-spinner";
 import SoundPlayer from 'react-native-sound-player';
@@ -16,10 +16,10 @@ export default class OrderNoScanPage extends React.Component {
     super(props);
     
     this.state = {
-      storeName: this.props.navigation.state.params.storeName,
-      apiPath: this.props.navigation.state.params.apiPath, 
-      modifiedUser: this.props.navigation.state.params.modifiedUser,     
-      orderDeliveryGroupID: this.props.navigation.state.params.orderDeliveryGroupID,     
+      storeName:  settings.storeName, //this.props.navigation.state.params.storeName,
+      apiPath: settings.apiPath,//this.props.navigation.state.params.apiPath, 
+      modifiedUser: this.props.navigation.state.params.modifiedUser,   
+      orderDeliveryGroupID: this.props.navigation.state.params.orderDeliveryGroupID, 
       alertStatus: true,
       status: "Scanning for QR Code",    
       alertVisible:false,

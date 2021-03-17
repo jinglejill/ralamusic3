@@ -32,13 +32,13 @@ export default class ProductListPage extends React.Component
       alertMessage:'',
       quantityEditing:0,
       skuEditing:'',
-      typingTimeout: 0,
       selectedIndex: 0,
       increaseLabel:'เพิ่ม',
       quantityCurrent:0,
       quantityTotal:0,
       outOfStock: this.props.navigation.getParam('outOfStock',false),          
     };
+    console.log("outOfStock:"+this.state.outOfStock);
   }
 
   componentDidMount()

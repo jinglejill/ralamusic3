@@ -16,9 +16,7 @@ export default class LargeImagePage extends React.Component {
   constructor(props) {
     super(props);
     
-    this.state = {
-      storeName: this.props.navigation.state.params.storeName,
-      apiPath: this.props.navigation.state.params.apiPath,
+    this.state = {      
       modifiedUser: this.props.navigation.state.params.modifiedUser,  
       imageUrl: this.props.navigation.state.params.imageUrl,  
       allowDelete: this.props.navigation.state.params.allowDelete,        

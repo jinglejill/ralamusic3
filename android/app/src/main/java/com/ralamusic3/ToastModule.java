@@ -12,6 +12,7 @@ import androidx.annotation.NonNull;
 import com.brother.ptouch.sdk.LabelInfo;
 import com.brother.ptouch.sdk.NetPrinter;
 import com.brother.ptouch.sdk.PrinterStatus;
+import com.facebook.common.util.Hex;
 import com.facebook.react.bridge.Callback;
 import com.facebook.react.bridge.NativeModule;
 import com.facebook.react.bridge.ReactApplicationContext;
@@ -22,8 +23,11 @@ import com.facebook.react.bridge.ReactMethod;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
@@ -37,6 +41,7 @@ import com.facebook.react.bridge.WritableNativeArray;
 import com.facebook.react.bridge.WritableNativeMap;
 import com.google.gson.Gson;
 
+import org.apache.commons.codec.digest.DigestUtils;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -161,9 +166,104 @@ public class ToastModule extends ReactContextBaseJavaModule {
             }
         }).start();
     }
+//test*****
+    /**
+     * Remove null values and signature parameters from the array * @param sArray Parameter group for request signature
+     * @return new signature parameter group after removing null values and signature
+    parameters
+     */
+    public static Map<String, Object> paramFilter(Map<String, Object> sArray) {
+        Map<String, Object> result = new HashMap<>();
+        if (sArray == null || sArray.size() <= 0) {
+            return result;
+        }
+        for (String key : sArray.keySet()) {
+            Object value = sArray.get(key);
+            if (value == null || value.equals("") || key.equalsIgnoreCase("sign")) {
+                continue; }
+            result.put(key, value);
+        }
+        return result;
+    }
+    /**
+     * Sort all elements of the array and stitch them into strings according to the pattern
+     of "parameter = parameter value"
+     * @param params Parameter groups that need to be sorted and participate in
+    character splicing
+     * @return string after stitching
+     */
+    public static String createLinkString(Map<String, Object> params) throws Exception{
+        List<String> keys = new ArrayList<>(params.keySet());
+        Collections.sort(keys);
+        String str = "";
+        for (int i = 0; i < keys.size(); i++) {
+
+            String key = keys.get(i);
+            String value = params.get(key)+"";
+            value = URLEncoder.encode(value, "UTF-8");
+            str = str + key + "=" + value;
+        }
+        return str; }
+    /**
+     * Generate an array of signature parameters to request
+     * @param paramMap parameters to be signed
+     * @param sessionKey signing key
+     * md5 encryption method references org.apache.commons.codec.digest.DigestUtils
+     * @return request signature parameter array
+     */
+    public static Map<String, Object> sign(Map<String, Object> paramMap,String sessionKey){ // Remove null values and signature parameters from the array
+        Map <String, Object> sPara = paramFilter (paramMap);
+// Concatenate all elements of the array into a string according to the pattern of "parameter = parameter value"
+        String str = null;
+        try {
+            str = createLinkString (sPara);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+// Generate the signature result
+//        String sign = DigestUtils.md5Hex (str + sessionKey);
+
+        String sign = DigestUtils.md5Hex ("appId=TF85602data=%7BpageNum=1pageSize=10%7Bmethod=thisshop.item.list.getnonce=0970077453timestamp=1615786460852token=EA00ECBAF1AC4F039298EF241EC07949E62B632CCFA847C49143AB3D3CA8ABAE");
+// The signature result is added to the request submission parameter group
+        sPara.put("sign", sign.toUpperCase());
+        return sPara;
+    }
+//test*****
 
     @ReactMethod
     public void getPrinterStatus(Callback statusCallback) {
+        //test*****
+//public static Map<String, Object> sign(Map<String, Object> paramMap,String sessionKey)
+        Map<String, Object> data = new HashMap<String, Object>(){{
+//            put("skuId","");
+//            put("skuName","");
+//            put("qrcodes","");
+//            put("startUpdateTime","");
+//            put("endUpdateTime","");
+            put("pageNum","1");
+            put("pageSize","100");
+        }};
+        Map<String, Object> paramMap = new HashMap<String, Object>(){{
+            put("appId","TF85602");
+            put("method","thisshop.item.list.get");
+            put("nonce","0970077453");
+            put("timestamp","1615782636008");
+            put("token","EA00ECBAF1AC4F039298EF241EC07949");
+//            put("data",data);
+//            put("skuId","");
+//            put("skuName","");
+//            put("qrcodes","");
+//            put("startUpdateTime","");
+//            put("endUpdateTime","");
+//            put("pageNum","1");
+//            put("pageSize","100");
+//            put("data",data);
+        }};
+
+        Map signMap = sign(paramMap,"E62B632CCFA847C49143AB3D3CA8ABAE");
+        String test = "abc";
+        //test*****
+
         SharedPreferences sharedPref = getReactApplicationContext().getSharedPreferences("com.jummumtech.ralamusic",getReactApplicationContext().MODE_PRIVATE);
         String printerModel = sharedPref.getString("printerModel","");
         String ipAddress = sharedPref.getString("ipAddress","");

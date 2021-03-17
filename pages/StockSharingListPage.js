@@ -230,57 +230,6 @@ export default class StockSharingListPage extends React.Component
       this.setState((state)=>({refresh:!this.state.refresh}));
       this.setState({edited:true});
 
-      // //insert StockSharing
-      // const url = this.state.apiPath + 'SAIMStockSharingInsert.php';          
-      
-      // console.log("before insert");
-      // fetch(url,
-      // {
-      //   // signal: this.controller.signal,
-      //   method: 'POST',
-      //   headers: {
-      //               'Accept': 'application/json',
-      //               'Content-Type': 'application/json',
-      //             },
-      //   body: JSON.stringify({                 
-      //     sku:this.state.sku,
-      //     shareSku:sku,
-      //     stockSharing:skuStockSharing,
-      //     storeName: this.state.storeName,
-      //     modifiedUser: this.state.modifiedUser,
-      //     modifiedDate: new Date().toLocaleString(),
-      //     platForm: Platform.OS,
-      //   })
-      // })
-      // .then(responseData => responseData.json())
-      // .then(responseData => {
-
-      //   if(responseData.success == false)      
-      //   {
-      //     // error message        
-      //     console.log(responseData.message);
-      //     this.setState({alertStatus:0});
-      //     this.showAlertMessage(responseData.message);
-
-      //     this.state.data.map((product)=>
-      //     {
-      //       if(product.Sku == responseData.sku)
-      //       {
-      //         product.StockSharing = responseData.stockSharing;
-      //       }
-      //     });
-      //     this.setState((state)=>({refresh:!this.state.refresh}));
-      //   }
-      // })
-      // .catch(error => 
-      // {
-      //   if(error.name != 'AbortError')
-      //   {
-      //     this.setState({ error, loading: false });
-      //     console.log("error:"+error);
-      //   }      
-      // }); 
-      // console.log("after insert");
     }
   }
 
@@ -323,7 +272,7 @@ export default class StockSharingListPage extends React.Component
         this.setState({alertStatus:0});
         this.showAlertMessage(responseData.message);
 
-        var data = rpreviousData.slice(); 
+        var data = this.state.previousData.slice(); 
         this.setState({data:data});
       }
       else

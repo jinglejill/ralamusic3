@@ -17,18 +17,18 @@ export default class LoginPage extends React.Component {
     super(props);
 
     this.state = {
-      // storeName: 'RALAMUSIC',
       storeName: 'RALAMUSIC',
       // storeName: 'MINIMALIST',
       apiPath: 'https://minimalist.co.th/saim/', 
       // apiPath: 'http://jummum.co/saim/',  
       rememberMeText: '❒  จำฉันไว้ในระบบ',  
       alertVisible: false,  
-      token:'', 
+      token:'',//test
     };
 
     this.handleSetControl();//uncomment
     this.configurePushNotifications();
+    
        
   }
 
@@ -110,6 +110,7 @@ export default class LoginPage extends React.Component {
   }
 
   configurePushNotifications = () => {
+    console.log("configurePushNotifications");
    const that = this;
    PushNotification.configure({
       onRegister: function(token) {

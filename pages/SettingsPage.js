@@ -396,7 +396,6 @@ const styles = StyleSheet.create({
     width:60,
     height:60,  
     marginTop:20,  
-    marginTop:20,  
     marginLeft:40,  
     marginRight:40,  
   },

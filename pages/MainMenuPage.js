@@ -5,7 +5,7 @@ import { Text, View, TextInput, StyleSheet, Dimensions, TouchableHighlight, Flat
 //import all the components we are going to use.
 import {colors, fonts, padding, dimensions} from './../styles/base.js'
 import ToastExample from './../javaModule/ToastExample';
-
+import CalendarPicker from 'react-native-calendar-picker';
 
 export default class MainMenuPage extends React.Component {
   constructor(props) {
@@ -95,6 +95,13 @@ export default class MainMenuPage extends React.Component {
       this.props.navigation.state.params.setControl();
       this.props.navigation.goBack();
     }
+    // else if(page == 'Settings')//test
+    // {
+    //   ToastExample.getPrinterStatus((msg) => {
+    //     console.log(msg);
+    //     // this.setState({printerStatus:msg});
+    //   });
+    // }
     else
     {
       console.log("menu click:"+page);
@@ -187,14 +194,14 @@ const styles = StyleSheet.create({
     shadowRadius: 2,  
 
 
-    // // ***android
-    // shadowOpacity: 0.8,
-    // elevation: 5,
+    // ***android
+    shadowOpacity: 0.8,
+    elevation: 5,
 
 
-    //***ios
-    shadowOpacity: 0.2,
-    shadowOffset: { height: 2, width: 2 },
+    // //***ios
+    // shadowOpacity: 0.2,
+    // shadowOffset: { height: 2, width: 2 },
     
   },
 });

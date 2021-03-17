@@ -39,6 +39,10 @@ import OrderNoScanPage from './pages/OrderNoScanPage.js';
 import OrderDetailPage from './pages/OrderDetailPage.js';
 import LargeImagePage from './pages/LargeImagePage.js';
 import OrderDetailListPage from './pages/OrderDetailListPage.js';
+import ProductReturnListPage from './pages/ProductReturnListPage.js';
+import OrderNoScan2Page from './pages/OrderNoScan2Page.js';
+import OrderDetail2Page from './pages/OrderDetail2Page.js';
+import ProductReturnFormPage from './pages/ProductReturnFormPage.js';
 
 //Making TabNavigator which will be called in App StackNavigator
 //we can directly export the TabNavigator also but header will not be visible
@@ -51,7 +55,7 @@ const TabScreen = createMaterialTopTabNavigator(
     {
       screen: ProductListPage,
       params:{outOfStock:false},     
-             
+            
     },
     Outofstock: 
     {
@@ -82,6 +86,51 @@ const TabScreen = createMaterialTopTabNavigator(
     },         
   }
 );
+
+const TabProductReturn = createMaterialTopTabNavigator(
+  {
+    รับคืน: 
+    {
+      screen: ProductReturnListPage,
+      params:{tabIndex:0},    
+      
+    },
+    ส่งแล้ว: 
+    {
+      screen: ProductReturnListPage, 
+      params:{tabIndex:1},  
+               
+    },
+    เสร็จ: 
+    {
+      screen: ProductReturnListPage, 
+      params:{tabIndex:2},  
+               
+    },
+  },
+  {  
+    tabBarPosition: 'top',
+    swipeEnabled: true,
+    animationEnabled: true,
+    tabBarOptions: {
+      activeTintColor: colors.primary,
+      inactiveTintColor: '#F8F8F8',
+      style: {
+        backgroundColor: colors.fourthiary,
+        height:44,
+      },
+      labelStyle: {
+        textAlign: 'center',
+        paddingTop:0,
+      },
+      indicatorStyle: {
+        borderBottomColor: '#87B56A',
+        borderBottomWidth: 2,
+      },      
+    },         
+  }
+);
+
 const styles = StyleSheet.create({
   headerRightButton: {backgroundColor: "transparent",},
   })
@@ -603,7 +652,7 @@ const App = createStackNavigator({
         fontSize: 18,
       }, 
       headerRight: ()=>   
-                        <View style={{width:63,alignItem:'center',justifyContent:'center' }}>
+                        <View style={{width:66,alignItem:'center',justifyContent:'center' }}>
                         {
                           navigation.state.params.allowDelete?                          
                           <Button buttonStyle={styles.headerRightButton}
@@ -629,9 +678,136 @@ const App = createStackNavigator({
       headerTitleStyle: {
         fontFamily: "Sarabun-SemiBold",
         fontSize: 18,
-      },               
+      }, 
+      headerLeft: () => <HeaderBackButton tintColor="#FFFFFF"
+          onPress={() => {
+            navigation.state.params.hilightGroup(navigation.state.params.orderDeliveryGroupID,navigation.state.params.checked);
+            navigation.goBack(null);}} />,                 
     }),
-  },    
+  }, 
+  ProductReturnList: 
+  {
+    screen: ProductReturnListPage,
+    navigationOptions: ({navigation})=> ({
+      headerStyle: {
+        backgroundColor: colors.fourthiary,
+      },
+      headerTintColor: '#FFFFFF',
+      title: 'Product Return',
+      headerTitleStyle: {
+        fontFamily: "Sarabun-SemiBold",
+        fontSize: 18,
+      },                                           
+    }),
+  },  
+  OrderNoScan2: 
+  {
+    screen: OrderNoScan2Page,
+    navigationOptions: ({navigation})=> ({
+      headerStyle: {
+        backgroundColor: colors.fourthiary,
+      },
+      headerTintColor: '#FFFFFF',
+      title: 'Scan Order No.',
+      headerTitleStyle: {
+        fontFamily: "Sarabun-SemiBold",
+        fontSize: 18,
+      }, 
+      headerLeft: () => <HeaderBackButton tintColor="#FFFFFF"
+          onPress={() => {   
+            // console.log("orderUpdated test:"+navigation.getParam('orderUpdated'));     
+            // navigation.getParam('orderUpdated')?navigation.getParam('handleNewForm'):null;
+            navigation.goBack(null);}} />,       
+      headerRight: ()=>   
+                  <View style={{width:90,alignItem:'flex-end',justifyContent:'flex-end' }}>
+                    <Button buttonStyle={styles.headerRightButton}
+                      titleStyle={{fontFamily: fonts.primaryBold}}
+                      title={"NewForm"}
+                      onPress={navigation.getParam('handleNewForm')} 
+                    />
+                  </View>
+    }),
+  }, 
+  OrderDetail2: 
+  {
+    screen: OrderDetail2Page,
+    navigationOptions: ({navigation})=> ({
+      headerStyle: {
+        backgroundColor: colors.fourthiary,
+      },
+      headerTintColor: '#FFFFFF',
+      title: 'รายละเอียดสินค้าคืน',
+      headerTitleStyle: {
+        fontFamily: "Sarabun-SemiBold",
+        fontSize: 18,
+      },   
+      headerLeft: () => <HeaderBackButton tintColor="#FFFFFF"
+          onPress={() => {
+            navigation.state.params.edit || navigation.state.params.newForm?null:
+            navigation.state.params.resetSkuDetected();
+            navigation.goBack(null);}} />,   
+      headerRight: ()=>   
+                        <View style={{width:55,alignItem:'center',justifyContent:'center' }}>
+                        {
+                          navigation.state.params.animating?
+                          <ActivityIndicator animating size='small' style={{marginRight:padding.sm}}/>:                            
+                          <Button buttonStyle={styles.headerRightButton}
+                            titleStyle={{fontFamily: fonts.primaryBold}}
+                            title={"Save"}
+                            onPress={navigation.state.params.handleSave} 
+                          />
+                        }
+                        </View>
+    }),
+  }, 
+  TabProductReturn: {
+    screen: TabProductReturn,
+    navigationOptions: ({navigation})=> ({
+      headerStyle: {
+        backgroundColor: colors.fourthiary,
+      },
+      headerTintColor: '#FFFFFF',
+      title: 'สินค้าคืน',   
+      headerRight: ()=>   
+                  <View style={{width:90,alignItem:'flex-end',justifyContent:'flex-end' }}>
+                    <Button buttonStyle={styles.headerRightButton}
+                      titleStyle={{fontFamily: fonts.primaryBold}}
+                      title={"Add"}
+                      onPress={()=>navigation.dangerouslyGetParent().navigate("OrderNoScan2",{modifiedUser:navigation.getParam('modifiedUser')})} 
+                    />
+                  </View>    
+    }),
+    
+  },
+  ProductReturnForm: 
+  {
+    screen: ProductReturnFormPage,
+    navigationOptions: ({navigation})=> ({
+      headerStyle: {
+        backgroundColor: colors.fourthiary,
+      },
+      headerTintColor: '#FFFFFF',
+      title: 'กรอกสินค้าคืน',
+      headerTitleStyle: {
+        fontFamily: "Sarabun-SemiBold",
+        fontSize: 18,
+      },    
+      headerLeft: () => <HeaderBackButton tintColor="#FFFFFF"
+          onPress={() => {        
+            navigation.getParam('orderUpdated')?navigation.getParam('setOrderUpdated'):null;
+            navigation.goBack(null);}} />,        
+      headerRight: ()=>   
+                        <View style={{width:55,alignItem:'center',justifyContent:'center' }}>
+                        {                                                  
+                          <Button buttonStyle={styles.headerRightButton}
+                            titleStyle={{fontFamily: fonts.primaryBold}}
+                            title={"Next"}
+                            onPress={navigation.state.params.handleNext} 
+                          />
+                        }
+                        </View>
+    }),
+  }, 
 },
 );
 export default createAppContainer(App);

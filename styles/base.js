@@ -1,4 +1,10 @@
 import {  Dimensions, StatusBar } from 'react-native';
+
+export const settings = {    
+  apiPath: 'https://minimalist.co.th/saim/',
+  storeName: 'RALAMUSIC',
+}
+
 export const dimensions = {
   fullHeight: Dimensions.get('window').height,
   fullWidth: Dimensions.get('window').width,

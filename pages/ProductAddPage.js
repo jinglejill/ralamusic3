@@ -783,6 +783,7 @@ export default class ProductAddPage extends React.Component {
 
         if(this.state.item.Image[this.state.imageIndex-1].Image != '')
         {
+          this.setState({type:type});
           this.enlargeImage(this.state.item.Image[this.state.imageIndex-1].Image,true,this.state.imageIndex-1);  
         }         
       }
@@ -796,6 +797,7 @@ export default class ProductAddPage extends React.Component {
 
         if(this.state.item.AccImage[this.state.accessoriesImageIndex-1].Image != '')
         {
+          this.setState({type:type});
           this.enlargeImage(this.state.item.AccImage[this.state.accessoriesImageIndex-1].Image,true,this.state.accessoriesImageIndex-1);  
         }     
       } 
@@ -1377,8 +1379,7 @@ export default class ProductAddPage extends React.Component {
       allowDelete: allowDelete, 
       deleteIndex: imageIndex,
       deleteImageIndex: this.deleteImageIndex,
-      'apiPath': this.state.apiPath,
-      'storeName': this.state.storeName,
+      
       'modifiedUser': this.state.modifiedUser,        
     });  
   }

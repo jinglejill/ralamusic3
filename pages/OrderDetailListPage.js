@@ -1,7 +1,7 @@
 // Setting screen
 import React, { Component } from 'react';
 //import react in our code.
-import { Text, View, FlatList, ActivityIndicator, Dimensions, StyleSheet, Image, TouchableHighlight, TextInput, Platform, SafeAreaView, ScrollView, TouchableOpacity} from 'react-native';
+import { Text, View, FlatList, ActivityIndicator, Dimensions, StyleSheet, Image, TouchableHighlight, TextInput, Platform, SafeAreaView, ScrollView, TouchableOpacity, BackHandler} from 'react-native';
 import Dialog, { DialogContent, DialogTitle, SlideAnimation, DialogFooter, DialogButton } from 'react-native-popup-dialog';
 import { List, ListItem, SearchBar } from "react-native-elements";
 import ImagePicker from 'react-native-image-crop-picker';
@@ -20,7 +20,7 @@ export default class OrderDetailListPage extends React.Component {
   controller = new AbortController();
   constructor(props) {
     super(props);
-    
+    this.handleBackButtonClick = this.handleBackButtonClick.bind(this);
     var imageList = [
       {Id:1,Image:"",Base64:"",Type:""},
       {Id:2,Image:"",Base64:"",Type:""},
@@ -56,14 +56,28 @@ export default class OrderDetailListPage extends React.Component {
       refreshing: false,
       loading: true,
       data:[],
-
     };
   }
   
   componentDidMount()
-  {            
+  {              
     this.handleRefresh2();    
     this.props.navigation.setParams({ pageTitle: 'รายการคำสั่งซื้อ #'+this.state.orderDeliveryGroupID });
+  }
+
+  componentWillMount() {
+    BackHandler.addEventListener('hardwareBackPress', this.handleBackButtonClick);
+  }
+
+  componentWillUnmount() {
+      BackHandler.removeEventListener('hardwareBackPress', this.handleBackButtonClick);
+  }
+
+  handleBackButtonClick() {
+      // this.goBack();
+      this.props.navigation.state.params.hilightGroup(this.props.navigation.state.params.orderDeliveryGroupID,this.props.navigation.state.params.checked);
+      this.props.navigation.goBack(null);
+      return true;
   }
 
   handleRefresh2 = () => 
@@ -117,7 +131,7 @@ export default class OrderDetailListPage extends React.Component {
     console.log("fetchData order detail list");
     this.setState({loading:true});
     const { page, seed, search } = this.state;
-    const url =  this.state.apiPath + 'SAIMOrderDeliveryGetList2.php?seed='+seed;     
+    const url =  this.state.apiPath + 'SAIMOrderDeliveryGetList3.php?seed='+seed;     
         
     fetch(url,
     {
@@ -139,8 +153,10 @@ export default class OrderDetailListPage extends React.Component {
       })
     })
     .then(res => res.json())
-    .then(res => {
-    
+    .then(res => {      
+      
+
+
       //input width and height
       for(var i=0; i < res.OrderDeliveryList.length; i++)
       {
@@ -164,7 +180,10 @@ export default class OrderDetailListPage extends React.Component {
         error: res.error || null,
         loading: false,
         refreshing: false
-      });
+      }); 
+
+      console.log('listtest orderDeliveryGroupID:'+res.OrderDeliveryGroup.OrderDeliveryGroupID+', checked:'+res.OrderDeliveryGroup.Checked);
+      this.props.navigation.setParams({ orderDeliveryGroupID: res.OrderDeliveryGroup.OrderDeliveryGroupID, checked: res.OrderDeliveryGroup.Checked });         
     })
     .catch(error => {
       this.setState({ error, loading: false });
@@ -504,8 +523,7 @@ export default class OrderDetailListPage extends React.Component {
     {
       imageUrl: imageUrl,
       image:image,
-      'apiPath': this.state.apiPath,
-      'storeName': this.state.storeName,
+      
       'modifiedUser': this.state.modifiedUser,        
     });  
   }
@@ -534,10 +552,7 @@ export default class OrderDetailListPage extends React.Component {
   }
 
   updateOrder = (order) =>
-  {
-    
-
-
+  {    
     console.log("images length:"+order.Images.length);
     this.state.data.map((orderDelivery)=>
     {
@@ -600,7 +615,7 @@ export default class OrderDetailListPage extends React.Component {
   };
 
   render() {
-    console.log("data:"+JSON.stringify(this.state.data));
+    // console.log("data:"+JSON.stringify(this.state.data));
     const { search } = this.state;
     const comp = (a, b) => a.toLowerCase().trim() === b.toLowerCase().trim();
     if(this.state.loadingAccess)

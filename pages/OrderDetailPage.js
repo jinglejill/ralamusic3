@@ -621,8 +621,7 @@ export default class OrderDetailPage extends React.Component {
       allowDelete: allowDelete, 
       deleteIndex: imageIndex,
       deleteImageIndex: this.deleteImageIndex,
-      'apiPath': this.state.apiPath,
-      'storeName': this.state.storeName,
+      
       'modifiedUser': this.state.modifiedUser,        
     });  
   }
@@ -732,7 +731,7 @@ export default class OrderDetailPage extends React.Component {
             />
 
 
-            <View style={[styles.viewField,{marginBottom:padding.xl}]}>        
+            <View style={[styles.viewField,{marginBottom:padding.lg}]}>        
               <View style={{display:'flex', flexDirection:'row'}}>
                 <Text style={styles.title}>รูป</Text>          
                 <TouchableHighlight underlayColor={colors.primary} activeOpacity={1} style={[styles.button,this.state.enableImageSort?{width:60}:{width:30}]} 
@@ -846,7 +845,7 @@ export default class OrderDetailPage extends React.Component {
                 />
               </View> 
             </View>
-            {this.state.edit && (<View style={[styles.viewField,{marginBottom:padding.xl}]}>
+            {this.state.edit && (<View style={[styles.viewField,{marginTop:padding.xl,marginBottom:padding.xl}]}>
               <TouchableHighlight underlayColor={colors.error} activeOpacity={1} style={styles.deleteButton}
                 onHideUnderlay={()=>this.onHideUnderlayDelete()}
                 onShowUnderlay={()=>this.onShowUnderlayDelete()}
@@ -930,39 +929,6 @@ export default class OrderDetailPage extends React.Component {
             </Dialog>
 
             <Dialog
-              visible={this.state.resizeImageVisible}
-              width={0.8}
-              footer=
-              {
-                <DialogFooter style={styles.dialogFooter}>
-                  <DialogButton
-                    text="NO"
-                    style={styles.cancelButton}
-                    textStyle={styles.cancelButtonText}
-                    onPress={() => {this.setState({ resizeImageVisible: false })}}
-                  />
-                  <DialogButton
-                    text="YES"
-                    style={styles.okButton}
-                    textStyle={styles.okButtonText}
-                    onPress={() => {this.resizeImage()}}
-                  />
-                </DialogFooter>
-              }
-              onTouchOutside={() => {
-                this.setState({ resizeImageVisible: false });
-              }}          
-            >
-              <DialogContent>
-                {
-                  <View style={{alignItems:'center',justifyContent:'center'}}>
-                    <Text style={styles.textFail}>ยืนยันลดขนาดรูปภาพใช่หรือไม่</Text>
-                  </View>            
-                }
-              </DialogContent>
-            </Dialog>
-
-            <Dialog
               visible={this.state.deleteOrderVisible}
               width={0.8}
               footer=
@@ -995,44 +961,7 @@ export default class OrderDetailPage extends React.Component {
               </DialogContent>
             </Dialog>
 
-            <Dialog
-              visible={this.state.clearFormVisible}
-              width={0.8}
-              footer=
-              {
-                <DialogFooter style={styles.dialogFooter}>
-                  <DialogButton
-                    text="NO"
-                    style={styles.cancelButton}
-                    textStyle={styles.cancelButtonText}
-                    onPress={() => {
-                      this.clearForm();
-                      this.setState({ clearFormVisible: false });
-                    }}
-                  />
-                  <DialogButton
-                    text="YES"
-                    style={styles.okButton}
-                    textStyle={styles.okButtonText}
-                    onPress={() => {
-                      this.saveProduct();
-                      this.setState({clearForm:true,clearFormVisible: false});
-                    }}
-                  />
-                </DialogFooter>
-              }
-              onTouchOutside={() => {
-                this.setState({ clearFormVisible: false });
-              }}          
-            >
-              <DialogContent>
-                {
-                  <View style={{alignItems:'center',justifyContent:'center'}}>
-                    <Text style={styles.textFail}>รายการสินค้ามีการเปลี่ยนแปลง คุณต้องการบันทึกก่อนหรือไม่</Text>
-                  </View>            
-                }
-              </DialogContent>
-            </Dialog>   
+              
 
             <Dialog
               visible={this.state.alertVisible}
