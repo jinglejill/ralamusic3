@@ -95,13 +95,13 @@ const TabProductReturn = createMaterialTopTabNavigator(
       params:{tabIndex:0},    
       
     },
-    ส่งแล้ว: 
+    ส่งเคลม: 
     {
       screen: ProductReturnListPage, 
       params:{tabIndex:1},  
                
     },
-    เสร็จ: 
+    เสร็จสิ้น: 
     {
       screen: ProductReturnListPage, 
       params:{tabIndex:2},  

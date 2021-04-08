@@ -30,6 +30,7 @@ export default class OrderNoScan2Page extends React.Component {
 
   componentDidMount()
   {    
+    this.props.navigation.addListener('didFocus', this.resetSkuDetected);
     this.props.navigation.setParams({ handleNewForm: this.newForm });
     this.props.navigation.setParams({ animating: false });
     // this.props.navigation.setParams({ setOrderUpdated: this.setOrderUpdated });

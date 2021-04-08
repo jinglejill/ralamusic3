@@ -28,7 +28,6 @@ export default class ProductReturnFormPage extends React.Component {
   componentDidMount()
   {    
     this.props.navigation.setParams({ handleNext: this.goToOrderDetail2 });
-    // this.props.navigation.setParams({ setOrderUpdated: this.setOrderUpdated });
     this.handleRefresh();
   }
 
@@ -78,17 +77,6 @@ export default class ProductReturnFormPage extends React.Component {
     }).done();
   }
 
-  // setOrderUpdated = () => 
-  // {
-  //   // this.props.navigation.refresh();
-  //   this.updateOrder();
-  // }
-
-  // updateOrder = () => 
-  // {
-  //   this.props.navigation.setParams({ orderUpdated: true });
-  // }
-
   goToOrderDetail2 = () =>
   {
     //validate
@@ -123,15 +111,7 @@ export default class ProductReturnFormPage extends React.Component {
   chooseMarketPlace = (option) =>
   {
     console.log("chooseMarketPlace option: "+option);
-    // if(option == 0)
-    // {
-    //   this.setState({chooseMarketplaceFirst:false});
-    //   this.setState({chooseMarketplaceSecond:false});
-    //   this.setState({chooseMarketplaceThird:false});
-    //   this.setState({chooseMarketplaceFourth:false});
-    //   this.setState({chooseMarketplaceFifth:false});
-    // }
-    // else 
+
     if(option == 1)
     {
       this.setState({chooseMarketplaceFirst:true});
@@ -368,7 +348,7 @@ export default class ProductReturnFormPage extends React.Component {
             <Text style={styles.title}>ช่องทางขาย</Text>
             <TouchableOpacity onPress={()=>{this.chooseMarketPlace(1)}} >
               <View style={{display:'flex',flexDirection:'row',alignItems:'center'}}>
-                <Text style={{color:this.state.chooseMarketplaceFirst?colors.secondary:"#CCCCCC",fontSize:24}}>{this.state.chooseMarketplaceFirst?"●":"○"} </Text>
+                <Text style={[styles.radioButton,{color:this.state.chooseMarketplaceFirst?colors.secondary:"#CCCCCC"}]}>{this.state.chooseMarketplaceFirst?"●":"○"} </Text>
                 <Image
                   source={require('./../assets/images/lazadaIcon.png')}
                   style={styles.imageIconSmall}
@@ -378,7 +358,7 @@ export default class ProductReturnFormPage extends React.Component {
             </TouchableOpacity>
             <TouchableOpacity onPress={()=>{this.chooseMarketPlace(2)}} >
               <View style={{display:'flex',flexDirection:'row',alignItems:'center'}}>
-                <Text style={{color:this.state.chooseMarketplaceSecond?colors.secondary:"#CCCCCC",fontSize:24}}>{this.state.chooseMarketplaceSecond?"●":"○"} </Text>
+                <Text style={[styles.radioButton,{color:this.state.chooseMarketplaceSecond?colors.secondary:"#CCCCCC"}]}>{this.state.chooseMarketplaceSecond?"●":"○"} </Text>
                 <Image
                   source={require('./../assets/images/shopeeIcon.png')}
                   style={styles.imageIconSmall}
@@ -388,7 +368,7 @@ export default class ProductReturnFormPage extends React.Component {
             </TouchableOpacity>
             <TouchableOpacity onPress={()=>{this.chooseMarketPlace(3)}} >
               <View style={{display:'flex',flexDirection:'row',alignItems:'center'}}>
-                <Text style={{color:this.state.chooseMarketplaceThird?colors.secondary:"#CCCCCC",fontSize:24}}>{this.state.chooseMarketplaceThird?"●":"○"} </Text>                
+                <Text style={[styles.radioButton,{color:this.state.chooseMarketplaceThird?colors.secondary:"#CCCCCC"}]}>{this.state.chooseMarketplaceThird?"●":"○"} </Text>                
                 <Image
                   source={require('./../assets/images/jdIcon.png')}
                   style={styles.imageIconSmall}
@@ -398,7 +378,7 @@ export default class ProductReturnFormPage extends React.Component {
             </TouchableOpacity>
             <TouchableOpacity onPress={()=>{this.chooseMarketPlace(4)}} >
               <View style={{display:'flex',flexDirection:'row',alignItems:'center'}}>
-                <Text style={{color:this.state.chooseMarketplaceFourth?colors.secondary:"#CCCCCC",fontSize:24}}>{this.state.chooseMarketplaceFourth?"●":"○"} </Text>
+                <Text style={[styles.radioButton,{color:this.state.chooseMarketplaceFourth?colors.secondary:"#CCCCCC"}]}>{this.state.chooseMarketplaceFourth?"●":"○"} </Text>
                 <Image
                   source={require('./../assets/images/thisshopIcon.png')}
                   style={styles.imageIconSmall}
@@ -408,7 +388,7 @@ export default class ProductReturnFormPage extends React.Component {
             </TouchableOpacity>
             <TouchableOpacity onPress={()=>{this.chooseMarketPlace(5)}} >
               <View style={{display:'flex',flexDirection:'row',alignItems:'center'}}>
-                <Text style={{color:this.state.chooseMarketplaceFifth?colors.secondary:"#CCCCCC",fontSize:24}}>{this.state.chooseMarketplaceFifth?"●":"○"} </Text>
+                <Text style={[styles.radioButton,{color:this.state.chooseMarketplaceFifth?colors.secondary:"#CCCCCC"}]}>{this.state.chooseMarketplaceFifth?"●":"○"} </Text>
                 <Text style={styles.radioText}>อื่นๆ</Text>
               </View>
             </TouchableOpacity>
@@ -646,5 +626,9 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.8,
     shadowRadius: 2,  
     elevation: 5
+  },
+  radioButton:
+  {
+    fontSize:20,
   },
 });

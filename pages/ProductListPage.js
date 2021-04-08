@@ -303,6 +303,7 @@ export default class ProductListPage extends React.Component
               product.LazadaExist = responseData.stockSharingList[i].LazadaExist;
               product.ShopeeExist = responseData.stockSharingList[i].ShopeeExist;
               product.JdExist = responseData.stockSharingList[i].JdExist;
+              product.ThisShopExist = responseData.stockSharingList[i].ThisShopExist;
             }         
           }
         });  
@@ -379,6 +380,7 @@ export default class ProductListPage extends React.Component
         product.LazadaExist = item.LazadaExist;
         product.ShopeeExist = item.ShopeeExist;
         product.JdExist = item.JdExist;
+        product.ThisShopExist = item.ThisShopExist;
         product.WebExist = item.WebExist;          
       }
     });
@@ -515,6 +517,9 @@ export default class ProductListPage extends React.Component
                       </View>
                       <View style={styles.channelView}>
                         <Image source={item.JdExist==1?require('./../assets/images/jdIcon.png'):require('./../assets/images/jdIconGray.png')}  style={styles.imageIcon}/>
+                      </View>  
+                      <View style={styles.channelView}>
+                        <Image source={item.ThisShopExist==1?require('./../assets/images/thisshopIcon.png'):require('./../assets/images/thisshopIconGray.png')}  style={styles.imageIcon}/>
                       </View>  
                       <View style={styles.channelView}>
                         <Image source={item.WebExist==1?require('./../assets/images/webIcon.png'):require('./../assets/images/webIconGray.png')}  style={styles.imageIcon}/>

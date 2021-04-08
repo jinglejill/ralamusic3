@@ -23,6 +23,8 @@ export const colors  = {
   hilight: '#e2fbea',//'#b6e18b'
   disabled: '#b3b3b3',
   self: '#f7ea85',
+  orange: '#f8ac6f',
+  androidBg: '#fafafa',
 }
 
 export const padding = {

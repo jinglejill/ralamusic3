@@ -99,7 +99,6 @@ export default class MainMenuPage extends React.Component {
     // {
     //   ToastExample.getPrinterStatus((msg) => {
     //     console.log(msg);
-    //     // this.setState({printerStatus:msg});
     //   });
     // }
     else

@@ -55,6 +55,7 @@ export default class ProductAddPage extends React.Component {
       AccImage:accImageList,
       AnimatingLazada:false,
       AnimatingShopee:false,
+      AnimatingThisShop:false,   
       AnimatingJd:false,   
       AnimatingWeb:false,  
       MapSku:mapSku, 
@@ -90,6 +91,7 @@ export default class ProductAddPage extends React.Component {
       AnimatingLazada:false,
       AnimatingShopee:false,
       AnimatingJd:false,      
+      AnimatingThisShop:false,      
       AnimatingWeb:false,  
       MapSku:previousMapSku,     
     };
@@ -351,6 +353,7 @@ export default class ProductAddPage extends React.Component {
   {
     ImagePicker.openPicker({
       includeBase64: true,
+      compressImageQuality: 0.8
       // width: 300,
       // height: 300,
       // cropping: true
@@ -368,6 +371,7 @@ export default class ProductAddPage extends React.Component {
       includeBase64: true,
       width: 720,
       height: 720,
+      compressImageQuality: 0.8
       // height: 1280,
       // cropping: true,
     }).then(image => {
@@ -521,6 +525,7 @@ export default class ProductAddPage extends React.Component {
           item.LazadaExist = responseData.product.LazadaExist;
           item.ShopeeExist = responseData.product.ShopeeExist;
           item.JdExist = responseData.product.JdExist;
+          item.ThisShopExist = responseData.product.ThisShopExist;
           item.WebExist = responseData.product.WebExist;
           this.setState({item:item});
         }
@@ -988,6 +993,13 @@ export default class ProductAddPage extends React.Component {
     this.setState({item:item});
   }
 
+  onThisShopSkuChanged = (text) => 
+  {
+    var item = this.state.item;
+    item.MapSku.ThisShopSku = text;
+    this.setState({item:item});
+  }
+
   onWebSkuChanged = (text) => 
   {
     var item = this.state.item;
@@ -1031,6 +1043,13 @@ export default class ProductAddPage extends React.Component {
     var item = this.state.item;
     item.Name = text;
     this.setState({item:item});
+  }
+
+  onThisShopSpecialPriceChanged = (text) => 
+  {
+    var item = this.state.item;
+    item.ThisShopSpecialPrice = text.replace(/[^(((\d)+(\.)\d)|((\d)+))]/g,'_').split("_")[0];
+    this.setState({item:item});     
   }
 
   confirmDeleteProduct = () => 
@@ -1134,6 +1153,7 @@ export default class ProductAddPage extends React.Component {
     }
     else if(marketplace == 2)
     {
+      return;
       //update field ด้วย lazada (เหมือนของ insert)
       var insert = false;
       this.setState({AnimatingShopee:true});
@@ -1303,6 +1323,58 @@ export default class ProductAddPage extends React.Component {
         }).done();
       }
     }
+    else if(marketplace == 5)
+    {
+      if(!this.state.item.LazadaExist)
+      {
+        this.setState({alertStatus:false});
+        this.showAlertMessage("ไม่สามารถเพิ่มสินค้านี้ใน Thisshop\nให้เพิ่มสินค้านี้ในแพลตฟอร์ม Lazada ก่อน");
+      }
+      else
+      {
+        var insert = true;
+        this.setState({AnimatingThisShop:true});
+        fetch(this.state.apiPath + 'SAIMThisShopProductInsert.php',
+        {
+          method: 'POST',
+          headers: {
+                      'Accept': 'application/json',
+                      'Content-Type': 'application/json',
+                    },
+          body: JSON.stringify({  
+            thisShopSpecialPrice: this.state.item.ThisShopSpecialPrice,
+            sku: this.state.item.Sku,    
+            insert: insert,    
+            storeName: this.state.storeName,
+            modifiedUser: this.state.modifiedUser,
+            modifiedDate: new Date().toLocaleString(),
+            platForm: Platform.OS,
+          })
+        })
+        .then((response) => response.json())
+        .then((responseData) =>{
+          console.log(responseData);
+          console.log("responseData.success:"+responseData.success);
+          this.setState({AnimatingThisShop:false});
+
+          
+          if(responseData.success == true)
+          {
+            var item = this.state.item;
+            item.ThisShopExist = 1;
+            this.props.navigation.setParams({ savedOrSynced: true });
+            this.props.navigation.setParams({ product: this.state.item });
+          }
+          else
+          {
+            // error message        
+            console.log(responseData.message);
+            this.setState({alertStatus:0});
+            this.showAlertMessage(responseData.message);
+          }
+        }).done();
+      }
+    }
     else if(marketplace == 4)
     {
       if(!this.state.item.LazadaExist)
@@ -1391,6 +1463,7 @@ export default class ProductAddPage extends React.Component {
   }
 
   render() {
+    console.log("thisshop specialprice: "+this.state.item.ThisShopSpecialPrice);
     const comp = (a, b) => a.toLowerCase().trim() === b.toLowerCase().trim();
     if(this.state.loadingAccess)
     {
@@ -1506,7 +1579,7 @@ export default class ProductAddPage extends React.Component {
                     </TouchableHighlight>
                     }
                     {this.state.AnimatingJd && <ActivityIndicator size="small" animating={true} color='#df2524'/>}
-                  </View>
+                  </View>                  
                   <View style={styles.channelView}>
                     {!this.state.AnimatingWeb && <TouchableHighlight 
                       underlayColor={'transparent'} activeOpacity={1}                                          
@@ -1519,6 +1592,31 @@ export default class ProductAddPage extends React.Component {
                 </View>
               </View>
             )}
+
+            {
+
+              this.state.edit && (
+                <View style={{display:'flex',flexDirection:'row'}}>
+                  <View style={[styles.viewField,{marginRight:10}]}>        
+                    <Text style={styles.title}>ราคาขายใน Thisshop</Text>
+                    <TextInput style={styles.valueHalf} value={this.state.item.ThisShopSpecialPrice} keyboardType = 'decimal-pad' placeholder=' ' onChangeText={(text) => {this.onThisShopSpecialPriceChanged(text)}}/>                    
+                  </View>
+                  <View style={[styles.viewField,{marginLeft:0}]}>        
+                    <Text style={styles.title}> </Text>
+                    <View style={[styles.channelView,{marginLeft:null}]}>
+                      {!this.state.AnimatingThisShop && <TouchableHighlight 
+                        underlayColor={'transparent'} activeOpacity={1}                                          
+                        onPress={()=>{this.state.item.ThisShopExist==1?this.updateMarketplaceProduct(5):this.insertMarketplaceProduct(5)}} >         
+                          <Image source={this.state.item.ThisShopExist==1?require('./../assets/images/thisshopIcon.png'):require('./../assets/images/thisshopIconGray.png')}  style={styles.imageIcon}/>
+                      </TouchableHighlight>
+                      }
+                      {this.state.AnimatingThisShop && <ActivityIndicator size="small" animating={true} color='#ec5a2d'/>}
+                    </View>
+                  </View>
+                </View>
+            )}
+
+
             {
               this.state.edit && (<View style={[styles.viewField]}>  
                 <Text style={styles.title}>Marketplace sku</Text>      
@@ -1539,6 +1637,12 @@ export default class ProductAddPage extends React.Component {
                     <Image source={require('./../assets/images/jdIcon.png')} style={styles.imageIconSmall}/>
                   </View>
                   <TextInput style={styles.skuValue} value={this.state.item.MapSku.JdSku} placeholder=' Ex. Fender-Mustang-LT50' onChangeText={(text) => {this.onJdSkuChanged(text)}}/>                                                              
+                </View>
+                <View style={{display:'flex',flexDirection:'row'}}>   
+                  <View style={styles.channelSkuView}>                      
+                    <Image source={require('./../assets/images/thisshopIcon.png')} style={styles.imageIconSmall}/>
+                  </View>
+                  <TextInput style={styles.skuValue} value={this.state.item.MapSku.ThisShopSku} placeholder=' Ex. Fender-Mustang-LT50' onChangeText={(text) => {this.onThisShopSkuChanged(text)}}/>                                                              
                 </View>
                 <View style={{display:'flex',flexDirection:'row'}}>   
                   <View style={styles.channelSkuView}>                      

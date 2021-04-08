@@ -3,11 +3,23 @@ package com.ralamusic3;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.os.Build;
+import org.apache.commons.io.FileUtils;
+//import org.apache.commons.codec.digest.DigestUtils;
 import android.provider.MediaStore;
+//import android.util.Base64;
+import java.io.IOException;
+import java.nio.file.Paths;
+import java.security.InvalidKeyException;
+import java.util.Base64;
 import android.util.Log;
 import android.widget.Toast;
+import java.io.File;
+import java.nio.file.Files;
+
 
 import androidx.annotation.NonNull;
+import androidx.annotation.RequiresApi;
 
 import com.brother.ptouch.sdk.LabelInfo;
 import com.brother.ptouch.sdk.NetPrinter;
@@ -20,11 +32,21 @@ import com.facebook.react.bridge.ReactContext;
 import com.facebook.react.bridge.ReactContextBaseJavaModule;
 import com.facebook.react.bridge.ReactMethod;
 
+import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
+import java.security.KeyFactory;
+import java.security.KeyPair;
+import java.security.KeyPairGenerator;
+import java.security.NoSuchAlgorithmException;
+import java.security.PrivateKey;
+import java.security.PublicKey;
+import java.security.spec.InvalidKeySpecException;
+import java.security.spec.PKCS8EncodedKeySpec;
+import java.security.spec.X509EncodedKeySpec;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
@@ -40,10 +62,16 @@ import com.facebook.react.bridge.WritableMap;
 import com.facebook.react.bridge.WritableNativeArray;
 import com.facebook.react.bridge.WritableNativeMap;
 import com.google.gson.Gson;
+import com.jummumtech.ralamusic.R;
 
 import org.apache.commons.codec.digest.DigestUtils;
 import org.json.JSONException;
 import org.json.JSONObject;
+
+import javax.crypto.BadPaddingException;
+import javax.crypto.Cipher;
+import javax.crypto.IllegalBlockSizeException;
+import javax.crypto.NoSuchPaddingException;
 
 import static java.lang.Thread.sleep;
 
@@ -221,36 +249,85 @@ public class ToastModule extends ReactContextBaseJavaModule {
             e.printStackTrace();
         }
 // Generate the signature result
-//        String sign = DigestUtils.md5Hex (str + sessionKey);
+        String sign = DigestUtils.md5Hex (str + sessionKey);
 
-        String sign = DigestUtils.md5Hex ("appId=TF85602data=%7BpageNum=1pageSize=10%7Bmethod=thisshop.item.list.getnonce=0970077453timestamp=1615786460852token=EA00ECBAF1AC4F039298EF241EC07949E62B632CCFA847C49143AB3D3CA8ABAE");
+//        String sign = DigestUtils.md5Hex ("appId=TF85602data=%7BpageNum=1pageSize=10%7Bmethod=thisshop.item.list.getnonce=0970077453timestamp=1615786460852token=EA00ECBAF1AC4F039298EF241EC07949E62B632CCFA847C49143AB3D3CA8ABAE");
 // The signature result is added to the request submission parameter group
         sPara.put("sign", sign.toUpperCase());
         return sPara;
     }
 //test*****
 
+    public static String convertToBase64PublicKey(final byte[] bytes) {
+        return new StringBuilder()
+                .append("-----BEGIN PUBLIC KEY-----")
+                .append("\n")
+                .append(Base64.getEncoder().encodeToString(bytes))
+                .append("\n")
+                .append("-----END PUBLIC KEY-----")
+                .toString();
+    }
+
+    public static String convertToBase64PrivateKey(final byte[] bytes) {
+        return new StringBuilder()
+                .append("-----BEGIN PRIVATE KEY-----")
+                .append("\n")
+                .append(Base64.getEncoder().encodeToString(bytes))
+                .append("\n")
+                .append("-----END PRIVATE KEY-----")
+                .toString();
+    }
+
+    public static String removeKeyBlock(final String key){
+        return key
+                .replaceAll("-----BEGIN.*KEY-----", "")
+                .replaceAll("-----END.*KEY-----", "")
+                .replaceAll("\\s+", "");
+    }
+
+    public PublicKey convertToPublicKey(final String base64PublicKey) throws NoSuchAlgorithmException, InvalidKeySpecException {
+        final String realKey = removeKeyBlock(base64PublicKey);
+        final byte[] keyBytes = Base64.getDecoder().decode(realKey);
+        final X509EncodedKeySpec spec = new X509EncodedKeySpec(keyBytes);
+        final KeyFactory keyFactory = KeyFactory.getInstance("RSA");
+        return keyFactory.generatePublic(spec);
+    }
+
+    public PrivateKey convertToPrivateKey(final String base64PrivateKey) throws NoSuchAlgorithmException, InvalidKeySpecException {
+        final String realKey = removeKeyBlock(base64PrivateKey);
+        final byte[] keyBytes = Base64.getDecoder().decode(realKey);
+        final PKCS8EncodedKeySpec spec = new PKCS8EncodedKeySpec(keyBytes);
+        final KeyFactory keyFactory = KeyFactory.getInstance("RSA");
+        return keyFactory.generatePrivate(spec);
+    }
+
+    //เข้ารหัส
+    public  byte[] encrypt(final byte[] data, final PublicKey publicKey) throws NoSuchAlgorithmException, NoSuchPaddingException, InvalidKeyException, IllegalBlockSizeException, BadPaddingException, BadPaddingException, IllegalBlockSizeException, NoSuchPaddingException {
+        final Cipher cipher = Cipher.getInstance("RSA");
+        cipher.init(Cipher.ENCRYPT_MODE, publicKey);
+        return cipher.doFinal(data);
+    }
+
+    //ถอดรหัส
+    public  byte[] decrypt(final byte[] data, final PrivateKey privateKey) throws NoSuchAlgorithmException, NoSuchPaddingException, InvalidKeyException, IllegalBlockSizeException, BadPaddingException {
+        final Cipher cipher = Cipher.getInstance("RSA");
+        cipher.init(Cipher.DECRYPT_MODE, privateKey);
+        return cipher.doFinal(data);
+    }
+
+    @RequiresApi(api = Build.VERSION_CODES.O)
     @ReactMethod
-    public void getPrinterStatus(Callback statusCallback) {
-        //test*****
-//public static Map<String, Object> sign(Map<String, Object> paramMap,String sessionKey)
-        Map<String, Object> data = new HashMap<String, Object>(){{
-//            put("skuId","");
-//            put("skuName","");
-//            put("qrcodes","");
-//            put("startUpdateTime","");
-//            put("endUpdateTime","");
-            put("pageNum","1");
-            put("pageSize","100");
-        }};
+    public void getPrinterStatus(Callback statusCallback) throws NoSuchAlgorithmException, InvalidKeySpecException, IllegalBlockSizeException, InvalidKeyException, BadPaddingException, NoSuchPaddingException, IOException {
+        String value = URLEncoder.encode("D'Addario®", "UTF-8");
+
         Map<String, Object> paramMap = new HashMap<String, Object>(){{
             put("appId","TF85602");
             put("method","thisshop.item.list.get");
             put("nonce","0970077453");
-            put("timestamp","1615782636008");
-            put("token","EA00ECBAF1AC4F039298EF241EC07949");
-//            put("data",data);
-//            put("skuId","");
+            put("timestamp","1617523462817");
+            put("token","500C8DB6A9B049EE9C32886516D73ADC");
+//            put("file",imageString);
+            put("data","{}");
 //            put("skuName","");
 //            put("qrcodes","");
 //            put("startUpdateTime","");

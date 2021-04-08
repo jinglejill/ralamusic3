@@ -317,6 +317,7 @@ export default class OrderDetailPage extends React.Component {
   {
     ImagePicker.openPicker({
       includeBase64: true,
+      compressImageQuality: 0.8
       // width: 300,
       // height: 300,
       // cropping: true
@@ -334,6 +335,7 @@ export default class OrderDetailPage extends React.Component {
       includeBase64: true,
       width: 720,
       height: 1280,
+      compressImageQuality: 0.8
       // cropping: true,
     }).then(image => {
       console.log(image);

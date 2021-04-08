@@ -116,9 +116,7 @@ export default class OrderDetail2Page extends React.Component {
       productReturnID: edit?this.props.navigation.state.params.productReturnID:null,
       edit: this.props.navigation.state.params.edit,
       order: this.props.navigation.state.params.edit || newForm?order:this.props.navigation.state.params.order,
-      // productName: this.props.navigation.state.params.productName,
-      // productSelected: this.props.navigation.state.params.productSelected,
-      // channel: this.props.navigation.state.params.channel,
+      
       newForm: this.props.navigation.state.params.newForm,
       
       loading: loading,
@@ -128,6 +126,7 @@ export default class OrderDetail2Page extends React.Component {
       longPressTimeout:0,
       imageSortTimeout:0,      
       data:[],
+      defectReason:'',
       chooseFirst:false,
       chooseSecond:false,
       chooseNextStepFirst:false,
@@ -135,6 +134,8 @@ export default class OrderDetail2Page extends React.Component {
       chooseProductClaimFirst:false,
       chooseProductClaimSecond:false,
       status:0,
+
+      nextStepProcess:false,      
     };
 
 
@@ -254,13 +255,24 @@ export default class OrderDetail2Page extends React.Component {
           this.setDefectReason(res.Order.DefectReason);
           this.chooseNextStep(res.Order.NextStep);
           this.chooseProductClaim(res.Order.ProductClaim);
+          this.setClaimAt(res.Order.ClaimAt);
+          this.setClaimNote(res.Order.ClaimNote);
           this.setCustomerAddress(res.Order.CustomerAddress);
           this.setCustomerAddressImage(res.Order.CustomerAddressImage);
+          this.setClaimStaffName(res.Order.ClaimStaffName);
+          this.setClaimStaffImage(res.Order.ClaimStaffImage);
+          this.setClaimDate(res.Order.ClaimDate);
+          this.setProductBack(res.Order.ProductBack);
           this.setStatus(res.Order.Status);   
 
-
+          console.log("order test:"+JSON.stringify(res.Order));
+          if(res.Order.Status == 0 && res.Order.NextStep == 0)
+          {
+            this.setState({nextStepProcess:true},()=>console.log("nextStepProcess:"+this.state.nextStepProcess));
+          }
+          console.log("nextStepProcess:"+this.state.nextStepProcess);
           this.setState({  
-            previousOrder:JSON.parse(JSON.stringify(res.Order)), 
+            // previousOrder:JSON.parse(JSON.stringify(res.Order)), 
             order:res.Order,          
             error: res.error || null,
             loading: false,  
@@ -353,6 +365,22 @@ export default class OrderDetail2Page extends React.Component {
         this.enlargeImage(this.state.customerAddressImage,true,0);  
       }  
     }
+    else if(type == "claimStaff")
+    {
+      console.log("this.state.claimStaff: "+this.state.claimStaff);
+      if(this.state.claimStaffImage == "")
+      {
+        console.log("claimStaffImage empty");      
+        this.setState({addImageVisible:true,type:type});
+      }
+      else
+      {
+        //enlarge image
+        console.log("enlarge image");   
+        this.setState({type:type});    
+        this.enlargeImage(this.state.claimStaffImage,true,0);  
+      }  
+    }
   }
 
 
@@ -360,6 +388,7 @@ export default class OrderDetail2Page extends React.Component {
   {
     ImagePicker.openPicker({
       includeBase64: true,
+      compressImageQuality: 0.8 
       // width: 300,
       // height: 300,
       // cropping: true
@@ -377,6 +406,7 @@ export default class OrderDetail2Page extends React.Component {
       includeBase64: true,
       width: 720,
       height: 1280,
+      compressImageQuality: 0.8
       // cropping: true,
     }).then(image => {
       console.log(image);
@@ -417,6 +447,16 @@ export default class OrderDetail2Page extends React.Component {
       order.CustomerAddressImageBase64 = image.data;
       order.CustomerAddressImageType = image.mime.split("/")[1];
       this.setState({order:order,addImageVisible:false,customerAddressImage:image.path});
+    }
+    else if(type == "claimStaff")
+    {
+      console.log("image.path: "+image.path);
+      var order = this.state.order;
+      
+      order.ClaimStaffImage = image.path;
+      order.ClaimStaffImageBase64 = image.data;
+      order.ClaimStaffImageType = image.mime.split("/")[1];
+      this.setState({order:order,addImageVisible:false,claimStaffImage:image.path});
     }
 
     
@@ -500,82 +540,112 @@ export default class OrderDetail2Page extends React.Component {
 
     if(!this.state.edit)
     {
+      if(this.state.order.Images[0].Image == "")
+      {
+        this.showAlertMessage("กรุณาใส่รูปภาพสินค้าคืน");
+        return;
+      }
+
       if(!this.state.chooseFirst && !this.state.chooseSecond)
       {
         this.showAlertMessage("กรุณาเลือกสภาพสินค้าคืน");
         return;
       }
 
+      console.log("this.state.order.Condition:"+this.state.order.Condition);
+      if(this.state.order.Condition == 1 && this.state.defectReason == '')
+      {
+        this.showAlertMessage("กรุณาระบุความเสียหาย");
+        return;
+      }
+    }
+    else
+    {
+      var changeImage = false;
+      for(var i=0; i<this.state.order.Images.length; i++)
+      {
+        if(this.state.order.Images[i].Image != this.state.previousImageList[i].Image)         
+        {
+          changeImage = true;
+          break;
+        }
+      }
 
-      // if(this.state.order.Images[0].Image == "")
+      
+      // if(this.state.order.Condition != this.state.previousOrder.Condition || 
+      //   this.state.order.DefectReason != this.state.previousOrder.DefectReason || 
+      //   this.state.order.NextStep != this.state.previousOrder.NextStep || 
+      //   this.state.order.ProductClaim != this.state.previousOrder.ProductClaim || 
+      //   this.state.order.ClaimAt != this.state.previousOrder.ClaimAt || 
+      //   this.state.order.ClaimNote != this.state.previousOrder.ClaimNote || 
+      //   this.state.order.CustomerAddress != this.state.previousOrder.CustomerAddress || 
+      //   this.state.order.CustomerAddressImage != this.state.previousOrder.CustomerAddressImage || 
+      //   this.state.order.Status != this.state.previousOrder.Status)
+      // {
+      //   changeData = true;
+      // }
+
+      // if(this.state.status == 0 && !this.state.nextStepProcess && this.state.order.NextStep != 0)
+      // {
+      //   changeData = true;
+      // }
+
+      // if(this.state.status == 1 && this.state.order.ProductClaim != 0)
+      // {
+      //   changeData = true; 
+      // }
+      // console.log("changeData: "+changeData);
+
+      // if(!changeData)
       // {
       //   this.props.navigation.state.params.resetSkuDetected();
       //   this.props.navigation.goBack(null);   
       //   return;
       // }
 
-    }
-    else
-    {
-      var changeData = false;
-      for(var i=0; i<this.state.order.Images.length; i++)
+      if(!changeImage)
       {
-        if(this.state.order.Images[i].Image != this.state.previousImageList[i].Image)         
+        if(this.state.status == 0 && !this.state.chooseNextStepFirst && !this.state.chooseNextStepSecond)
         {
-          changeData = true;
-          break;
+          this.showAlertMessage("กรุณาเลือกขั้นตอนถัดไป");
+          return;
+        }
+
+
+        if(this.state.status == 0 && !this.state.nextStepProcess && this.state.chooseNextStepSecond && !this.state.chooseProductClaimFirst && !this.state.chooseProductClaimSecond)
+        {
+          this.showAlertMessage("กรุณาเลือกประเภทการคืนสินค้าเคลม");
+          return;
+        }
+
+
+        // if(this.state.status == 0 && this.state.customerAddress == "" && this.state.customerAddressImage == "")
+        // {
+        //   this.showAlertMessage("กรุณาระบุชื่อ-ที่อยู่ลูกค้า");
+        //   return;
+        // }
+
+
+        if(this.state.status == 0 && this.state.chooseNextStepSecond && this.state.claimStaffName == "")
+        {
+          this.showAlertMessage("กรุณาระบุผู้รับของเคลม");
+          return;
         }
       }
-
-      
-      if(this.state.order.Condition != this.state.previousOrder.Condition || 
-        this.state.order.DefectReason != this.state.previousOrder.DefectReason || 
-        this.state.order.NextStep != this.state.previousOrder.NextStep || 
-        this.state.order.ProductClaim != this.state.previousOrder.ProductClaim || 
-        this.state.order.CustomerAddress != this.state.previousOrder.CustomerAddress || 
-        this.state.order.CustomerAddressImage != this.state.previousOrder.CustomerAddressImage || 
-        this.state.order.Status != this.state.previousOrder.Status)
+      else
       {
-        changeData = true;
-      }
-      console.log("changeData: "+changeData);
-
-      if(!changeData)
-      {
-        this.props.navigation.goBack(null);   
-        return;
-      }
-
-      if(this.state.order.Images.length == 0)
-      {
-        this.showAlertMessage("กรุณาใส่รูปภาพสินค้าคืน");
-        return; 
-      }
-
-      if(this.state.status == 1 && !this.state.chooseNextStepFirst && !this.state.chooseNextStepSecond)
-      {
-        this.showAlertMessage("กรุณาเลือกขั้นตอนถัดไป");
-        return;
-      }
-
-
-      if(this.state.status == 2 && this.state.nextStep == 2 && !this.state.chooseProductClaimFirst && !this.state.chooseProductClaimSecond)
-      {
-        this.showAlertMessage("กรุณาเลือกประเภทการคืนสินค้าเคลม");
-        return;
-      }
-
-
-      if(this.state.status == 2 && this.state.productClaim == 2 && this.state.customerAddress == "" && this.state.customerAddressImage == "")
-      {
-        this.showAlertMessage("กรุณาระบุชื่อ-ที่อยู่ลูกค้า");
-        return;
-      }
+        if(this.state.order.Images.length == 0)
+        {
+          this.showAlertMessage("กรุณาใส่รูปภาพสินค้าคืน");
+          return; 
+        }  
+      }            
     }
 
 
     
     this.props.navigation.setParams({ animating: true });
+    this.setState({saveLoading:true});
     fetch(settings.apiPath + 'SAIMProductReturnInsert.php',
     {
       method: 'POST',
@@ -593,11 +663,20 @@ export default class OrderDetail2Page extends React.Component {
         defectReason: this.state.defectReason,
         nextStep: !this.state.chooseNextStepFirst && !this.state.chooseNextStepSecond?0:(this.state.chooseNextStepFirst?1:2),
         productClaim: !this.state.chooseProductClaimFirst && !this.state.chooseProductClaimSecond?0:(this.state.chooseProductClaimFirst?1:2),
+        claimAt: this.state.claimAt,
+        claimNote: this.state.claimNote,
         customerAddress: this.state.customerAddress,
         customerAddressImage: this.state.customerAddressImage,
         customerAddressImageBase64: this.state.order.CustomerAddressImageBase64,
         customerAddressImageType: this.state.order.CustomerAddressImageType,
-        status:this.state.status,    
+        claimStaffName: this.state.claimStaffName,
+        claimStaffImage: this.state.claimStaffImage,
+        claimStaffImageBase64: this.state.order.ClaimStaffImageBase64,
+        claimStaffImageType: this.state.order.ClaimStaffImageType,
+        claimDate: this.state.claimDate,
+        productBack: this.state.productBack,
+        status:this.state.status,  
+        nextStepProcess:this.state.nextStepProcess,  
         
         storeName: settings.storeName,
         modifiedUser: this.state.modifiedUser,
@@ -609,6 +688,7 @@ export default class OrderDetail2Page extends React.Component {
     .then((responseData) =>{
       console.log(responseData);
       this.props.navigation.setParams({ animating: false });
+      this.setState({saveLoading:false});
       if(responseData.success == true)
       {                
         this.state.edit || this.state.newForm?null:this.props.navigation.state.params.resetSkuDetected();
@@ -733,6 +813,14 @@ export default class OrderDetail2Page extends React.Component {
       order.CustomerAddressImageType = "";
       this.setState({customerAddressImage:""});
     }
+    else if(type == "claimStaff")
+    {
+      let order = this.state.order;
+      order.ClaimStaffImage = "";
+      order.ClaimStaffImageBase64 = "";
+      order.ClaimStaffImageType = "";
+      this.setState({claimStaffImage:""});
+    }
 
   }
 
@@ -821,6 +909,7 @@ export default class OrderDetail2Page extends React.Component {
 
   setDefectReason = (defectReason) =>
   {
+    console.log("setDefectReason:"+defectReason);
     this.setState({defectReason:defectReason});
     
     let order = this.state.order;
@@ -839,8 +928,12 @@ export default class OrderDetail2Page extends React.Component {
     {
       this.setState({chooseNextStepFirst:true});
       this.setState({chooseNextStepSecond:false});
+      this.setState({claimAt:''});
+      this.setState({claimNote:''});
       let order = this.state.order;
       order.NextStep = 1;
+      order.ClaimAt = '';
+      order.ClaimNote = '';
     }
     else
     {
@@ -876,6 +969,22 @@ export default class OrderDetail2Page extends React.Component {
     }    
   }
 
+  setClaimAt = (text) =>
+  {
+    this.setState({claimAt:text});
+    
+    let order = this.state.order;
+    order.ClaimAt = text;
+  }
+
+  setClaimNote = (text) =>
+  {
+    this.setState({claimNote:text});
+    
+    let order = this.state.order;
+    order.ClaimNote = text;
+  }
+
   setCustomerAddress = (customerAddress) =>
   {
     this.setState({customerAddress:customerAddress});
@@ -890,6 +999,43 @@ export default class OrderDetail2Page extends React.Component {
     this.setState({customerAddressImage:imagePath});
     let order = this.state.order;
     order.customerAddressImage = imagePath;
+  }
+
+  setClaimStaffName = (claimStaffName) =>
+  {
+    this.setState({claimStaffName:claimStaffName});
+    
+    let order = this.state.order;
+    order.ClaimStaffName = claimStaffName;
+  }
+
+  setClaimStaffImage = (imagePath) =>
+  {
+    console.log("setClaimStaffImage imagePath:"+imagePath);
+    this.setState({claimStaffImage:imagePath});
+    let order = this.state.order;
+    order.claimStaffImage = imagePath;
+  }
+
+  setClaimDate = (claimDate) =>
+  {
+    if(claimDate == '0000-00-00 00:00:00')
+    {
+      claimDate = this.getCurrentDate();          
+    }
+    
+    this.setState({claimDate:claimDate});
+    
+    let order = this.state.order;
+    order.ClaimDate = claimDate;
+  }
+
+  setProductBack = (value) =>
+  {
+    this.setState({productBack:value});
+    
+    let order = this.state.order;
+    order.ProductBack = value;
   }
 
   setStatus = (status) =>
@@ -914,8 +1060,69 @@ export default class OrderDetail2Page extends React.Component {
     console.log("statusList:"+JSON.stringify(statusList));
   }
 
+  getCurrentDate = () =>
+  {
+    var today = new Date();
+    var dd = String(today.getDate()).padStart(2, '0');
+    var mm = String(today.getMonth() + 1).padStart(2, '0'); //January is 0!
+    var yyyy = today.getFullYear();
+    var hour = String(today.getHours()).padStart(2,'0');
+    var minute = String(today.getMinutes()).padStart(2,'0');
+
+    today = mm + '/' + dd + '/' + yyyy;
+
+    return yyyy + '-' + mm + '-' + dd + ' ' + hour + ':' + minute + ':00'; 
+  }
+
+  formatDate = (claimDate) => 
+  {
+    console.log('date js:'+new Date().toString());
+    console.log('claimDate input:'+claimDate);
+    claimDate = claimDate.replace(' ','T');
+    claimDate = claimDate + '.000+07:00';
+    console.log('claimDate:'+claimDate);
+
+
+    var date = new Date(claimDate);
+
+    var days = ['Sun','Mon','Tue','Wed','Thu','Fri','Sat'];
+    var months = ['January','February','March','April','May','June','July','August','September','October','November','December'];
+
+    var day = days[date.getDay()];
+    var date2 = date.getDate();
+    var month = months[date.getMonth()];
+    var year = date.getFullYear();    
+
+    var formatClaimDate = day + ' ' + date2 + ' ' + month + ' ' + year + ' / ' + this.formatAMPM(date);
+    console.log('formatClaimDate:'+formatClaimDate);
+    return formatClaimDate;
+  }
+
+  formatAMPM = (date) =>
+  {
+    var hours = date.getHours();
+    var minutes = date.getMinutes();
+    var ampm = hours >= 12 ? 'pm' : 'am';
+    hours = hours % 12;
+    hours = hours ? hours : 12; // the hour '0' should be '12'
+    minutes = minutes < 10 ? '0'+minutes : minutes;
+    var strTime = hours + ':' + minutes + ' ' + ampm;
+    return strTime;
+  }
+
+  setCurrentDate = () =>
+  {
+    if(this.state.status != 0)
+    {
+      return;
+    }
+    console.log(' setCurrentDate');
+    var claimDate = this.getCurrentDate();              
+    this.setState({claimDate:claimDate});    
+  }
+
   render() {
-    
+    // console.log("productreturn test");
     const comp = (a, b) => a.toLowerCase().trim() === b.toLowerCase().trim();
     if(this.state.loadingAccess)
     {
@@ -1139,13 +1346,13 @@ export default class OrderDetail2Page extends React.Component {
               <Text style={styles.title}>สภาพสินค้า</Text>
               <TouchableOpacity onPress={()=>{this.chooseProductCondition(0)}} >
                 <View style={{display:'flex',flexDirection:'row',alignItems:'center'}}>
-                  <Text style={{color:this.state.chooseFirst?colors.secondary:"#CCCCCC",fontSize:24}}>{this.state.chooseFirst?"●":"○"} </Text>
+                  <Text style={[styles.radioButton,{color:this.state.chooseFirst?colors.secondary:"#CCCCCC"}]}>{this.state.chooseFirst?"●":"○"} </Text>
                   <Text style={styles.radioText}>สภาพดี</Text>
                 </View>
               </TouchableOpacity>
               <TouchableOpacity onPress={()=>{this.chooseProductCondition(1)}} >
                 <View style={{flex:1,display:'flex',flexDirection:'row',alignItems:'center'}}>
-                  <Text style={{color:this.state.chooseSecond?colors.secondary:"#CCCCCC",fontSize:24}}>{this.state.chooseSecond?"●":"○"} </Text>                  
+                  <Text style={[styles.radioButton,{color:this.state.chooseSecond?colors.secondary:"#CCCCCC"}]}>{this.state.chooseSecond?"●":"○"} </Text>                  
                   <Text style={styles.radioText}>เสียหาย</Text>                  
                   {this.state.chooseSecond && (
                     <TextInput style={{flex:1,marginLeft:padding.sm,marginRight:0,borderBottomWidth:1,borderColor:'#CCCCCC',padding:2}} value={this.state.defectReason} placeholder=' ระบุ' onChangeText={text => {this.setDefectReason(text)}}/>                                  
@@ -1155,71 +1362,93 @@ export default class OrderDetail2Page extends React.Component {
             </View>
 
 
+            <View style={[styles.viewField,{marginTop:0 ,marginBottom:padding.lg}]}>                      
+              <Text style={styles.title}>ชื่อ-ที่อยู่ลูกค้า</Text>
+              <TextInput style={styles.textInputMulti} value={this.state.customerAddress} placeholder=' ' multiline onChangeText={text => {this.setCustomerAddress(text)}}/>
+              <Text style={styles.title}>แนบรูปภาพ</Text>
+              <TouchableHighlight underlayColor={'transparent'} activeOpacity={1} onPress={ () => this.addImage('customerAddress')}>
+                <View>
+                  <View style={styles.box}>
+                    <Image source={{uri:this.state.customerAddressImage == ""?'http://minimalist.co.th/saim/images/add.png':this.state.customerAddressImage}}  style={styles.imageCustomerAddress}/>                                         
+                  </View>
+                </View>
+              </TouchableHighlight>              
+            </View>
+
+
             {this.state.edit && 
               (
                 <View style={[styles.viewField,{marginBottom:padding.lg}]}>                      
                   <Text style={styles.title}>ขั้นตอนถัดไป</Text>
                   <TouchableOpacity onPress={()=>{this.chooseNextStep(1)}} >
                     <View style={{display:'flex',flexDirection:'row',alignItems:'center'}}>
-                      <Text style={{color:this.state.chooseNextStepFirst?colors.secondary:"#CCCCCC",fontSize:24}}>{this.state.chooseNextStepFirst?"●":"○"} </Text>
+                      <Text style={[styles.radioButton,{color:this.state.chooseNextStepFirst?colors.secondary:"#CCCCCC"}]}>{this.state.chooseNextStepFirst?"●":"○"} </Text>
                       <Text style={styles.radioText}>คืนเข้าร้าน</Text>
                     </View>
                   </TouchableOpacity>
                   <TouchableOpacity onPress={()=>{this.chooseNextStep(2)}} >
                     <View style={{display:'flex',flexDirection:'row',alignItems:'center'}}>
-                      <Text style={{color:this.state.chooseNextStepSecond?colors.secondary:"#CCCCCC",fontSize:24}}>{this.state.chooseNextStepSecond?"●":"○"} </Text>
+                      <Text style={[styles.radioButton,{color:this.state.chooseNextStepSecond?colors.secondary:"#CCCCCC"}]}>{this.state.chooseNextStepSecond?"●":"○"} </Text>
                       <Text style={styles.radioText}>เคลม</Text>
                     </View>
+                    {this.state.chooseNextStepSecond && (
+                      <View style={{flex:1}}>
+                        <View style={{display:'flex',flexDirection:'row',alignItems:'center'}}>
+                          <Text style={[styles.title,{paddingLeft:padding.xl}]}>ส่งบริษัท</Text> 
+                          <TextInput style={{flex:1,marginLeft:padding.sm,marginRight:0,borderBottomWidth:1,borderColor:'#CCCCCC',padding:2}} value={this.state.claimAt} placeholder=' ระบุ' onChangeText={text => {this.setClaimAt(text)}}/>                                                   
+                        </View>
+                        <Text style={[styles.title,{paddingLeft:padding.xl}]}>หมายเหตุ</Text>                                          
+                        <TextInput style={[styles.textInputMulti,{marginLeft:padding.xl,height:40}]} value={this.state.claimNote} placeholder=' ' multiline onChangeText={text => {this.setClaimNote(text)}}/>                                                          
+                      </View>
+                    )}
+                    
                   </TouchableOpacity>
                 </View>
               )
             }
 
 
-            {this.state.edit && this.state.chooseNextStepSecond && (this.state.status == 1 || this.state.status == 2) && 
+            {this.state.edit && !this.state.nextStepProcess && this.state.chooseNextStepSecond &&  
               (
                 <View style={[styles.viewField,{marginBottom:padding.lg}]}>                      
                   <Text style={styles.title}>คืนสินค้าเคลม</Text>
                   <TouchableOpacity onPress={()=>{this.chooseProductClaim(1)}} >
                     <View style={{display:'flex',flexDirection:'row',alignItems:'center'}}>
-                      <Text style={{color:this.state.chooseProductClaimFirst?colors.secondary:"#CCCCCC",fontSize:24}}>{this.state.chooseProductClaimFirst?"●":"○"} </Text>
+                      <Text style={[styles.radioButton,{color:this.state.chooseProductClaimFirst?colors.secondary:"#CCCCCC"}]}>{this.state.chooseProductClaimFirst?"●":"○"} </Text>
                       <Text style={styles.radioText}>คืนเข้าร้าน</Text>
                     </View>
                   </TouchableOpacity>
                   <TouchableOpacity onPress={()=>{this.chooseProductClaim(2)}} >
                     <View style={{display:'flex',flexDirection:'row',alignItems:'center'}}>
-                      <Text style={{color:this.state.chooseProductClaimSecond?colors.secondary:"#CCCCCC",fontSize:24}}>{this.state.chooseProductClaimSecond?"●":"○"} </Text>
+                      <Text style={[styles.radioButton,{color:this.state.chooseProductClaimSecond?colors.secondary:"#CCCCCC"}]}>{this.state.chooseProductClaimSecond?"●":"○"} </Text>
                       <Text style={styles.radioText}>คืนลูกค้า</Text>
                     </View>
                   </TouchableOpacity>
-                </View>
-              )
-            }
 
-
-            {this.state.edit && (this.state.chooseProductClaimSecond) && 
-              (
-                <View style={[styles.viewField,{marginTop:0 ,marginBottom:padding.lg}]}>                      
-                  <Text style={[styles.title,{paddingLeft:padding.xl}]}>ชื่อ-ที่อยู่ลูกค้า</Text>
-                  <TextInput style={styles.textInputMulti} value={this.state.customerAddress} placeholder=' ' multiline onChangeText={text => {this.setCustomerAddress(text)}}/>
-                  <Text style={[styles.title,{paddingLeft:padding.xl}]}>แนบรูปภาพ</Text>
-                  <TouchableHighlight underlayColor={'transparent'} activeOpacity={1} onPress={ () => this.addImage('customerAddress')}>
-                    <View>
-                      <View style={styles.box}>
-                        <Image source={{uri:this.state.customerAddressImage == ""?'http://minimalist.co.th/saim/images/add.png':this.state.customerAddressImage}}  style={styles.imageCustomerAddress}/>                                         
-                      </View>
+                  <Text style={styles.title}>ผู้รับของเคลม</Text>
+                  <TextInput style={styles.textInputMulti} value={this.state.claimStaffName} placeholder=' ' onChangeText={text => {this.setClaimStaffName(text)}}/>
+                  <Text style={styles.title}>แนบรูปภาพ</Text>
+                  <TouchableHighlight underlayColor={'transparent'} activeOpacity={1} onPress={ () => this.addImage('claimStaff')}>
+                    <View style={[styles.box,{marginBottom:padding.sm}]}>
+                      <Image source={{uri:this.state.claimStaffImage == ""?'http://minimalist.co.th/saim/images/add.png':this.state.claimStaffImage}}  style={styles.imageCustomerAddress}/>                                         
                     </View>
                   </TouchableHighlight>
-                  
+                  <Text style={styles.title}>วันที่รับของเคลม</Text>
+                  <View style={{display:'flex',flexDirection:'row'}}>
+                    <Text style={styles.radioText}>{this.formatDate(this.state.claimDate)}  </Text>
+                    <TouchableHighlight underlayColor={'transparent'} activeOpacity={1} onPress={ () => this.setCurrentDate()}>                      
+                      <View style={{flex:1}}>
+                        <Image source={require('./../assets/images/time.png')} style={styles.timeIcon}/>                                         
+                      </View>                      
+                    </TouchableHighlight>
+                  </View>
                 </View>
               )
             }
 
 
-            <View style={{flex:1}}>
-              
-
-              <View style={[styles.viewField,{marginTop:padding.lg+2*padding.lg+40+20,marginBottom:padding.xl}]}>
+            {this.state.status != 2 && (
+              <View style={[styles.viewField,{marginBottom:padding.xl}]}>
                 <TouchableHighlight underlayColor={colors.primary} activeOpacity={1} style={styles.saveButton}
                   onHideUnderlay={()=>this.onHideUnderlaySave()}
                   onShowUnderlay={()=>this.onShowUnderlaySave()}
@@ -1233,7 +1462,7 @@ export default class OrderDetail2Page extends React.Component {
                         this.state.savePressStatus
                           ? styles.saveTextPress
                           : styles.saveText
-                        }>Save
+                        }>{!this.state.edit || this.state.newForm?"Save":this.state.status == 0 && this.state.nextStepProcess?"Save":this.state.status == 0 && this.state.order.NextStep == 1?"รับทราบ":this.state.status == 0 && this.state.order.NextStep == 2?"ส่งเคลม":this.state.status == 1 && this.state.order.ProductClaim == 0?"Save":this.state.status == 1 && this.state.order.ProductClaim == 1?"รับสินค้าจาก Vendor เข้าร้าน":this.state.status == 1 && this.state.order.ProductClaim == 2 && this.state.order.ProductBack == 0?"รับสินค้าจาก Vendor เพื่อนำส่งลูกค้า":this.state.status == 1 && this.state.order.ProductClaim == 2 && this.state.order.ProductBack == 1?"ส่งสินค้าเคลมคืนลูกค้า":""}
                       </Text>
                       <View style={{width:30}}>
                         {this.state.saveLoading && <ActivityIndicator animating size='small' style={styles.activityIndicator}/>}
@@ -1242,27 +1471,8 @@ export default class OrderDetail2Page extends React.Component {
                   </View>
                 </TouchableHighlight>
               </View>
-
-              <View style={[styles.viewField,{marginBottom:padding.lg,position:'absolute'}]}>
-                <Text style={styles.title}>สถานะ</Text>
-                <DropDownPicker
-                  items={statusList}                
-                  containerStyle={{height: 40,width: dimensions.fullWidth - 2*padding.xl}}
-                  style={{backgroundColor: '#fafafa'}}
-                  itemStyle={{
-                      justifyContent: 'flex-start'
-                  }}
-                  labelStyle={{color: colors.secondary,fontFamily:fonts.primaryBold,fontSize:fonts.md}}
-                  dropDownStyle={{backgroundColor: '#fafafa'}}
-                  onChangeItem={item => this.setStatus(item.value)}
-                  disabled = {!this.state.edit}
-                />
-              </View>
-            </View>
-
-
-
-            
+            )}
+                        
 
             {this.state.edit && (<View style={[styles.viewField,{marginTop:padding.xl+100,marginBottom:padding.xl}]}>
               <TouchableHighlight underlayColor={colors.error} activeOpacity={1} style={styles.deleteButton}
@@ -1804,10 +2014,7 @@ const styles = StyleSheet.create({
     fontFamily: fonts.primary,
     fontSize: 14,
     textAlign: 'left', 
-    marginLeft: padding.xl,   
-    // marginTop: padding.sm, 
-    // marginBottom: padding.sm,      
-    // width: dimensions.fullWidth - padding.xl*2,    
+    // marginLeft: padding.xl,         
     height: 80,
     backgroundColor: 'white',
     borderColor: '#CCCCCC',
@@ -1830,7 +2037,7 @@ const styles = StyleSheet.create({
   {
     // margin:10,
     marginTop:padding.sm,
-    marginLeft:padding.xl,
+    // marginLeft:padding.xl,
     width:60,
     height:60,  
     backgroundColor:'white',    
@@ -1840,4 +2047,14 @@ const styles = StyleSheet.create({
     shadowRadius: 2,  
     elevation: 5
   },
+  radioButton:
+  {
+    fontSize:20,
+  },
+  timeIcon:
+  {
+    width:30,
+    height:30,
+    borderRadius:5
+  }
 });

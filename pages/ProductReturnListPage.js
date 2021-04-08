@@ -469,22 +469,73 @@ export default class ProductReturnListPage extends React.Component
             ))
           }       
           data={this.state.data}
-          renderItem={({ item }) => 
-            <View style={styles.standaloneRowFront}>
-              <View style={{ flex: 1, backgroundColor:item.Status == 0 && item.NextStep == 0?'white':(item.Status == 0 && item.NextStep == 1?colors.hilight:(item.Status == 0 && item.NextStep == 2?colors.self:(item.Status == 1 && item.ProductClaim == 2?colors.self:(item.Status == 2 && item.ProductClaim == 2?colors.hilight:'white'))))}}>
+          renderItem={({ item }) => {
+            
+            return (<View style={styles.standaloneRowFront}>
+              <View style={{ flex: 1, backgroundColor:item.Status == 0 && item.NextStep == 1?colors.hilight:item.Status == 0 && item.NextStep == 2?colors.self:item.Status == 1 && item.ProductClaim == 1?colors.hilight:item.Status == 1 && item.ProductClaim == 2 && item.ProductBack == 0?colors.self:item.Status == 1 && item.ProductClaim == 2 && item.ProductBack == 1?colors.orange:item.Status == 2 && item.ProductClaim == 1?colors.hilight:item.Status == 2 && item.ProductClaim == 2 && item.ProductBack == 1?colors.orange:colors.androidBg}}>
                 <TouchableHighlight
-                  underlayColor={'transparent'} activeOpacity={1} style={{height:40}}
+                  underlayColor={'transparent'} activeOpacity={1}
                   onPress={()=>{this.goToDetail(item.ProductReturnID)}} >
-                  <View style={{display:'flex',flexDirection:'row',height:40,alignItems:'center'}}>
-                    <Text style={styles.title2}>#{item.ProductReturnID}</Text>                        
-                    <View style={{flex: 1,alignItems:'flex-end'}}>
-                      <Text style={styles.title3}>{item.ReturnDate}</Text>
+                  <View style={{flex:1}}>
+                    <View style={{display:'flex',flexDirection:'row',height:30,alignItems:'center'}}>
+                      <Text style={styles.title2}>#{item.ProductReturnID}</Text>  
+                      {item.Status == 0 && item.NextStep == 0 && (
+                        <Text style={styles.title2}>  คีย์เข้าระบบ</Text>
+                      )}  
+                      {item.Status == 0 && item.NextStep == 1 && (
+                        <Text style={styles.title2}>  คืนเข้าร้าน</Text>
+                      )}                      
+                      {item.Status == 0 && item.NextStep == 2 && (
+                        <Text style={styles.title2}>  เคลม</Text>
+                      )} 
+                      {item.Status == 1 && item.ProductClaim == 1 && (
+                        <Text style={styles.title2}>  รอคืนเข้าร้าน</Text>
+                      )}     
+                      {item.Status == 1 && item.ProductClaim == 2 && item.ProductBack == 0 && (
+                        <Text style={styles.title2}>  รอรับคืนลูกค้า</Text>
+                      )}  
+                      {item.Status == 1 && item.ProductClaim == 2 && item.ProductBack == 1 && (
+                        <Text style={styles.title2}>  รอคืนลูกค้า</Text>
+                      )}  
+                      {item.Status == 2 && item.NextStep == 1 && (
+                        <Text style={styles.title2}>  สินค้าดีคืนเข้าร้าน</Text>
+                      )}
+                      {item.Status == 2 && item.ProductClaim == 1 && (
+                        <Text style={styles.title2}>  เคลมคืนร้านแล้ว</Text>
+                      )}                                        
+                      {item.Status == 2 && item.ProductClaim == 2 && item.ProductBack == 1 && (
+                        <Text style={styles.title2}>  เคลมคืนลูกค้าแล้ว</Text>
+                      )}                      
+                      <View style={{flex: 1,alignItems:'flex-end'}}>
+                        <Text style={styles.title3}>{item.ReturnDate}</Text>
+                      </View>
+                    </View>
+
+                    <View style={{display:'flex',flexDirection:'row'}}>
+                      <Image
+                        source={item.ProductReturnItem.Image != ''?{uri: item.ProductReturnItem.Image}:{uri:item.Image1}}
+                        style={styles.imageSku}
+                      />                    
+                      <View style={{ flex: 1}}>                  
+                        <Text style={styles.name}>{item.ProductReturnItem.Name}</Text>   
+                        <View style={{display:'flex',flexDirection:'row',alignItems:'center'}}> 
+                          {
+                            Platform.OS === 'ios'?(<TextInput style={styles.sku} editable={false} value={item.ProductReturnItem.Sku} multiline />)
+                            :(<Text style={styles.sku} selectable>{item.ProductReturnItem.Sku}</Text>)
+                          }                                              
+                        </View>                                                 
+
+                      </View>
                     </View>
                   </View>
+
+
+
                 </TouchableHighlight>
                 
               </View>
             </View>
+            )}
             }
 
           
@@ -627,7 +678,7 @@ const styles = StyleSheet.create({
   }, 
   separator: 
   {
-    height:1,
+    height:3,
     
     // width:dimensions.fullWidth-2*padding.xl,    
     // backgroundColor:colors.separator,
@@ -835,4 +886,58 @@ const styles = StyleSheet.create({
     fontSize: fonts.lg,
     color: colors.tertiary,    
   },
+  imageSku: 
+  {
+    width:70,
+    height:70,
+    marginBottom:padding.md,
+    marginLeft:8,
+    borderRadius:10
+  },
+  name: 
+  {
+    fontFamily: fonts.primary,
+    fontSize: 14,
+    textAlign: 'left',
+    color: colors.secondary,
+    paddingTop: 2,
+    paddingLeft: 10,    
+    width: Dimensions.get('window').width - 2*8 - 70,
+  },
+  sku: 
+  {    
+    fontFamily: fonts.primaryItalic,
+    fontSize: 13,
+    textAlign: 'left',
+    color: colors.tertiary, 
+    paddingTop:0,   
+    paddingLeft: 10,    
+    width: Dimensions.get('window').width - 8 - 16 - 70 - 84,    
+  },
+  quantityView: 
+  {    
+    marginLeft:16,
+    marginRight:16,
+    width:84,    
+  },
+  quantity: 
+  {
+    fontFamily: fonts.primary,
+    fontSize: 14,
+    textAlign: 'right',
+    color: colors.secondary,
+    // textDecorationLine: 'underline',
+    width: 30,
+  },
+  labelQuantity: 
+  {
+    fontFamily: fonts.primary,
+    fontSize: 14,
+    textAlign: 'right',    
+    color: colors.tertiary,
+  },  
+  buttonQuantity:
+  {
+    width:60,
+  }, 
 });
