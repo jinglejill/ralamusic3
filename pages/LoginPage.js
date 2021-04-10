@@ -3,7 +3,7 @@ import React, { Component } from 'react';
 //import react in our code.
 import { Text, View, TextInput, StyleSheet, Dimensions, TouchableHighlight, FlatList, Image, ScrollView, ActivityIndicator, Platform, AsyncStorage} from 'react-native';
 //import all the components we are going to use.
-import {colors, fonts, padding, dimensions} from './../styles/base.js'
+import {colors, fonts, padding, dimensions, settings} from './../styles/base.js'
 import DeviceInfo from 'react-native-device-info';
 import Dialog, { DialogContent, DialogTitle, SlideAnimation, DialogFooter, DialogButton } from 'react-native-popup-dialog';
 import ToastExample from './../javaModule/ToastExample';
@@ -17,7 +17,7 @@ export default class LoginPage extends React.Component {
     super(props);
 
     this.state = {
-      storeName: 'RALAMUSIC',
+      storeName: settings.storeName,
       // storeName: 'MINIMALIST',
       apiPath: 'https://minimalist.co.th/saim/', 
       // apiPath: 'http://jummum.co/saim/',  

@@ -127,6 +127,8 @@ export default class OrderDetail2Page extends React.Component {
       imageSortTimeout:0,      
       data:[],
       defectReason:'',
+      customerAddress:'',
+      customerAddressImage:'',
       chooseFirst:false,
       chooseSecond:false,
       chooseNextStepFirst:false,
@@ -272,7 +274,7 @@ export default class OrderDetail2Page extends React.Component {
           }
           console.log("nextStepProcess:"+this.state.nextStepProcess);
           this.setState({  
-            // previousOrder:JSON.parse(JSON.stringify(res.Order)), 
+            previousOrder:JSON.parse(JSON.stringify(res.Order)), 
             order:res.Order,          
             error: res.error || null,
             loading: false,  
@@ -602,8 +604,9 @@ export default class OrderDetail2Page extends React.Component {
       //   this.props.navigation.goBack(null);   
       //   return;
       // }
-
-      if(!changeImage)
+      var nextStepProcess;
+      var productClaimChange = false;
+      if(!changeImage && (this.state.order.Condition == this.state.previousOrder.Condition) && (this.state.order.DefectReason == this.state.previousOrder.DefectReason) && (this.state.order.CustomerAddress == this.state.previousOrder.CustomerAddress) && (this.state.order.CustomerAddressImage == this.state.previousOrder.CustomerAddressImage))
       {
         if(this.state.status == 0 && !this.state.chooseNextStepFirst && !this.state.chooseNextStepSecond)
         {
@@ -612,12 +615,36 @@ export default class OrderDetail2Page extends React.Component {
         }
 
 
-        if(this.state.status == 0 && !this.state.nextStepProcess && this.state.chooseNextStepSecond && !this.state.chooseProductClaimFirst && !this.state.chooseProductClaimSecond)
+        if((this.state.order.NextStep == this.state.previousOrder.NextStep) && (this.state.order.ClaimAt == this.state.previousOrder.ClaimAt) && (this.state.order.ClaimNote == this.state.previousOrder.ClaimNote))
         {
-          this.showAlertMessage("กรุณาเลือกประเภทการคืนสินค้าเคลม");
-          return;
+          if(this.state.status == 0 && !this.state.nextStepProcess && this.state.chooseNextStepSecond && !this.state.chooseProductClaimFirst && !this.state.chooseProductClaimSecond)
+          {
+            this.showAlertMessage("กรุณาเลือกประเภทการคืนสินค้าเคลม");
+            return;
+          }
+
+          if(this.state.status == 0 && !this.state.nextStepProcess && this.state.chooseNextStepSecond && this.state.claimStaffName == "" && this.state.claimStaffImage == "")
+          {
+            this.showAlertMessage("กรุณาระบุผู้รับของเคลม");
+            return;
+          }
+        }
+        else
+        {
+          console.log("set nextStepProcess to true");
+          this.setState({nextStepProcess:true});
+          nextStepProcess = true;
         }
 
+
+        if((this.state.order.ProductClaim == this.state.previousOrder.ProductClaim) && (this.state.order.ClaimStaffName == this.state.previousOrder.ClaimStaffName) && (this.state.order.ClaimStaffImage == this.state.previousOrder.ClaimStaffImage))
+        {
+
+        }
+        else
+        {
+          productClaimChange = true;
+        }
 
         // if(this.state.status == 0 && this.state.customerAddress == "" && this.state.customerAddressImage == "")
         // {
@@ -626,11 +653,7 @@ export default class OrderDetail2Page extends React.Component {
         // }
 
 
-        if(this.state.status == 0 && this.state.chooseNextStepSecond && this.state.claimStaffName == "")
-        {
-          this.showAlertMessage("กรุณาระบุผู้รับของเคลม");
-          return;
-        }
+        
       }
       else
       {
@@ -663,6 +686,7 @@ export default class OrderDetail2Page extends React.Component {
         defectReason: this.state.defectReason,
         nextStep: !this.state.chooseNextStepFirst && !this.state.chooseNextStepSecond?0:(this.state.chooseNextStepFirst?1:2),
         productClaim: !this.state.chooseProductClaimFirst && !this.state.chooseProductClaimSecond?0:(this.state.chooseProductClaimFirst?1:2),
+        productClaimChange: productClaimChange,
         claimAt: this.state.claimAt,
         claimNote: this.state.claimNote,
         customerAddress: this.state.customerAddress,
@@ -676,7 +700,7 @@ export default class OrderDetail2Page extends React.Component {
         claimDate: this.state.claimDate,
         productBack: this.state.productBack,
         status:this.state.status,  
-        nextStepProcess:this.state.nextStepProcess,  
+        nextStepProcess:nextStepProcess?nextStepProcess:this.state.nextStepProcess,  
         
         storeName: settings.storeName,
         modifiedUser: this.state.modifiedUser,
@@ -1122,7 +1146,7 @@ export default class OrderDetail2Page extends React.Component {
   }
 
   render() {
-    // console.log("productreturn test");
+    console.log("customerAddressImage::"+this.state.customerAddressImage);
     const comp = (a, b) => a.toLowerCase().trim() === b.toLowerCase().trim();
     if(this.state.loadingAccess)
     {
@@ -1366,19 +1390,21 @@ export default class OrderDetail2Page extends React.Component {
               <Text style={styles.title}>ชื่อ-ที่อยู่ลูกค้า</Text>
               <TextInput style={styles.textInputMulti} value={this.state.customerAddress} placeholder=' ' multiline onChangeText={text => {this.setCustomerAddress(text)}}/>
               <Text style={styles.title}>แนบรูปภาพ</Text>
-              <TouchableHighlight underlayColor={'transparent'} activeOpacity={1} onPress={ () => this.addImage('customerAddress')}>
-                <View>
+              <View style = {{width:60,height:60}}>
+                <TouchableHighlight underlayColor={'transparent'} activeOpacity={1} onPress={ () => this.addImage('customerAddress')}>
                   <View style={styles.box}>
                     <Image source={{uri:this.state.customerAddressImage == ""?'http://minimalist.co.th/saim/images/add.png':this.state.customerAddressImage}}  style={styles.imageCustomerAddress}/>                                         
                   </View>
-                </View>
-              </TouchableHighlight>              
+                </TouchableHighlight>             
+              </View> 
             </View>
 
 
             {this.state.edit && 
               (
-                <View style={[styles.viewField,{marginBottom:padding.lg}]}>                      
+                <View style={[styles.viewField,{marginBottom:padding.lg}]}>   
+                  <View style={{height:1,backgroundColor:colors.separator,margin:padding.lg}}>
+                  </View>                   
                   <Text style={styles.title}>ขั้นตอนถัดไป</Text>
                   <TouchableOpacity onPress={()=>{this.chooseNextStep(1)}} >
                     <View style={{display:'flex',flexDirection:'row',alignItems:'center'}}>
@@ -1410,7 +1436,9 @@ export default class OrderDetail2Page extends React.Component {
 
             {this.state.edit && !this.state.nextStepProcess && this.state.chooseNextStepSecond &&  
               (
-                <View style={[styles.viewField,{marginBottom:padding.lg}]}>                      
+                <View style={[styles.viewField,{marginBottom:padding.lg}]}> 
+                  <View style={{height:1,backgroundColor:colors.separator,margin:padding.lg}}>
+                  </View>                     
                   <Text style={styles.title}>คืนสินค้าเคลม</Text>
                   <TouchableOpacity onPress={()=>{this.chooseProductClaim(1)}} >
                     <View style={{display:'flex',flexDirection:'row',alignItems:'center'}}>
@@ -1428,19 +1456,27 @@ export default class OrderDetail2Page extends React.Component {
                   <Text style={styles.title}>ผู้รับของเคลม</Text>
                   <TextInput style={styles.textInputMulti} value={this.state.claimStaffName} placeholder=' ' onChangeText={text => {this.setClaimStaffName(text)}}/>
                   <Text style={styles.title}>แนบรูปภาพ</Text>
-                  <TouchableHighlight underlayColor={'transparent'} activeOpacity={1} onPress={ () => this.addImage('claimStaff')}>
-                    <View style={[styles.box,{marginBottom:padding.sm}]}>
-                      <Image source={{uri:this.state.claimStaffImage == ""?'http://minimalist.co.th/saim/images/add.png':this.state.claimStaffImage}}  style={styles.imageCustomerAddress}/>                                         
-                    </View>
-                  </TouchableHighlight>
+                  <View style = {{width:60,height:60}}>
+                    <TouchableHighlight underlayColor={'transparent'} activeOpacity={1} onPress={ () => this.addImage('claimStaff')}>
+                      <View style={[styles.box,{marginBottom:padding.sm}]}>
+                        <Image source={{uri:this.state.claimStaffImage == ""?'http://minimalist.co.th/saim/images/add.png':this.state.claimStaffImage}}  style={styles.imageCustomerAddress}/>                                         
+                      </View>
+                    </TouchableHighlight>
+                  </View>
+                  <View style={{height:padding.lg}}>
+                  </View>
                   <Text style={styles.title}>วันที่รับของเคลม</Text>
                   <View style={{display:'flex',flexDirection:'row'}}>
                     <Text style={styles.radioText}>{this.formatDate(this.state.claimDate)}  </Text>
-                    <TouchableHighlight underlayColor={'transparent'} activeOpacity={1} onPress={ () => this.setCurrentDate()}>                      
-                      <View style={{flex:1}}>
-                        <Image source={require('./../assets/images/time.png')} style={styles.timeIcon}/>                                         
-                      </View>                      
-                    </TouchableHighlight>
+                    {
+                      this.state.status == 0 && (
+                        <TouchableHighlight underlayColor={'transparent'} activeOpacity={1} onPress={ () => this.setCurrentDate()}>                      
+                        <View style={{flex:1}}>
+                          <Image source={require('./../assets/images/time.png')} style={styles.timeIcon}/>                                         
+                        </View>                      
+                      </TouchableHighlight>)
+                    }
+                    
                   </View>
                 </View>
               )
