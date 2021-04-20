@@ -210,6 +210,7 @@ export default class OrderDetail2Page extends React.Component {
 
   fetchData = () => 
   {      
+    console.log("fetchData OrderDetail");
     if(this.state.edit)
     {
       const url =  settings.apiPath + 'SAIMProductReturnGet.php';
@@ -234,6 +235,7 @@ export default class OrderDetail2Page extends React.Component {
       })
       .then(res => res.json())
       .then(res => {
+        console.log("orderdetail get1 : "+JSON.stringify(res));
         if(res.success)
         {
           var previousImageList = [
@@ -1178,7 +1180,7 @@ export default class OrderDetail2Page extends React.Component {
             <Text style={styles.title3}>Date {this.state.order.OrderDate == ''?'-':this.state.order.OrderDate}</Text>
             <FlatList            
             data={this.state.order.Items}
-            renderItem={({ item }) => (   
+            renderItem={({ item }) =>{console.log("sku image:"+item.Image);return(   
               <View style={{ flex: 1}}>
                 <TouchableHighlight 
                   underlayColor={'transparent'} activeOpacity={1}                                         
@@ -1242,8 +1244,10 @@ export default class OrderDetail2Page extends React.Component {
                 </TouchableHighlight>  
                 <View style={styles.separator}/>
               </View>
-              
-            )}            
+             
+            )
+          }
+        }            
             keyExtractor={(item, index) => index}            
             removeClippedSubviews={false}
             keyboardShouldPersistTaps='always'
@@ -1322,8 +1326,7 @@ export default class OrderDetail2Page extends React.Component {
                       }
                     }
                   }
-                  renderItem={(item,index)=>
-                    this.state.enableImageSort?
+                  renderItem={(item,index)=>{console.log("abc:"+item.Image.replace("/Images/","/ImagesNew/")); return (this.state.enableImageSort?
                     ( 
                       <Animatable.View animation="swing" iterationCount="infinite">
                         <View 
@@ -1351,15 +1354,16 @@ export default class OrderDetail2Page extends React.Component {
                         onResponderRelease = {this.onResponderRelease}
                       >
                         <Image
-                          source={item.Image == ""?require('./../assets/images/blank.gif'):{uri: item.Image}}
+                          source={item.Image == ""?require('./../assets/images/blank.gif'):{uri: item.Image.replace("/Images/","/ImagesNew/")+'?3'}}
                           style={styles.image}
                         />
                         {
                           item.Resizing && (<View style={{position:'absolute',top:6+20,left:20}}><ActivityIndicator size="small" animating={true} color='white'/></View>)
                         }
                           
-                      </View>                  
+                      </View>    
                     )
+                    )}
                   }
                 />
               </View> 
@@ -1536,6 +1540,7 @@ export default class OrderDetail2Page extends React.Component {
 
             
             
+
 
             <Dialog
               visible={this.state.addImageVisible}

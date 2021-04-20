@@ -31,9 +31,9 @@ export default class LargeImagePage extends React.Component {
     this.props.navigation.setParams({ allowDelete: this.state.allowDelete });
     this.props.navigation.setParams({ handleDelete: this.deleteImage });
     this.props.navigation.setParams({ animating: false });
-    Image.getSize(this.state.imageUrl, (width, height) => {this.setState({width:width, height:height})});
-    console.log("width:"+this.state.width);
-    console.log("height:"+this.state.height);
+    Image.getSize(this.state.imageUrl, (width, height) => {this.setState({width:width, height:height},()=>{console.log("width:"+this.state.width);
+    console.log("height:"+this.state.height);})});
+    
   }
 
   deleteImage = () =>

@@ -23,7 +23,7 @@ export default class LoginPage extends React.Component {
       // apiPath: 'http://jummum.co/saim/',  
       rememberMeText: '❒  จำฉันไว้ในระบบ',  
       alertVisible: false,  
-      token:'',//test
+      token:'test',//test
     };
 
     this.handleSetControl();//uncomment

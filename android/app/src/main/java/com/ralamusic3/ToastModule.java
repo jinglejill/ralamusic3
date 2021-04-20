@@ -318,6 +318,10 @@ public class ToastModule extends ReactContextBaseJavaModule {
     @RequiresApi(api = Build.VERSION_CODES.O)
     @ReactMethod
     public void getPrinterStatus(Callback statusCallback) throws NoSuchAlgorithmException, InvalidKeySpecException, IllegalBlockSizeException, InvalidKeyException, BadPaddingException, NoSuchPaddingException, IOException {
+
+        String baseStr = "42995589cb4a87c62e3f2b239c43647053736610c1fcae8c9373395d4877a745" + "https://minimalist.co.th";
+        String test = org.apache.commons.codec.digest.DigestUtils.sha256Hex(baseStr);
+
         String value = URLEncoder.encode("D'Addario®", "UTF-8");
 
         Map<String, Object> paramMap = new HashMap<String, Object>(){{
@@ -338,7 +342,7 @@ public class ToastModule extends ReactContextBaseJavaModule {
         }};
 
         Map signMap = sign(paramMap,"E62B632CCFA847C49143AB3D3CA8ABAE");
-        String test = "abc";
+        String test2 = "abc";
         //test*****
 
         SharedPreferences sharedPref = getReactApplicationContext().getSharedPreferences("com.jummumtech.ralamusic",getReactApplicationContext().MODE_PRIVATE);
