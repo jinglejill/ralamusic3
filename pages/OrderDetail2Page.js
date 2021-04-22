@@ -1068,20 +1068,20 @@ export default class OrderDetail2Page extends React.Component {
   {
     this.setState({status:status});
     console.log("setStatus:"+this.state.status);
-    let order = this.state.order;
-    order.Status = status;
+    // let order = this.state.order;
+    // order.Status = status;
 
-    statusList.map((item)=>
-    {
-      if(item.value == status)
-      {
-        item.selected = true;
-      }
-      else
-      {
-        item.selected = false;
-      }
-    })
+    // statusList.map((item)=>
+    // {
+    //   if(item.value == status)
+    //   {
+    //     item.selected = true;
+    //   }
+    //   else
+    //   {
+    //     item.selected = false;
+    //   }
+    // })
 
     console.log("statusList:"+JSON.stringify(statusList));
   }
@@ -1148,7 +1148,6 @@ export default class OrderDetail2Page extends React.Component {
   }
 
   render() {
-    console.log("customerAddressImage::"+this.state.customerAddressImage);
     const comp = (a, b) => a.toLowerCase().trim() === b.toLowerCase().trim();
     if(this.state.loadingAccess)
     {
@@ -1180,7 +1179,7 @@ export default class OrderDetail2Page extends React.Component {
             <Text style={styles.title3}>Date {this.state.order.OrderDate == ''?'-':this.state.order.OrderDate}</Text>
             <FlatList            
             data={this.state.order.Items}
-            renderItem={({ item }) =>{console.log("sku image:"+item.Image);return(   
+            renderItem={({ item }) =>(   
               <View style={{ flex: 1}}>
                 <TouchableHighlight 
                   underlayColor={'transparent'} activeOpacity={1}                                         
@@ -1246,7 +1245,7 @@ export default class OrderDetail2Page extends React.Component {
               </View>
              
             )
-          }
+          
         }            
             keyExtractor={(item, index) => index}            
             removeClippedSubviews={false}

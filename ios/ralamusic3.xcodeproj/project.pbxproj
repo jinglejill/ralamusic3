@@ -16,10 +16,8 @@
 		2D02E4BD1E0B4A84006451C7 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 13B07FB51A68108700A75B9A /* Images.xcassets */; };
 		2D02E4BF1E0B4AB3006451C7 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB71A68108700A75B9A /* main.m */; };
 		2DCD954D1E0B4F2C00145EB5 /* ralamusic3Tests.m in Sources */ = {isa = PBXBuildFile; fileRef = 00E356F21AD99517003FC87E /* ralamusic3Tests.m */; };
-		4579223D3F0AB482AD2E540E /* libPods-ralamusic3-tvOSTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 56D7FF74C233FADAC88F6347 /* libPods-ralamusic3-tvOSTests.a */; };
-		4A0D8A0FD5B17F6D3F84D766 /* libPods-ralamusic3-tvOS.a in Frameworks */ = {isa = PBXBuildFile; fileRef = D53E2FCEF0EEBF72A80F7FFF /* libPods-ralamusic3-tvOS.a */; };
-		B6A7B6BA0B8AB568BF7BDB8B /* libPods-ralamusic3.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 5A3C015D979E048B3DABD929 /* libPods-ralamusic3.a */; };
-		DCEBBA4CB1ACD8369A1A5C57 /* libPods-ralamusic3-ralamusic3Tests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = ED86BEEDD672358598E4CB0B /* libPods-ralamusic3-ralamusic3Tests.a */; };
+		5F5B94CD9DC79A7B3128D436 /* libPods-ralamusic3-ralamusic3Tests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 1815B4150C420DB7411A1B3D /* libPods-ralamusic3-ralamusic3Tests.a */; };
+		E1B67580C53211F88117C40A /* libPods-ralamusic3-tvOS.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 10A31CAFD7085BD3896DD6BD /* libPods-ralamusic3-tvOS.a */; };
 		EF19FF882514BFDB003CB451 /* Sarabun-SemiBold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = EFDD8A5024861EC1002B4420 /* Sarabun-SemiBold.ttf */; };
 		EF19FF892514BFDD003CB451 /* Sarabun-Light.ttf in Resources */ = {isa = PBXBuildFile; fileRef = EFDD8A5424861EC1002B4420 /* Sarabun-Light.ttf */; };
 		EF19FF8A2514C1F5003CB451 /* Sarabun-LightItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = EFDD8A5624861EC1002B4420 /* Sarabun-LightItalic.ttf */; };
@@ -54,6 +52,8 @@
 		EFFE1AE0253462F7004308EF /* ConnectBrotherPrinter.m in Sources */ = {isa = PBXBuildFile; fileRef = EFFE1ADF253462F7004308EF /* ConnectBrotherPrinter.m */; };
 		EFFE1AF3253703FE004308EF /* BRLMPrinterKitW.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EFFE1AED2536D474004308EF /* BRLMPrinterKitW.framework */; };
 		EFFE1AF4253703FE004308EF /* BRLMPrinterKitW.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = EFFE1AED2536D474004308EF /* BRLMPrinterKitW.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		F5A7F79EC62134456922AB8E /* libPods-ralamusic3-tvOSTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 9ED16F3C421BFA78D4E3D8A1 /* libPods-ralamusic3-tvOSTests.a */; };
+		F9F5407212BD96A45A0F9F95 /* libPods-ralamusic3.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 2F596E2397A6F95386830697 /* libPods-ralamusic3.a */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -91,6 +91,7 @@
 		00E356EE1AD99517003FC87E /* ralamusic3Tests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = ralamusic3Tests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		00E356F11AD99517003FC87E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		00E356F21AD99517003FC87E /* ralamusic3Tests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ralamusic3Tests.m; sourceTree = "<group>"; };
+		10A31CAFD7085BD3896DD6BD /* libPods-ralamusic3-tvOS.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-ralamusic3-tvOS.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		13B07F961A680F5B00A75B9A /* Rala Music.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Rala Music.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		13B07FAF1A68108700A75B9A /* AppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AppDelegate.h; path = ralamusic3/AppDelegate.h; sourceTree = "<group>"; };
 		13B07FB01A68108700A75B9A /* AppDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AppDelegate.m; path = ralamusic3/AppDelegate.m; sourceTree = "<group>"; };
@@ -98,26 +99,21 @@
 		13B07FB51A68108700A75B9A /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = Images.xcassets; path = ralamusic3/Images.xcassets; sourceTree = "<group>"; };
 		13B07FB61A68108700A75B9A /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = Info.plist; path = ralamusic3/Info.plist; sourceTree = "<group>"; };
 		13B07FB71A68108700A75B9A /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = main.m; path = ralamusic3/main.m; sourceTree = "<group>"; };
-		208B290DB4CBA307DB6445EB /* Pods-ralamusic3-tvOS.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ralamusic3-tvOS.debug.xcconfig"; path = "Target Support Files/Pods-ralamusic3-tvOS/Pods-ralamusic3-tvOS.debug.xcconfig"; sourceTree = "<group>"; };
+		1815B4150C420DB7411A1B3D /* libPods-ralamusic3-ralamusic3Tests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-ralamusic3-ralamusic3Tests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		19C3660A8DA291E30E93AA90 /* Pods-ralamusic3.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ralamusic3.release.xcconfig"; path = "Target Support Files/Pods-ralamusic3/Pods-ralamusic3.release.xcconfig"; sourceTree = "<group>"; };
 		2D02E47B1E0B4A5D006451C7 /* ralamusic3-tvOS.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "ralamusic3-tvOS.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		2D02E4901E0B4A5D006451C7 /* ralamusic3-tvOSTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "ralamusic3-tvOSTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
-		32818B5E25F2B104D27C749E /* Pods-ralamusic3-ralamusic3Tests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ralamusic3-ralamusic3Tests.release.xcconfig"; path = "Target Support Files/Pods-ralamusic3-ralamusic3Tests/Pods-ralamusic3-ralamusic3Tests.release.xcconfig"; sourceTree = "<group>"; };
-		3960E3EEA6D55E3762416B29 /* Pods-ralamusic3-tvOS.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ralamusic3-tvOS.release.xcconfig"; path = "Target Support Files/Pods-ralamusic3-tvOS/Pods-ralamusic3-tvOS.release.xcconfig"; sourceTree = "<group>"; };
-		56D7FF74C233FADAC88F6347 /* libPods-ralamusic3-tvOSTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-ralamusic3-tvOSTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
-		5A3C015D979E048B3DABD929 /* libPods-ralamusic3.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-ralamusic3.a"; sourceTree = BUILT_PRODUCTS_DIR; };
-		9173F7CCFA72EAC9A8CC6149 /* Pods-ralamusic3-tvOSTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ralamusic3-tvOSTests.debug.xcconfig"; path = "Target Support Files/Pods-ralamusic3-tvOSTests/Pods-ralamusic3-tvOSTests.debug.xcconfig"; sourceTree = "<group>"; };
-		A37694FD1C40B3BDEC31D941 /* Pods-ralamusic3.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ralamusic3.release.xcconfig"; path = "Target Support Files/Pods-ralamusic3/Pods-ralamusic3.release.xcconfig"; sourceTree = "<group>"; };
-		CC943577846097B3D4E8C86F /* Pods-ralamusic3-ralamusic3Tests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ralamusic3-ralamusic3Tests.debug.xcconfig"; path = "Target Support Files/Pods-ralamusic3-ralamusic3Tests/Pods-ralamusic3-ralamusic3Tests.debug.xcconfig"; sourceTree = "<group>"; };
-		D53E2FCEF0EEBF72A80F7FFF /* libPods-ralamusic3-tvOS.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-ralamusic3-tvOS.a"; sourceTree = BUILT_PRODUCTS_DIR; };
-		DBF30FD76BC9C3F8BB81FC8A /* Pods-ralamusic3.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ralamusic3.debug.xcconfig"; path = "Target Support Files/Pods-ralamusic3/Pods-ralamusic3.debug.xcconfig"; sourceTree = "<group>"; };
-		E79A5C138F1840A0FDD75418 /* Pods-ralamusic3-tvOSTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ralamusic3-tvOSTests.release.xcconfig"; path = "Target Support Files/Pods-ralamusic3-tvOSTests/Pods-ralamusic3-tvOSTests.release.xcconfig"; sourceTree = "<group>"; };
+		2F596E2397A6F95386830697 /* libPods-ralamusic3.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-ralamusic3.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		6FC2BD7403E1C7B85AEB138C /* Pods-ralamusic3.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ralamusic3.debug.xcconfig"; path = "Target Support Files/Pods-ralamusic3/Pods-ralamusic3.debug.xcconfig"; sourceTree = "<group>"; };
+		70FED375A5E02BBBCEEA77AF /* Pods-ralamusic3-ralamusic3Tests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ralamusic3-ralamusic3Tests.release.xcconfig"; path = "Target Support Files/Pods-ralamusic3-ralamusic3Tests/Pods-ralamusic3-ralamusic3Tests.release.xcconfig"; sourceTree = "<group>"; };
+		8465F783665E74A98B3FAB48 /* Pods-ralamusic3-tvOS.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ralamusic3-tvOS.debug.xcconfig"; path = "Target Support Files/Pods-ralamusic3-tvOS/Pods-ralamusic3-tvOS.debug.xcconfig"; sourceTree = "<group>"; };
+		896F3B6BBB3D23FFF9ED9994 /* Pods-ralamusic3-tvOS.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ralamusic3-tvOS.release.xcconfig"; path = "Target Support Files/Pods-ralamusic3-tvOS/Pods-ralamusic3-tvOS.release.xcconfig"; sourceTree = "<group>"; };
+		9ED16F3C421BFA78D4E3D8A1 /* libPods-ralamusic3-tvOSTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-ralamusic3-tvOSTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		B6E89961D08424D4660F48B1 /* Pods-ralamusic3-ralamusic3Tests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ralamusic3-ralamusic3Tests.debug.xcconfig"; path = "Target Support Files/Pods-ralamusic3-ralamusic3Tests/Pods-ralamusic3-ralamusic3Tests.debug.xcconfig"; sourceTree = "<group>"; };
+		DAD4B12F60FFE31D0C9E8F0F /* Pods-ralamusic3-tvOSTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ralamusic3-tvOSTests.debug.xcconfig"; path = "Target Support Files/Pods-ralamusic3-tvOSTests/Pods-ralamusic3-tvOSTests.debug.xcconfig"; sourceTree = "<group>"; };
 		ED297162215061F000B7C4FE /* JavaScriptCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = JavaScriptCore.framework; path = System/Library/Frameworks/JavaScriptCore.framework; sourceTree = SDKROOT; };
-		ED2971642150620600B7C4FE /* JavaScriptCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = JavaScriptCore.framework; path = Platforms/AppleTVOS.platform/Developer/SDKs/AppleTVOS12.0.sdk/System/Library/Frameworks/JavaScriptCore.framework; sourceTree = DEVELOPER_DIR; };
-		ED86BEEDD672358598E4CB0B /* libPods-ralamusic3-ralamusic3Tests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-ralamusic3-ralamusic3Tests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		EF3E8BE62546BDDC0050CF41 /* Rala Music.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; name = "Rala Music.entitlements"; path = "ralamusic3/Rala Music.entitlements"; sourceTree = "<group>"; };
 		EF3E8BE72546BDDC0050CF41 /* ExternalAccessory.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ExternalAccessory.framework; path = System/Library/Frameworks/ExternalAccessory.framework; sourceTree = SDKROOT; };
-		EF6F104C24850EB200AF2D2F /* libreact-native-webview.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; path = "libreact-native-webview.a"; sourceTree = BUILT_PRODUCTS_DIR; };
-		EF6F104E2485F94500AF2D2F /* libreact-native-webview.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; path = "libreact-native-webview.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		EFA178992514AFEA0029BD70 /* fonts */ = {isa = PBXFileReference; lastKnownFileType = folder; path = fonts; sourceTree = "<group>"; };
 		EFA37B082478EE3800EFE784 /* Icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Icon.png; sourceTree = "<group>"; };
 		EFA37B092478EE3800EFE784 /* Icon-76@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Icon-76@2x.png"; sourceTree = "<group>"; };
@@ -179,6 +175,7 @@
 		EFFE1ADE253462F7004308EF /* ConnectBrotherPrinter.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ConnectBrotherPrinter.h; sourceTree = "<group>"; };
 		EFFE1ADF253462F7004308EF /* ConnectBrotherPrinter.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ConnectBrotherPrinter.m; sourceTree = "<group>"; };
 		EFFE1AED2536D474004308EF /* BRLMPrinterKitW.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = BRLMPrinterKitW.framework; sourceTree = "<group>"; };
+		F947884E4F5217A8C481E4D6 /* Pods-ralamusic3-tvOSTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ralamusic3-tvOSTests.release.xcconfig"; path = "Target Support Files/Pods-ralamusic3-tvOSTests/Pods-ralamusic3-tvOSTests.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -186,7 +183,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				DCEBBA4CB1ACD8369A1A5C57 /* libPods-ralamusic3-ralamusic3Tests.a in Frameworks */,
+				5F5B94CD9DC79A7B3128D436 /* libPods-ralamusic3-ralamusic3Tests.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -195,8 +192,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				EF3E8BE82546BDDC0050CF41 /* ExternalAccessory.framework in Frameworks */,
-				B6A7B6BA0B8AB568BF7BDB8B /* libPods-ralamusic3.a in Frameworks */,
 				EFFE1AF3253703FE004308EF /* BRLMPrinterKitW.framework in Frameworks */,
+				F9F5407212BD96A45A0F9F95 /* libPods-ralamusic3.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -204,7 +201,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				4A0D8A0FD5B17F6D3F84D766 /* libPods-ralamusic3-tvOS.a in Frameworks */,
+				E1B67580C53211F88117C40A /* libPods-ralamusic3-tvOS.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -212,7 +209,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				4579223D3F0AB482AD2E540E /* libPods-ralamusic3-tvOSTests.a in Frameworks */,
+				F5A7F79EC62134456922AB8E /* libPods-ralamusic3-tvOSTests.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -255,14 +252,14 @@
 		20862ED0EFCC26D82A947631 /* Pods */ = {
 			isa = PBXGroup;
 			children = (
-				DBF30FD76BC9C3F8BB81FC8A /* Pods-ralamusic3.debug.xcconfig */,
-				A37694FD1C40B3BDEC31D941 /* Pods-ralamusic3.release.xcconfig */,
-				CC943577846097B3D4E8C86F /* Pods-ralamusic3-ralamusic3Tests.debug.xcconfig */,
-				32818B5E25F2B104D27C749E /* Pods-ralamusic3-ralamusic3Tests.release.xcconfig */,
-				208B290DB4CBA307DB6445EB /* Pods-ralamusic3-tvOS.debug.xcconfig */,
-				3960E3EEA6D55E3762416B29 /* Pods-ralamusic3-tvOS.release.xcconfig */,
-				9173F7CCFA72EAC9A8CC6149 /* Pods-ralamusic3-tvOSTests.debug.xcconfig */,
-				E79A5C138F1840A0FDD75418 /* Pods-ralamusic3-tvOSTests.release.xcconfig */,
+				6FC2BD7403E1C7B85AEB138C /* Pods-ralamusic3.debug.xcconfig */,
+				19C3660A8DA291E30E93AA90 /* Pods-ralamusic3.release.xcconfig */,
+				B6E89961D08424D4660F48B1 /* Pods-ralamusic3-ralamusic3Tests.debug.xcconfig */,
+				70FED375A5E02BBBCEEA77AF /* Pods-ralamusic3-ralamusic3Tests.release.xcconfig */,
+				8465F783665E74A98B3FAB48 /* Pods-ralamusic3-tvOS.debug.xcconfig */,
+				896F3B6BBB3D23FFF9ED9994 /* Pods-ralamusic3-tvOS.release.xcconfig */,
+				DAD4B12F60FFE31D0C9E8F0F /* Pods-ralamusic3-tvOSTests.debug.xcconfig */,
+				F947884E4F5217A8C481E4D6 /* Pods-ralamusic3-tvOSTests.release.xcconfig */,
 			);
 			path = Pods;
 			sourceTree = "<group>";
@@ -272,14 +269,11 @@
 			children = (
 				EF3E8BE72546BDDC0050CF41 /* ExternalAccessory.framework */,
 				EFA178992514AFEA0029BD70 /* fonts */,
-				EF6F104E2485F94500AF2D2F /* libreact-native-webview.a */,
-				EF6F104C24850EB200AF2D2F /* libreact-native-webview.a */,
 				ED297162215061F000B7C4FE /* JavaScriptCore.framework */,
-				ED2971642150620600B7C4FE /* JavaScriptCore.framework */,
-				5A3C015D979E048B3DABD929 /* libPods-ralamusic3.a */,
-				ED86BEEDD672358598E4CB0B /* libPods-ralamusic3-ralamusic3Tests.a */,
-				D53E2FCEF0EEBF72A80F7FFF /* libPods-ralamusic3-tvOS.a */,
-				56D7FF74C233FADAC88F6347 /* libPods-ralamusic3-tvOSTests.a */,
+				2F596E2397A6F95386830697 /* libPods-ralamusic3.a */,
+				1815B4150C420DB7411A1B3D /* libPods-ralamusic3-ralamusic3Tests.a */,
+				10A31CAFD7085BD3896DD6BD /* libPods-ralamusic3-tvOS.a */,
+				9ED16F3C421BFA78D4E3D8A1 /* libPods-ralamusic3-tvOSTests.a */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -406,11 +400,12 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 00E357021AD99517003FC87E /* Build configuration list for PBXNativeTarget "ralamusic3Tests" */;
 			buildPhases = (
-				11D5AC3534D6CD269FCED3AF /* [CP] Check Pods Manifest.lock */,
+				35E2BA08D5430A0D6A405639 /* [CP] Check Pods Manifest.lock */,
 				00E356EA1AD99517003FC87E /* Sources */,
 				00E356EB1AD99517003FC87E /* Frameworks */,
 				00E356EC1AD99517003FC87E /* Resources */,
-				B3DD3FC6AE776250B5407514 /* [CP] Copy Pods Resources */,
+				01FF5C3BB5246B403BF60139 /* [CP] Embed Pods Frameworks */,
+				51EE90AD59C36598B2DCD727 /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -426,14 +421,15 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 13B07F931A680F5B00A75B9A /* Build configuration list for PBXNativeTarget "ralamusic3" */;
 			buildPhases = (
-				9B18317AF0C20D3D18ED13D0 /* [CP] Check Pods Manifest.lock */,
+				C8F2B6F3A51A1FF8398D43E6 /* [CP] Check Pods Manifest.lock */,
 				FD10A7F022414F080027D42C /* Start Packager */,
 				13B07F871A680F5B00A75B9A /* Sources */,
 				13B07F8C1A680F5B00A75B9A /* Frameworks */,
 				13B07F8E1A680F5B00A75B9A /* Resources */,
 				00DD1BFF1BD5951E006B06BC /* Bundle React Native code and images */,
-				632A161E053C6B393C0A83B8 /* [CP] Copy Pods Resources */,
 				EFFE1AF5253703FE004308EF /* Embed Frameworks */,
+				071309E0B8D281D269DBA8A8 /* [CP] Embed Pods Frameworks */,
+				A1694A9AFE5C1C294557F167 /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -448,7 +444,7 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 2D02E4BA1E0B4A5E006451C7 /* Build configuration list for PBXNativeTarget "ralamusic3-tvOS" */;
 			buildPhases = (
-				70061BD05266B007E649D58C /* [CP] Check Pods Manifest.lock */,
+				9A2CDF227DE3583DB8374BC2 /* [CP] Check Pods Manifest.lock */,
 				FD10A7F122414F3F0027D42C /* Start Packager */,
 				2D02E4771E0B4A5D006451C7 /* Sources */,
 				2D02E4781E0B4A5D006451C7 /* Frameworks */,
@@ -468,7 +464,7 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 2D02E4BB1E0B4A5E006451C7 /* Build configuration list for PBXNativeTarget "ralamusic3-tvOSTests" */;
 			buildPhases = (
-				63A3BDA07A07F720EB50AA10 /* [CP] Check Pods Manifest.lock */,
+				033DAC0ECFA712482E6C4FB6 /* [CP] Check Pods Manifest.lock */,
 				2D02E48C1E0B4A5D006451C7 /* Sources */,
 				2D02E48D1E0B4A5D006451C7 /* Frameworks */,
 				2D02E48E1E0B4A5D006451C7 /* Resources */,
@@ -489,7 +485,7 @@
 		83CBB9F71A601CBA00E9B192 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastUpgradeCheck = 1130;
+				LastUpgradeCheck = 1240;
 				TargetAttributes = {
 					00E356ED1AD99517003FC87E = {
 						CreatedOnToolsVersion = 6.2;
@@ -611,95 +607,25 @@
 			shellPath = /bin/sh;
 			shellScript = "export NODE_BINARY=node\n../node_modules/react-native/scripts/react-native-xcode.sh\n";
 		};
-		11D5AC3534D6CD269FCED3AF /* [CP] Check Pods Manifest.lock */ = {
+		01FF5C3BB5246B403BF60139 /* [CP] Embed Pods Frameworks */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 			);
-			inputFileListPaths = (
-			);
 			inputPaths = (
-				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
-				"${PODS_ROOT}/Manifest.lock",
+				"${PODS_ROOT}/Target Support Files/Pods-ralamusic3-ralamusic3Tests/Pods-ralamusic3-ralamusic3Tests-frameworks.sh",
+				"${PODS_XCFRAMEWORKS_BUILD_DIR}/OpenSSL/OpenSSL.framework/OpenSSL",
 			);
-			name = "[CP] Check Pods Manifest.lock";
-			outputFileListPaths = (
-			);
+			name = "[CP] Embed Pods Frameworks";
 			outputPaths = (
-				"$(DERIVED_FILE_DIR)/Pods-ralamusic3-ralamusic3Tests-checkManifestLockResult.txt",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/OpenSSL.framework",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-ralamusic3-ralamusic3Tests/Pods-ralamusic3-ralamusic3Tests-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
-		2D02E4CB1E0B4B27006451C7 /* Bundle React Native Code And Images */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			name = "Bundle React Native Code And Images";
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "export NODE_BINARY=node\n../node_modules/react-native/scripts/react-native-xcode.sh";
-		};
-		632A161E053C6B393C0A83B8 /* [CP] Copy Pods Resources */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-ralamusic3/Pods-ralamusic3-resources.sh",
-				"${PODS_CONFIGURATION_BUILD_DIR}/RNImageCropPicker/QBImagePicker.bundle",
-				"${PODS_ROOT}/../../node_modules/react-native-vector-icons/Fonts/AntDesign.ttf",
-				"${PODS_ROOT}/../../node_modules/react-native-vector-icons/Fonts/Entypo.ttf",
-				"${PODS_ROOT}/../../node_modules/react-native-vector-icons/Fonts/EvilIcons.ttf",
-				"${PODS_ROOT}/../../node_modules/react-native-vector-icons/Fonts/Feather.ttf",
-				"${PODS_ROOT}/../../node_modules/react-native-vector-icons/Fonts/FontAwesome.ttf",
-				"${PODS_ROOT}/../../node_modules/react-native-vector-icons/Fonts/FontAwesome5_Brands.ttf",
-				"${PODS_ROOT}/../../node_modules/react-native-vector-icons/Fonts/FontAwesome5_Regular.ttf",
-				"${PODS_ROOT}/../../node_modules/react-native-vector-icons/Fonts/FontAwesome5_Solid.ttf",
-				"${PODS_ROOT}/../../node_modules/react-native-vector-icons/Fonts/Fontisto.ttf",
-				"${PODS_ROOT}/../../node_modules/react-native-vector-icons/Fonts/Foundation.ttf",
-				"${PODS_ROOT}/../../node_modules/react-native-vector-icons/Fonts/Ionicons.ttf",
-				"${PODS_ROOT}/../../node_modules/react-native-vector-icons/Fonts/MaterialCommunityIcons.ttf",
-				"${PODS_ROOT}/../../node_modules/react-native-vector-icons/Fonts/MaterialIcons.ttf",
-				"${PODS_ROOT}/../../node_modules/react-native-vector-icons/Fonts/Octicons.ttf",
-				"${PODS_ROOT}/../../node_modules/react-native-vector-icons/Fonts/SimpleLineIcons.ttf",
-				"${PODS_ROOT}/../../node_modules/react-native-vector-icons/Fonts/Zocial.ttf",
-				"${PODS_CONFIGURATION_BUILD_DIR}/TOCropViewController/TOCropViewControllerBundle.bundle",
-			);
-			name = "[CP] Copy Pods Resources";
-			outputPaths = (
-				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/QBImagePicker.bundle",
-				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/AntDesign.ttf",
-				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/Entypo.ttf",
-				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/EvilIcons.ttf",
-				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/Feather.ttf",
-				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/FontAwesome.ttf",
-				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/FontAwesome5_Brands.ttf",
-				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/FontAwesome5_Regular.ttf",
-				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/FontAwesome5_Solid.ttf",
-				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/Fontisto.ttf",
-				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/Foundation.ttf",
-				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/Ionicons.ttf",
-				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/MaterialCommunityIcons.ttf",
-				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/MaterialIcons.ttf",
-				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/Octicons.ttf",
-				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/SimpleLineIcons.ttf",
-				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/Zocial.ttf",
-				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/TOCropViewControllerBundle.bundle",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-ralamusic3/Pods-ralamusic3-resources.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
-		63A3BDA07A07F720EB50AA10 /* [CP] Check Pods Manifest.lock */ = {
+		033DAC0ECFA712482E6C4FB6 /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -721,7 +647,39 @@
 			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
 			showEnvVarsInLog = 0;
 		};
-		70061BD05266B007E649D58C /* [CP] Check Pods Manifest.lock */ = {
+		071309E0B8D281D269DBA8A8 /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-ralamusic3/Pods-ralamusic3-frameworks.sh",
+				"${PODS_XCFRAMEWORKS_BUILD_DIR}/OpenSSL/OpenSSL.framework/OpenSSL",
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputPaths = (
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/OpenSSL.framework",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-ralamusic3/Pods-ralamusic3-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		2D02E4CB1E0B4B27006451C7 /* Bundle React Native Code And Images */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Bundle React Native Code And Images";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "export NODE_BINARY=node\n../node_modules/react-native/scripts/react-native-xcode.sh";
+		};
+		35E2BA08D5430A0D6A405639 /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -736,36 +694,14 @@
 			outputFileListPaths = (
 			);
 			outputPaths = (
-				"$(DERIVED_FILE_DIR)/Pods-ralamusic3-tvOS-checkManifestLockResult.txt",
+				"$(DERIVED_FILE_DIR)/Pods-ralamusic3-ralamusic3Tests-checkManifestLockResult.txt",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
 			showEnvVarsInLog = 0;
 		};
-		9B18317AF0C20D3D18ED13D0 /* [CP] Check Pods Manifest.lock */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-			);
-			inputPaths = (
-				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
-				"${PODS_ROOT}/Manifest.lock",
-			);
-			name = "[CP] Check Pods Manifest.lock";
-			outputFileListPaths = (
-			);
-			outputPaths = (
-				"$(DERIVED_FILE_DIR)/Pods-ralamusic3-checkManifestLockResult.txt",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
-			showEnvVarsInLog = 0;
-		};
-		B3DD3FC6AE776250B5407514 /* [CP] Copy Pods Resources */ = {
+		51EE90AD59C36598B2DCD727 /* [CP] Copy Pods Resources */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -789,6 +725,7 @@
 				"${PODS_ROOT}/../../node_modules/react-native-vector-icons/Fonts/Octicons.ttf",
 				"${PODS_ROOT}/../../node_modules/react-native-vector-icons/Fonts/SimpleLineIcons.ttf",
 				"${PODS_ROOT}/../../node_modules/react-native-vector-icons/Fonts/Zocial.ttf",
+				"${PODS_CONFIGURATION_BUILD_DIR}/React-Core/AccessibilityResources.bundle",
 				"${PODS_CONFIGURATION_BUILD_DIR}/TOCropViewController/TOCropViewControllerBundle.bundle",
 			);
 			name = "[CP] Copy Pods Resources";
@@ -810,11 +747,110 @@
 				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/Octicons.ttf",
 				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/SimpleLineIcons.ttf",
 				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/Zocial.ttf",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/AccessibilityResources.bundle",
 				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/TOCropViewControllerBundle.bundle",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-ralamusic3-ralamusic3Tests/Pods-ralamusic3-ralamusic3Tests-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		9A2CDF227DE3583DB8374BC2 /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-ralamusic3-tvOS-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+		A1694A9AFE5C1C294557F167 /* [CP] Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-ralamusic3/Pods-ralamusic3-resources.sh",
+				"${PODS_CONFIGURATION_BUILD_DIR}/RNImageCropPicker/QBImagePicker.bundle",
+				"${PODS_ROOT}/../../node_modules/react-native-vector-icons/Fonts/AntDesign.ttf",
+				"${PODS_ROOT}/../../node_modules/react-native-vector-icons/Fonts/Entypo.ttf",
+				"${PODS_ROOT}/../../node_modules/react-native-vector-icons/Fonts/EvilIcons.ttf",
+				"${PODS_ROOT}/../../node_modules/react-native-vector-icons/Fonts/Feather.ttf",
+				"${PODS_ROOT}/../../node_modules/react-native-vector-icons/Fonts/FontAwesome.ttf",
+				"${PODS_ROOT}/../../node_modules/react-native-vector-icons/Fonts/FontAwesome5_Brands.ttf",
+				"${PODS_ROOT}/../../node_modules/react-native-vector-icons/Fonts/FontAwesome5_Regular.ttf",
+				"${PODS_ROOT}/../../node_modules/react-native-vector-icons/Fonts/FontAwesome5_Solid.ttf",
+				"${PODS_ROOT}/../../node_modules/react-native-vector-icons/Fonts/Fontisto.ttf",
+				"${PODS_ROOT}/../../node_modules/react-native-vector-icons/Fonts/Foundation.ttf",
+				"${PODS_ROOT}/../../node_modules/react-native-vector-icons/Fonts/Ionicons.ttf",
+				"${PODS_ROOT}/../../node_modules/react-native-vector-icons/Fonts/MaterialCommunityIcons.ttf",
+				"${PODS_ROOT}/../../node_modules/react-native-vector-icons/Fonts/MaterialIcons.ttf",
+				"${PODS_ROOT}/../../node_modules/react-native-vector-icons/Fonts/Octicons.ttf",
+				"${PODS_ROOT}/../../node_modules/react-native-vector-icons/Fonts/SimpleLineIcons.ttf",
+				"${PODS_ROOT}/../../node_modules/react-native-vector-icons/Fonts/Zocial.ttf",
+				"${PODS_CONFIGURATION_BUILD_DIR}/React-Core/AccessibilityResources.bundle",
+				"${PODS_CONFIGURATION_BUILD_DIR}/TOCropViewController/TOCropViewControllerBundle.bundle",
+			);
+			name = "[CP] Copy Pods Resources";
+			outputPaths = (
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/QBImagePicker.bundle",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/AntDesign.ttf",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/Entypo.ttf",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/EvilIcons.ttf",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/Feather.ttf",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/FontAwesome.ttf",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/FontAwesome5_Brands.ttf",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/FontAwesome5_Regular.ttf",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/FontAwesome5_Solid.ttf",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/Fontisto.ttf",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/Foundation.ttf",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/Ionicons.ttf",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/MaterialCommunityIcons.ttf",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/MaterialIcons.ttf",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/Octicons.ttf",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/SimpleLineIcons.ttf",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/Zocial.ttf",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/AccessibilityResources.bundle",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/TOCropViewControllerBundle.bundle",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-ralamusic3/Pods-ralamusic3-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		C8F2B6F3A51A1FF8398D43E6 /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-ralamusic3-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
 			showEnvVarsInLog = 0;
 		};
 		FD10A7F022414F080027D42C /* Start Packager */ = {
@@ -923,7 +959,7 @@
 /* Begin XCBuildConfiguration section */
 		00E356F61AD99517003FC87E /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = CC943577846097B3D4E8C86F /* Pods-ralamusic3-ralamusic3Tests.debug.xcconfig */;
+			baseConfigurationReference = B6E89961D08424D4660F48B1 /* Pods-ralamusic3-ralamusic3Tests.debug.xcconfig */;
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				GCC_PREPROCESSOR_DEFINITIONS = (
@@ -946,7 +982,7 @@
 		};
 		00E356F71AD99517003FC87E /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 32818B5E25F2B104D27C749E /* Pods-ralamusic3-ralamusic3Tests.release.xcconfig */;
+			baseConfigurationReference = 70FED375A5E02BBBCEEA77AF /* Pods-ralamusic3-ralamusic3Tests.release.xcconfig */;
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				COPY_PHASE_STRIP = NO;
@@ -966,7 +1002,7 @@
 		};
 		13B07F941A680F5B00A75B9A /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = DBF30FD76BC9C3F8BB81FC8A /* Pods-ralamusic3.debug.xcconfig */;
+			baseConfigurationReference = 6FC2BD7403E1C7B85AEB138C /* Pods-ralamusic3.debug.xcconfig */;
 			buildSettings = {
 				ARCHS = "$(ARCHS_STANDARD)";
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
@@ -974,7 +1010,7 @@
 				CODE_SIGN_ENTITLEMENTS = "ralamusic3/Rala Music.entitlements";
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 324;
+				CURRENT_PROJECT_VERSION = 325;
 				DEVELOPMENT_TEAM = DF8AZLDC5D;
 				ENABLE_BITCODE = NO;
 				FRAMEWORK_SEARCH_PATHS = (
@@ -1028,7 +1064,7 @@
 					"\"${PODS_ROOT}/Headers/Public/React-Core\"",
 					"\"${PODS_ROOT}/Headers/Public/React-RCTText\"",
 					"\"${PODS_ROOT}/Headers/Public/React-cxxreact\"",
-					"\"${PODS_ROOT}/Headers/Public/React-jsi\"",
+					"\"${PODS_ROOT}/Headers/Public/React-jsi\"/**",
 					"\"${PODS_ROOT}/Headers/Public/React-jsiexecutor\"",
 					"\"${PODS_ROOT}/Headers/Public/React-jsinspector\"",
 					"\"${PODS_ROOT}/Headers/Public/ReactCommon\"",
@@ -1040,16 +1076,17 @@
 					"\"${PODS_ROOT}/Headers/Public/react-native-camera\"",
 					"\"${PODS_ROOT}/Headers/Public/react-native-safe-area-context\"",
 					"\"${PODS_ROOT}/Headers/Public/react-native-view-shot\"",
-					"$(inherited)",
 					"${PODS_ROOT}/Firebase/CoreOnly/Sources",
 					"\"${PODS_TARGET_SRCROOT}/Sources/FBLPromises/include\"",
 					"\"$(PODS_ROOT)/Headers/Private/React-Core\"",
 					"$(SRCROOT)/../node_modules/@react-native-community/push-notification-ios/ios",
+					"\"${PODS_ROOT}/Headers/Public/React-runtimeexecutor\"",
+					"\"${PODS_ROOT}/Headers/Public/React-perflogger\"",
 				);
 				INFOPLIST_FILE = ralamusic3/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 14.4;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				MARKETING_VERSION = 1.2.4;
+				MARKETING_VERSION = 1.2.5;
 				OTHER_LDFLAGS = (
 					"$(inherited)",
 					"-ObjC",
@@ -1067,7 +1104,7 @@
 		};
 		13B07F951A680F5B00A75B9A /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = A37694FD1C40B3BDEC31D941 /* Pods-ralamusic3.release.xcconfig */;
+			baseConfigurationReference = 19C3660A8DA291E30E93AA90 /* Pods-ralamusic3.release.xcconfig */;
 			buildSettings = {
 				ARCHS = "$(ARCHS_STANDARD)";
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
@@ -1075,7 +1112,7 @@
 				CODE_SIGN_ENTITLEMENTS = "ralamusic3/Rala Music.entitlements";
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 324;
+				CURRENT_PROJECT_VERSION = 325;
 				DEVELOPMENT_TEAM = DF8AZLDC5D;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
@@ -1124,7 +1161,7 @@
 					"\"${PODS_ROOT}/Headers/Public/React-Core\"",
 					"\"${PODS_ROOT}/Headers/Public/React-RCTText\"",
 					"\"${PODS_ROOT}/Headers/Public/React-cxxreact\"",
-					"\"${PODS_ROOT}/Headers/Public/React-jsi\"",
+					"\"${PODS_ROOT}/Headers/Public/React-jsi\"/**",
 					"\"${PODS_ROOT}/Headers/Public/React-jsiexecutor\"",
 					"\"${PODS_ROOT}/Headers/Public/React-jsinspector\"",
 					"\"${PODS_ROOT}/Headers/Public/ReactCommon\"",
@@ -1136,16 +1173,17 @@
 					"\"${PODS_ROOT}/Headers/Public/react-native-camera\"",
 					"\"${PODS_ROOT}/Headers/Public/react-native-safe-area-context\"",
 					"\"${PODS_ROOT}/Headers/Public/react-native-view-shot\"",
-					"$(inherited)",
 					"${PODS_ROOT}/Firebase/CoreOnly/Sources",
 					"\"${PODS_TARGET_SRCROOT}/Sources/FBLPromises/include\"",
 					"\"$(PODS_ROOT)/Headers/Private/React-Core\"",
 					"$(SRCROOT)/../node_modules/@react-native-community/push-notification-ios/ios",
+					"\"${PODS_ROOT}/Headers/Public/React-runtimeexecutor\"",
+					"\"${PODS_ROOT}/Headers/Public/React-perflogger\"",
 				);
 				INFOPLIST_FILE = ralamusic3/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 14.4;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				MARKETING_VERSION = 1.2.4;
+				MARKETING_VERSION = 1.2.5;
 				OTHER_LDFLAGS = (
 					"$(inherited)",
 					"-ObjC",
@@ -1162,7 +1200,7 @@
 		};
 		2D02E4971E0B4A5E006451C7 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 208B290DB4CBA307DB6445EB /* Pods-ralamusic3-tvOS.debug.xcconfig */;
+			baseConfigurationReference = 8465F783665E74A98B3FAB48 /* Pods-ralamusic3-tvOS.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = "App Icon & Top Shelf Image";
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
@@ -1184,13 +1222,13 @@
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = appletvos;
 				TARGETED_DEVICE_FAMILY = 3;
-				TVOS_DEPLOYMENT_TARGET = 9.2;
+				TVOS_DEPLOYMENT_TARGET = 12.0;
 			};
 			name = Debug;
 		};
 		2D02E4981E0B4A5E006451C7 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 3960E3EEA6D55E3762416B29 /* Pods-ralamusic3-tvOS.release.xcconfig */;
+			baseConfigurationReference = 896F3B6BBB3D23FFF9ED9994 /* Pods-ralamusic3-tvOS.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = "App Icon & Top Shelf Image";
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
@@ -1212,13 +1250,13 @@
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = appletvos;
 				TARGETED_DEVICE_FAMILY = 3;
-				TVOS_DEPLOYMENT_TARGET = 9.2;
+				TVOS_DEPLOYMENT_TARGET = 12.0;
 			};
 			name = Release;
 		};
 		2D02E4991E0B4A5E006451C7 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 9173F7CCFA72EAC9A8CC6149 /* Pods-ralamusic3-tvOSTests.debug.xcconfig */;
+			baseConfigurationReference = DAD4B12F60FFE31D0C9E8F0F /* Pods-ralamusic3-tvOSTests.debug.xcconfig */;
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				CLANG_ANALYZER_NONNULL = YES;
@@ -1239,13 +1277,13 @@
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = appletvos;
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/ralamusic3-tvOS.app/ralamusic3-tvOS";
-				TVOS_DEPLOYMENT_TARGET = 10.1;
+				TVOS_DEPLOYMENT_TARGET = 12.0;
 			};
 			name = Debug;
 		};
 		2D02E49A1E0B4A5E006451C7 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = E79A5C138F1840A0FDD75418 /* Pods-ralamusic3-tvOSTests.release.xcconfig */;
+			baseConfigurationReference = F947884E4F5217A8C481E4D6 /* Pods-ralamusic3-tvOSTests.release.xcconfig */;
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				CLANG_ANALYZER_NONNULL = YES;
@@ -1266,7 +1304,7 @@
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = appletvos;
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/ralamusic3-tvOS.app/ralamusic3-tvOS";
-				TVOS_DEPLOYMENT_TARGET = 10.1;
+				TVOS_DEPLOYMENT_TARGET = 12.0;
 			};
 			name = Release;
 		};
@@ -1293,6 +1331,7 @@
 				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
 				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
 				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
 				CLANG_WARN_STRICT_PROTOTYPES = YES;
 				CLANG_WARN_SUSPICIOUS_MOVE = YES;
@@ -1317,7 +1356,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = "/usr/lib/swift $(inherited)";
 				LIBRARY_SEARCH_PATHS = (
 					"\"$(TOOLCHAIN_DIR)/usr/lib/swift/$(PLATFORM_NAME)\"",
@@ -1353,6 +1392,7 @@
 				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
 				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
 				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
 				CLANG_WARN_STRICT_PROTOTYPES = YES;
 				CLANG_WARN_SUSPICIOUS_MOVE = YES;
@@ -1370,7 +1410,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = "/usr/lib/swift $(inherited)";
 				LIBRARY_SEARCH_PATHS = (
 					"\"$(TOOLCHAIN_DIR)/usr/lib/swift/$(PLATFORM_NAME)\"",
