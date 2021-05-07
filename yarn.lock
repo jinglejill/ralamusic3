@@ -6236,6 +6236,11 @@ react-native-pell-rich-editor@^1.0.6:
   resolved "https://registry.yarnpkg.com/react-native-pell-rich-editor/-/react-native-pell-rich-editor-1.0.6.tgz#5ea07c140bb57d27d2182d0422f95c955f3071aa"
   integrity sha512-G3Hk/fEJ5uxnSa3589kxbS8WPasgNHKoKmA7lt22Bdyz6qSaBeZ786vJhA3/lb1YLrXrXwqV/v+xmQbl4mqVCg==
 
+react-native-perf-logger@^2.0.1:
+  version "2.0.1"
+  resolved "https://registry.yarnpkg.com/react-native-perf-logger/-/react-native-perf-logger-2.0.1.tgz#433baf47e698d0ae48891c094da64b292a140c44"
+  integrity sha512-+sevsIPkPit6On2MI04RsoqffJQQkBenqrR4aPwJvg0Vgis2EJIucj486RZDPi6meKoKH8VjNSnVKYg7atBR0w==
+
 react-native-permissions@^2.0.2:
   version "2.1.5"
   resolved "https://registry.yarnpkg.com/react-native-permissions/-/react-native-permissions-2.1.5.tgz#6cfc4f1ab1590f4952299b7cdc9698525ad540e0"
@@ -7575,9 +7580,9 @@ type-fest@^0.8.1:
   integrity sha512-4dbzIzqvjtgiM5rw1k5rEHtBANKmdudhGyBEajN01fEyhaAIhsoKNy6y7+IN93IfpFtwY9iqi7kD+xwKhQsNJA==
 
 ua-parser-js@^0.7.18:
-  version "0.7.21"
-  resolved "https://registry.yarnpkg.com/ua-parser-js/-/ua-parser-js-0.7.21.tgz#853cf9ce93f642f67174273cc34565ae6f308777"
-  integrity sha512-+O8/qh/Qj8CgC6eYBVBykMrNtp5Gebn4dlGD/kKXVkJNDwyrAwSIqwz8CDf+tsAIWVycKcku6gIXJ0qwx/ZXaQ==
+  version "0.7.28"
+  resolved "https://registry.yarnpkg.com/ua-parser-js/-/ua-parser-js-0.7.28.tgz#8ba04e653f35ce210239c64661685bf9121dec31"
+  integrity sha512-6Gurc1n//gjp9eQNXjD9O3M/sMwVtN5S8Lv9bvOYBfKfDNiIIhqiyi01vMBO45u4zkDE420w/e0se7Vs+sIg+g==
 
 uglify-es@^3.1.9:
   version "3.3.9"
