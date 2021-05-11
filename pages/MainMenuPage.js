@@ -193,14 +193,14 @@ const styles = StyleSheet.create({
     shadowRadius: 2,  
 
 
-    // ***android
-    shadowOpacity: 0.8,
-    elevation: 5,
+    // // ***android
+    // shadowOpacity: 0.8,
+    // elevation: 5,
 
 
-    // //***ios
-    // shadowOpacity: 0.2,
-    // shadowOffset: { height: 2, width: 2 },
+    //***ios
+    shadowOpacity: 0.2,
+    shadowOffset: { height: 2, width: 2 },
     
   },
 });
