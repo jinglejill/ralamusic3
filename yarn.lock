@@ -6241,6 +6241,11 @@ react-native-pell-rich-editor@^1.0.6:
   resolved "https://registry.yarnpkg.com/react-native-pell-rich-editor/-/react-native-pell-rich-editor-1.0.6.tgz#5ea07c140bb57d27d2182d0422f95c955f3071aa"
   integrity sha512-G3Hk/fEJ5uxnSa3589kxbS8WPasgNHKoKmA7lt22Bdyz6qSaBeZ786vJhA3/lb1YLrXrXwqV/v+xmQbl4mqVCg==
 
+react-native-perf-logger@^2.0.1:
+  version "2.0.1"
+  resolved "https://registry.yarnpkg.com/react-native-perf-logger/-/react-native-perf-logger-2.0.1.tgz#433baf47e698d0ae48891c094da64b292a140c44"
+  integrity sha512-+sevsIPkPit6On2MI04RsoqffJQQkBenqrR4aPwJvg0Vgis2EJIucj486RZDPi6meKoKH8VjNSnVKYg7atBR0w==
+
 react-native-permissions@^2.0.2:
   version "2.1.5"
   resolved "https://registry.yarnpkg.com/react-native-permissions/-/react-native-permissions-2.1.5.tgz#6cfc4f1ab1590f4952299b7cdc9698525ad540e0"
@@ -7918,9 +7923,9 @@ xtend@~4.0.1:
   integrity sha512-LKYU1iAXJXUgAXn9URjiu+MWhyUXHsvfp7mcuYm9dSUKK0/CjtrUwFAxD82/mCWbtLsGjFIad0wIsod4zrTAEQ==
 
 y18n@^4.0.0:
-  version "4.0.0"
-  resolved "https://registry.yarnpkg.com/y18n/-/y18n-4.0.0.tgz#95ef94f85ecc81d007c264e190a120f0a3c8566b"
-  integrity sha512-r9S/ZyXu/Xu9q1tYlpsLIsa3EeLXXk0VwlxqTcFRfg9EhMW+17kbt9G0NrgCmhGb5vT2hyhJZLfDGx+7+5Uj/w==
+  version "4.0.3"
+  resolved "https://registry.yarnpkg.com/y18n/-/y18n-4.0.3.tgz#b5f259c82cd6e336921efd7bfd8bf560de9eeedf"
+  integrity sha512-JKhqTOwSrqNA1NY5lSztJ1GrBiUodLMmIZuLiDaMRJ+itFd+ABVE8XBjOvIWL+rSqNDC74LCSFmlb/U4UZ4hJQ==
 
 yargs-parser@^13.1.2:
   version "13.1.2"
