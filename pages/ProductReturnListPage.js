@@ -9,6 +9,7 @@ import SegmentedControlTab from "react-native-segmented-control-tab";
 import {colors, fonts, padding, dimensions} from './../styles/base.js';
 import CalendarPicker from 'react-native-calendar-picker';
 import { SwipeListView, SwipeRow } from 'react-native-swipe-list-view';
+import FastImage from 'react-native-fast-image'
 
 //import all the components we are going to use.
 
@@ -486,7 +487,7 @@ export default class ProductReturnListPage extends React.Component
                         <Text style={styles.title2}>  คืนเข้าร้าน</Text>
                       )}                      
                       {item.Status == 0 && item.NextStep == 2 && (
-                        <Text style={styles.title2}>  เคลม</Text>
+                        <Text style={styles.title2}>  เคลม {item.ClaimAt}</Text>
                       )} 
                       {item.Status == 1 && item.ProductClaim == 1 && (
                         <Text style={styles.title2}>  รอคืนเข้าร้าน</Text>
@@ -512,10 +513,13 @@ export default class ProductReturnListPage extends React.Component
                     </View>
 
                     <View style={{display:'flex',flexDirection:'row'}}>
-                      <Image
-                        source={item.ProductReturnItem.Image != ''?{uri: item.ProductReturnItem.Image}:{uri:item.Image1}}
+                      <FastImage
                         style={styles.imageSku}
-                      />                    
+                        source={{
+                            uri: item.ProductReturnItem.Image == ""?item.Image1:item.ProductReturnItem.Image,
+                            priority: FastImage.priority.normal,
+                        }}
+                      />                   
                       <View style={{ flex: 1}}>                  
                         <Text style={styles.name}>{item.ProductReturnItem.Name}</Text>   
                         <View style={{display:'flex',flexDirection:'row',alignItems:'center'}}> 

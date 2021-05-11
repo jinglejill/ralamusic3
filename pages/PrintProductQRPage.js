@@ -231,7 +231,8 @@ export default class PrintProductQRPage extends React.Component {
                 </View>
               </View>
             </ViewShot>   
-            <InputSpinner                                             
+            <InputSpinner    
+              height={44}                                         
               min={0}
               step={1}  
               color={colors.primary}  

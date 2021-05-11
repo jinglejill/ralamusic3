@@ -95,12 +95,12 @@ export default class MainMenuPage extends React.Component {
       this.props.navigation.state.params.setControl();
       this.props.navigation.goBack();
     }
-    else if(page == 'Settings')//test
-    {
-      ToastExample.getPrinterStatus((msg) => {
-        console.log(msg);
-      });
-    }
+    // else if(page == 'Settings')//test
+    // {
+    //   ToastExample.getPrinterStatus((msg) => {
+    //     console.log(msg);
+    //   });
+    // }
     else
     {
       console.log("menu click:"+page);

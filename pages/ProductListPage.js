@@ -7,6 +7,7 @@ import Dialog, { DialogContent, DialogTitle, SlideAnimation, DialogFooter, Dialo
 import InputSpinner from "react-native-input-spinner";
 import SegmentedControlTab from "react-native-segmented-control-tab";
 import {colors, fonts, padding, dimensions} from './../styles/base.js';
+
 //import all the components we are going to use.
 
 export default class ProductListPage extends React.Component 
@@ -381,7 +382,10 @@ export default class ProductListPage extends React.Component
         product.ShopeeExist = item.ShopeeExist;
         product.JdExist = item.JdExist;
         product.ThisShopExist = item.ThisShopExist;
-        product.WebExist = item.WebExist;          
+        product.WebExist = item.WebExist;        
+
+
+        product.SpecialPrice = item.SpecialPrice;  
       }
     });
     this.setState((state)=>({refresh:!this.state.refresh}));
@@ -611,7 +615,8 @@ export default class ProductListPage extends React.Component
                         var {x, y, width, height} = event.nativeEvent.layout;
                         console.log("width:"+width);
                       }}>
-                        <InputSpinner                                                                      
+                        <InputSpinner  
+                          height={44}                                                                    
                           min={0}
                           step={1}  
                           color={colors.primary}  

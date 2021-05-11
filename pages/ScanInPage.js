@@ -274,7 +274,8 @@ export default class ScanInPage extends React.Component {
                 <Image source={{uri:this.state.image}} style={{width:60,height:60}}/>
               </View>
             }
-            <InputSpinner                                             
+            <InputSpinner  
+              height={44}                                           
               min={0}
               step={1}  
               color={colors.primary}  

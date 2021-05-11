@@ -1,7 +1,7 @@
 import {  Dimensions, StatusBar } from 'react-native';
 
 export const settings = {    
-  apiPath: 'https://minimalist.co.th/saim/',
+  apiPath: 'http://jinglejill.com/saim/',
   storeName: 'RALAMUSIC',
 }
 

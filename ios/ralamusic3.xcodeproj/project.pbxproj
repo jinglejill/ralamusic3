@@ -91,6 +91,8 @@
 		00E356EE1AD99517003FC87E /* ralamusic3Tests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = ralamusic3Tests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		00E356F11AD99517003FC87E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		00E356F21AD99517003FC87E /* ralamusic3Tests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ralamusic3Tests.m; sourceTree = "<group>"; };
+		0796BD098A634A669ECCCCA1 /* MaterialCommunityIcons.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = MaterialCommunityIcons.ttf; path = "../node_modules/react-native-vector-icons/Fonts/MaterialCommunityIcons.ttf"; sourceTree = "<group>"; };
+		08D9CAA49F36456183FA6866 /* SimpleLineIcons.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = SimpleLineIcons.ttf; path = "../node_modules/react-native-vector-icons/Fonts/SimpleLineIcons.ttf"; sourceTree = "<group>"; };
 		10A31CAFD7085BD3896DD6BD /* libPods-ralamusic3-tvOS.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-ralamusic3-tvOS.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		13B07F961A680F5B00A75B9A /* Rala Music.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Rala Music.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		13B07FAF1A68108700A75B9A /* AppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AppDelegate.h; path = ralamusic3/AppDelegate.h; sourceTree = "<group>"; };
@@ -100,17 +102,30 @@
 		13B07FB61A68108700A75B9A /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = Info.plist; path = ralamusic3/Info.plist; sourceTree = "<group>"; };
 		13B07FB71A68108700A75B9A /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = main.m; path = ralamusic3/main.m; sourceTree = "<group>"; };
 		1815B4150C420DB7411A1B3D /* libPods-ralamusic3-ralamusic3Tests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-ralamusic3-ralamusic3Tests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		18A4920885D74C7CACC3B472 /* Feather.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = Feather.ttf; path = "../node_modules/react-native-vector-icons/Fonts/Feather.ttf"; sourceTree = "<group>"; };
 		19C3660A8DA291E30E93AA90 /* Pods-ralamusic3.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ralamusic3.release.xcconfig"; path = "Target Support Files/Pods-ralamusic3/Pods-ralamusic3.release.xcconfig"; sourceTree = "<group>"; };
 		2D02E47B1E0B4A5D006451C7 /* ralamusic3-tvOS.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "ralamusic3-tvOS.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		2D02E4901E0B4A5D006451C7 /* ralamusic3-tvOSTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "ralamusic3-tvOSTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		2F596E2397A6F95386830697 /* libPods-ralamusic3.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-ralamusic3.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		3328489203F04010B5932EC7 /* Ionicons.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = Ionicons.ttf; path = "../node_modules/react-native-vector-icons/Fonts/Ionicons.ttf"; sourceTree = "<group>"; };
+		33858C6CE49B4AA9A9169704 /* FontAwesome.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = FontAwesome.ttf; path = "../node_modules/react-native-vector-icons/Fonts/FontAwesome.ttf"; sourceTree = "<group>"; };
+		3A8386ABE567496E8CDDA1BB /* FontAwesome5_Regular.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = FontAwesome5_Regular.ttf; path = "../node_modules/react-native-vector-icons/Fonts/FontAwesome5_Regular.ttf"; sourceTree = "<group>"; };
+		693666DE549846F089D6AF8E /* EvilIcons.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = EvilIcons.ttf; path = "../node_modules/react-native-vector-icons/Fonts/EvilIcons.ttf"; sourceTree = "<group>"; };
 		6FC2BD7403E1C7B85AEB138C /* Pods-ralamusic3.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ralamusic3.debug.xcconfig"; path = "Target Support Files/Pods-ralamusic3/Pods-ralamusic3.debug.xcconfig"; sourceTree = "<group>"; };
 		70FED375A5E02BBBCEEA77AF /* Pods-ralamusic3-ralamusic3Tests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ralamusic3-ralamusic3Tests.release.xcconfig"; path = "Target Support Files/Pods-ralamusic3-ralamusic3Tests/Pods-ralamusic3-ralamusic3Tests.release.xcconfig"; sourceTree = "<group>"; };
 		8465F783665E74A98B3FAB48 /* Pods-ralamusic3-tvOS.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ralamusic3-tvOS.debug.xcconfig"; path = "Target Support Files/Pods-ralamusic3-tvOS/Pods-ralamusic3-tvOS.debug.xcconfig"; sourceTree = "<group>"; };
+		8851E9D763B54C16914DD250 /* Entypo.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = Entypo.ttf; path = "../node_modules/react-native-vector-icons/Fonts/Entypo.ttf"; sourceTree = "<group>"; };
 		896F3B6BBB3D23FFF9ED9994 /* Pods-ralamusic3-tvOS.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ralamusic3-tvOS.release.xcconfig"; path = "Target Support Files/Pods-ralamusic3-tvOS/Pods-ralamusic3-tvOS.release.xcconfig"; sourceTree = "<group>"; };
+		8F56795CD5A7471EAA28FDE1 /* AntDesign.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = AntDesign.ttf; path = "../node_modules/react-native-vector-icons/Fonts/AntDesign.ttf"; sourceTree = "<group>"; };
 		9ED16F3C421BFA78D4E3D8A1 /* libPods-ralamusic3-tvOSTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-ralamusic3-tvOSTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		A049AFC498CC4817A22DDC71 /* MaterialIcons.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = MaterialIcons.ttf; path = "../node_modules/react-native-vector-icons/Fonts/MaterialIcons.ttf"; sourceTree = "<group>"; };
+		A19951FDE5E74909A5F5CFB5 /* Foundation.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = Foundation.ttf; path = "../node_modules/react-native-vector-icons/Fonts/Foundation.ttf"; sourceTree = "<group>"; };
+		B01B1BEFC58A47038BC5DAB0 /* Octicons.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = Octicons.ttf; path = "../node_modules/react-native-vector-icons/Fonts/Octicons.ttf"; sourceTree = "<group>"; };
 		B6E89961D08424D4660F48B1 /* Pods-ralamusic3-ralamusic3Tests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ralamusic3-ralamusic3Tests.debug.xcconfig"; path = "Target Support Files/Pods-ralamusic3-ralamusic3Tests/Pods-ralamusic3-ralamusic3Tests.debug.xcconfig"; sourceTree = "<group>"; };
+		C29A5DC1E04D44A58DEEBFBF /* Zocial.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = Zocial.ttf; path = "../node_modules/react-native-vector-icons/Fonts/Zocial.ttf"; sourceTree = "<group>"; };
+		D84E3AFDEFB043F6826FAD46 /* Fontisto.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = Fontisto.ttf; path = "../node_modules/react-native-vector-icons/Fonts/Fontisto.ttf"; sourceTree = "<group>"; };
 		DAD4B12F60FFE31D0C9E8F0F /* Pods-ralamusic3-tvOSTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ralamusic3-tvOSTests.debug.xcconfig"; path = "Target Support Files/Pods-ralamusic3-tvOSTests/Pods-ralamusic3-tvOSTests.debug.xcconfig"; sourceTree = "<group>"; };
+		DDEAF5B984CD4C0CB29E76A1 /* FontAwesome5_Solid.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = FontAwesome5_Solid.ttf; path = "../node_modules/react-native-vector-icons/Fonts/FontAwesome5_Solid.ttf"; sourceTree = "<group>"; };
 		ED297162215061F000B7C4FE /* JavaScriptCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = JavaScriptCore.framework; path = System/Library/Frameworks/JavaScriptCore.framework; sourceTree = SDKROOT; };
 		EF3E8BE62546BDDC0050CF41 /* Rala Music.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; name = "Rala Music.entitlements"; path = "ralamusic3/Rala Music.entitlements"; sourceTree = "<group>"; };
 		EF3E8BE72546BDDC0050CF41 /* ExternalAccessory.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ExternalAccessory.framework; path = System/Library/Frameworks/ExternalAccessory.framework; sourceTree = SDKROOT; };
@@ -175,6 +190,7 @@
 		EFFE1ADE253462F7004308EF /* ConnectBrotherPrinter.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ConnectBrotherPrinter.h; sourceTree = "<group>"; };
 		EFFE1ADF253462F7004308EF /* ConnectBrotherPrinter.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ConnectBrotherPrinter.m; sourceTree = "<group>"; };
 		EFFE1AED2536D474004308EF /* BRLMPrinterKitW.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = BRLMPrinterKitW.framework; sourceTree = "<group>"; };
+		F4D9AB7BF40944F2AC654834 /* FontAwesome5_Brands.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = FontAwesome5_Brands.ttf; path = "../node_modules/react-native-vector-icons/Fonts/FontAwesome5_Brands.ttf"; sourceTree = "<group>"; };
 		F947884E4F5217A8C481E4D6 /* Pods-ralamusic3-tvOSTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ralamusic3-tvOSTests.release.xcconfig"; path = "Target Support Files/Pods-ralamusic3-tvOSTests/Pods-ralamusic3-tvOSTests.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -310,6 +326,22 @@
 			children = (
 				EFDD8A3724861EC1002B4420 /* fonts */,
 				EFA37B072478EE3700EFE784 /* images */,
+				8F56795CD5A7471EAA28FDE1 /* AntDesign.ttf */,
+				8851E9D763B54C16914DD250 /* Entypo.ttf */,
+				693666DE549846F089D6AF8E /* EvilIcons.ttf */,
+				18A4920885D74C7CACC3B472 /* Feather.ttf */,
+				33858C6CE49B4AA9A9169704 /* FontAwesome.ttf */,
+				F4D9AB7BF40944F2AC654834 /* FontAwesome5_Brands.ttf */,
+				3A8386ABE567496E8CDDA1BB /* FontAwesome5_Regular.ttf */,
+				DDEAF5B984CD4C0CB29E76A1 /* FontAwesome5_Solid.ttf */,
+				D84E3AFDEFB043F6826FAD46 /* Fontisto.ttf */,
+				A19951FDE5E74909A5F5CFB5 /* Foundation.ttf */,
+				3328489203F04010B5932EC7 /* Ionicons.ttf */,
+				0796BD098A634A669ECCCCA1 /* MaterialCommunityIcons.ttf */,
+				A049AFC498CC4817A22DDC71 /* MaterialIcons.ttf */,
+				B01B1BEFC58A47038BC5DAB0 /* Octicons.ttf */,
+				08D9CAA49F36456183FA6866 /* SimpleLineIcons.ttf */,
+				C29A5DC1E04D44A58DEEBFBF /* Zocial.ttf */,
 			);
 			name = Resources;
 			sourceTree = "<group>";
@@ -1010,7 +1042,7 @@
 				CODE_SIGN_ENTITLEMENTS = "ralamusic3/Rala Music.entitlements";
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 325;
+				CURRENT_PROJECT_VERSION = 355;
 				DEVELOPMENT_TEAM = DF8AZLDC5D;
 				ENABLE_BITCODE = NO;
 				FRAMEWORK_SEARCH_PATHS = (
@@ -1086,7 +1118,7 @@
 				INFOPLIST_FILE = ralamusic3/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				MARKETING_VERSION = 1.2.5;
+				MARKETING_VERSION = 2.0.5;
 				OTHER_LDFLAGS = (
 					"$(inherited)",
 					"-ObjC",
@@ -1112,7 +1144,7 @@
 				CODE_SIGN_ENTITLEMENTS = "ralamusic3/Rala Music.entitlements";
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 325;
+				CURRENT_PROJECT_VERSION = 355;
 				DEVELOPMENT_TEAM = DF8AZLDC5D;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
@@ -1183,7 +1215,7 @@
 				INFOPLIST_FILE = ralamusic3/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				MARKETING_VERSION = 1.2.5;
+				MARKETING_VERSION = 2.0.5;
 				OTHER_LDFLAGS = (
 					"$(inherited)",
 					"-ObjC",
@@ -1356,7 +1388,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 12.1;
 				LD_RUNPATH_SEARCH_PATHS = "/usr/lib/swift $(inherited)";
 				LIBRARY_SEARCH_PATHS = (
 					"\"$(TOOLCHAIN_DIR)/usr/lib/swift/$(PLATFORM_NAME)\"",
@@ -1410,7 +1442,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 12.1;
 				LD_RUNPATH_SEARCH_PATHS = "/usr/lib/swift $(inherited)";
 				LIBRARY_SEARCH_PATHS = (
 					"\"$(TOOLCHAIN_DIR)/usr/lib/swift/$(PLATFORM_NAME)\"",

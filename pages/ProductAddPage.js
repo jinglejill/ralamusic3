@@ -53,6 +53,7 @@ export default class ProductAddPage extends React.Component {
       Remark:"",     
       Image:imageList, 
       AccImage:accImageList,
+      AnimatingFeedFromLazada:false,
       AnimatingLazada:false,
       AnimatingShopee:false,
       AnimatingThisShop:false,   
@@ -88,6 +89,7 @@ export default class ProductAddPage extends React.Component {
       Cost:"",
       Remark:"", 
       Image:previousImageList, 
+      AnimatingFeedFromLazada:false,
       AnimatingLazada:false,
       AnimatingShopee:false,
       AnimatingJd:false,      
@@ -1106,6 +1108,55 @@ export default class ProductAddPage extends React.Component {
     
   };
 
+  feedFromLazada = () =>
+  {
+    this.setState({AnimatingFeedFromLazada:true});
+      
+    fetch(this.state.apiPath + 'SAIMFeedFromLazadaProductUpdate.php',
+    {
+      method: 'POST',
+      headers: {
+                  'Accept': 'application/json',
+                  'Content-Type': 'application/json',
+                },
+      body: JSON.stringify({  
+        sku: this.state.item.Sku,   
+        storeName: this.state.storeName,
+        modifiedUser: this.state.username,
+        modifiedDate: new Date().toLocaleString(),
+        platForm: Platform.OS,
+      })
+    })
+    .then((response) => response.json())
+    .then((responseData) =>{
+      console.log("responseData feed:"+responseData);
+      console.log("responseData.success:"+responseData.success);
+      console.log("responseData.product.Price:"+responseData.product.Price);
+
+      this.setState({AnimatingFeedFromLazada:false});
+
+      
+      if(responseData.success == true)
+      {
+        var item = this.state.item;
+        item.Name = responseData.product.Name;
+        item.Price = responseData.product.Price.toString();
+        item.SpecialPrice = responseData.product.SpecialPrice.toString();
+        item.Image = responseData.product.Image;
+        // this.setState({item:item});
+        this.props.navigation.setParams({ savedOrSynced: true });
+        this.props.navigation.setParams({ product: this.state.item });
+      }
+      else
+      {
+        // error message        
+        console.log(responseData.message);
+        this.setState({alertStatus:0});
+        this.showAlertMessage(responseData.message);
+      }
+    }).done();
+  }
+
   updateMarketplaceProduct = (marketplace) => 
   {
     return; //ไม่ให้ update    
@@ -1518,12 +1569,13 @@ export default class ProductAddPage extends React.Component {
               <View style={{display:'flex', flexDirection:'row', alignItems:'center'}}>
                 <View style={styles.spinnerView}>
                   <InputSpinner
+                    height={30}
                     min={0}
                     step={1}
                     color={colors.primary}
                     
                     
-                    inputStyle={{color:colors.tertiary}}
+                    inputStyle={{color:colors.tertiary,paddingTop:0,paddingBottom:0}}
                     buttonStyle={{height:30,fontSize:16,fontFamily:fonts.primaryBold}}                                                                   
                     style={{backgroundColor:'white',height:30,width: (dimensions.fullWidth - padding.xl*3)/2,alignItems:'center',justifyContent:'center'}}
                     
@@ -1553,6 +1605,15 @@ export default class ProductAddPage extends React.Component {
               this.state.edit && (<View style={[styles.viewField]}>  
                 <Text style={styles.title}>สถานะสินค้าใน Marketplace</Text>      
                 <View style={{display:'flex',flexDirection:'row'}}>   
+                  <View style={styles.channelView}>                      
+                    {!this.state.AnimatingFeedFromLazada && <TouchableHighlight 
+                      underlayColor={'transparent'} activeOpacity={1}                                           
+                      onPress={()=>{this.state.item.LazadaExist==1?this.feedFromLazada():null}} >         
+                        <Image source={this.state.item.LazadaExist==1?require('./../assets/images/feedFromLazadaIcon.png'):require('./../assets/images/feedFromLazadaIconGray.png')}  style={styles.imageIcon}/>
+                    </TouchableHighlight>
+                    }
+                    {this.state.AnimatingFeedFromLazada && <ActivityIndicator size="small" animating={true} color='#fc0ce2'/>}
+                  </View>
                   <View style={styles.channelView}>                      
                     {!this.state.AnimatingLazada && <TouchableHighlight 
                       underlayColor={'transparent'} activeOpacity={1}                                           

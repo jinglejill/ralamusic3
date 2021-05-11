@@ -19,11 +19,11 @@ export default class LoginPage extends React.Component {
     this.state = {
       storeName: settings.storeName,
       // storeName: 'MINIMALIST',
-      apiPath: 'https://minimalist.co.th/saim/', 
+      apiPath: settings.apiPath, //'https://minimalist.co.th/saim/', 
       // apiPath: 'http://jummum.co/saim/',  
       rememberMeText: '❒  จำฉันไว้ในระบบ',  
       alertVisible: false,  
-      token:'test',//test
+      token:'',//test
     };
 
     this.handleSetControl();//uncomment
@@ -169,7 +169,41 @@ export default class LoginPage extends React.Component {
     console.log("token before login insert:"+this.state.token);
     console.log("login");    
     this.setState({loading: true});
-    fetch(this.state.apiPath + 'SAIMLoginInsert.php',
+//     fetch('http://minimalist.co.th/saimtest/testredirect.php',
+//     {
+//       method: 'POST',
+//       headers: {
+//                   'Accept': 'application/json',
+//                   'Content-Type': 'application/json',
+//                 },
+//       body: JSON.stringify({  
+//         username: this.state.username,
+//         password: this.state.password,
+//         deviceInfo: this.getDeviceInfo(),            
+//         token:this.state.token,
+//         storeName: this.state.storeName,
+//         modifiedUser: this.state.username,
+//         modifiedDate: new Date().toLocaleString(),
+//         platForm: Platform.OS,
+//       })
+//     })
+//     .then((response) => {console.log("object test:"+response._bodyInit._data.__collector)})
+//     // .then((responseData) =>{
+      
+//     //   this.setState({loading: false});
+//     //   if(responseData.success == true)
+//     //   {        
+//     //     this.setState({alertStatus:0});
+//     //     console.log("testUsername:"+responseData.user.Username);
+//     //     // this.showAlertMessage(responseData.user.Username);
+//     //   }
+      
+//     // }).done();
+
+// return;
+  console.log("url test;"+this.state.apiPath+'SAIMLoginInsert.php');
+
+    fetch(this.state.apiPath+'SAIMLoginInsert.php',
     {
       method: 'POST',
       headers: {

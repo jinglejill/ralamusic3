@@ -196,7 +196,7 @@ export default class SettingsPage extends React.Component {
   render() {
     if(this.state.loadingAccess)
     {
-      return(<View style={{alignItems:'center',justifyContent:'center',height:dimensions.fullHeight-100}}><ActivityIndicator animating size='small' /></View>);
+      return(<View style={{alignItems:'center',justifyContent:'center',height:dimensions.fullHeight-100}}><ActivityIndicator animating size='small'/></View>);
     }
     if(!this.state.loadingAccess && !this.state.menuAllow)
     {

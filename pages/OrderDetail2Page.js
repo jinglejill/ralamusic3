@@ -13,6 +13,7 @@ import InputSpinner from "react-native-input-spinner";
 import {colors, fonts, padding, dimensions, settings} from './../styles/base.js'; 
 import DropDownPicker from 'react-native-dropdown-picker';
 import Icon from 'react-native-vector-icons/Feather';
+import FastImage from 'react-native-fast-image'
 
 
 let statusList = [
@@ -616,14 +617,20 @@ export default class OrderDetail2Page extends React.Component {
           return;
         }
 
+        if(this.state.status == 0 && this.state.chooseNextStepSecond && !this.state.chooseProductClaimFirst && !this.state.chooseProductClaimSecond)
+        {
+          this.showAlertMessage("กรุณาเลือกประเภทการคืนสินค้าเคลม");
+          return;
+        }
+
 
         if((this.state.order.NextStep == this.state.previousOrder.NextStep) && (this.state.order.ClaimAt == this.state.previousOrder.ClaimAt) && (this.state.order.ClaimNote == this.state.previousOrder.ClaimNote))
         {
-          if(this.state.status == 0 && !this.state.nextStepProcess && this.state.chooseNextStepSecond && !this.state.chooseProductClaimFirst && !this.state.chooseProductClaimSecond)
-          {
-            this.showAlertMessage("กรุณาเลือกประเภทการคืนสินค้าเคลม");
-            return;
-          }
+          // if(this.state.status == 0 && !this.state.nextStepProcess && this.state.chooseNextStepSecond && !this.state.chooseProductClaimFirst && !this.state.chooseProductClaimSecond)
+          // {
+          //   this.showAlertMessage("กรุณาเลือกประเภทการคืนสินค้าเคลม");
+          //   return;
+          // }
 
           if(this.state.status == 0 && !this.state.nextStepProcess && this.state.chooseNextStepSecond && this.state.claimStaffName == "" && this.state.claimStaffImage == "")
           {
@@ -1186,10 +1193,13 @@ export default class OrderDetail2Page extends React.Component {
                   onPress={()=>{this.enlargeImage(item.Image,false,-1)}} > 
 
                   <View style={{display:'flex',flexDirection:'row'}}>
-                    <Image
-                      source={item.Image != ''?{uri: item.Image}:require('./../assets/images/noImage.jpg')}
+                    <FastImage
                       style={styles.imageSku}
-                    />                    
+                      source={{
+                          uri: item.Image == ""?settings.apiPath+'images/noImage.jpg':item.Image,
+                          priority: FastImage.priority.normal,
+                      }}
+                    />                  
                     <View style={{ flex: 1}}>                  
                       <Text style={styles.name}>{item.Name}</Text>   
                       <View style={{display:'flex',flexDirection:'row',alignItems:'center'}}> 
@@ -1352,9 +1362,12 @@ export default class OrderDetail2Page extends React.Component {
                         onStartShouldSetResponder = {(evt,index)=>this.onStartShouldSetResponder(evt,item.Id)}
                         onResponderRelease = {this.onResponderRelease}
                       >
-                        <Image
-                          source={item.Image == ""?require('./../assets/images/blank.gif'):{uri: item.Image.replace("/Images/","/ImagesNew/")+'?3'}}
+                        <FastImage
                           style={styles.image}
+                          source={{
+                              uri: item.Image == ""?settings.apiPath+'images/blank.gif':item.Image,
+                              priority: FastImage.priority.normal,
+                          }}
                         />
                         {
                           item.Resizing && (<View style={{position:'absolute',top:6+20,left:20}}><ActivityIndicator size="small" animating={true} color='white'/></View>)
@@ -1395,8 +1408,14 @@ export default class OrderDetail2Page extends React.Component {
               <Text style={styles.title}>แนบรูปภาพ</Text>
               <View style = {{width:60,height:60}}>
                 <TouchableHighlight underlayColor={'transparent'} activeOpacity={1} onPress={ () => this.addImage('customerAddress')}>
-                  <View style={styles.box}>
-                    <Image source={{uri:this.state.customerAddressImage == ""?'http://minimalist.co.th/saim/images/add.png':this.state.customerAddressImage}}  style={styles.imageCustomerAddress}/>                                         
+                  <View style={styles.box}>                                         
+                    <FastImage
+                      style={styles.imageCustomerAddress}
+                      source={{
+                          uri: this.state.customerAddressImage == ""?settings.apiPath+'images/add.png':this.state.customerAddressImage,
+                          priority: FastImage.priority.normal,
+                      }}
+                    />
                   </View>
                 </TouchableHighlight>             
               </View> 
@@ -1427,9 +1446,25 @@ export default class OrderDetail2Page extends React.Component {
                           <TextInput style={{flex:1,marginLeft:padding.sm,marginRight:0,borderBottomWidth:1,borderColor:'#CCCCCC',padding:2}} value={this.state.claimAt} placeholder=' ระบุ' onChangeText={text => {this.setClaimAt(text)}}/>                                                   
                         </View>
                         <Text style={[styles.title,{paddingLeft:padding.xl}]}>หมายเหตุ</Text>                                          
-                        <TextInput style={[styles.textInputMulti,{marginLeft:padding.xl,height:40}]} value={this.state.claimNote} placeholder=' ' multiline onChangeText={text => {this.setClaimNote(text)}}/>                                                          
+                        <TextInput style={[styles.textInputMulti,{marginLeft:padding.xl,height:40}]} value={this.state.claimNote} placeholder=' ' multiline onChangeText={text => {this.setClaimNote(text)}}/> 
+
+                        <View style={[styles.viewField]}>
+                          <TouchableOpacity onPress={()=>{this.chooseProductClaim(1)}} >
+                            <View style={{display:'flex',flexDirection:'row',alignItems:'center'}}>
+                              <Text style={[styles.radioButton,{color:this.state.chooseProductClaimFirst?colors.secondary:"#CCCCCC"}]}>{this.state.chooseProductClaimFirst?"●":"○"} </Text>
+                              <Text style={styles.radioText}>เคลมคืนเข้าร้าน</Text>
+                            </View>
+                          </TouchableOpacity>
+                          <TouchableOpacity onPress={()=>{this.chooseProductClaim(2)}} >
+                            <View style={{display:'flex',flexDirection:'row',alignItems:'center'}}>
+                              <Text style={[styles.radioButton,{color:this.state.chooseProductClaimSecond?colors.secondary:"#CCCCCC"}]}>{this.state.chooseProductClaimSecond?"●":"○"} </Text>
+                              <Text style={styles.radioText}>เคลมคืนลูกค้า</Text>
+                            </View>
+                          </TouchableOpacity>  
+                        </View>                                                       
                       </View>
                     )}
+                    
                     
                   </TouchableOpacity>
                 </View>
@@ -1441,20 +1476,7 @@ export default class OrderDetail2Page extends React.Component {
               (
                 <View style={[styles.viewField,{marginBottom:padding.lg}]}> 
                   <View style={{height:1,backgroundColor:colors.separator,margin:padding.lg}}>
-                  </View>                     
-                  <Text style={styles.title}>คืนสินค้าเคลม</Text>
-                  <TouchableOpacity onPress={()=>{this.chooseProductClaim(1)}} >
-                    <View style={{display:'flex',flexDirection:'row',alignItems:'center'}}>
-                      <Text style={[styles.radioButton,{color:this.state.chooseProductClaimFirst?colors.secondary:"#CCCCCC"}]}>{this.state.chooseProductClaimFirst?"●":"○"} </Text>
-                      <Text style={styles.radioText}>คืนเข้าร้าน</Text>
-                    </View>
-                  </TouchableOpacity>
-                  <TouchableOpacity onPress={()=>{this.chooseProductClaim(2)}} >
-                    <View style={{display:'flex',flexDirection:'row',alignItems:'center'}}>
-                      <Text style={[styles.radioButton,{color:this.state.chooseProductClaimSecond?colors.secondary:"#CCCCCC"}]}>{this.state.chooseProductClaimSecond?"●":"○"} </Text>
-                      <Text style={styles.radioText}>คืนลูกค้า</Text>
-                    </View>
-                  </TouchableOpacity>
+                  </View>    
 
                   <Text style={styles.title}>ผู้รับของเคลม</Text>
                   <TextInput style={styles.textInputMulti} value={this.state.claimStaffName} placeholder=' ' onChangeText={text => {this.setClaimStaffName(text)}}/>
@@ -1462,7 +1484,13 @@ export default class OrderDetail2Page extends React.Component {
                   <View style = {{width:60,height:60}}>
                     <TouchableHighlight underlayColor={'transparent'} activeOpacity={1} onPress={ () => this.addImage('claimStaff')}>
                       <View style={[styles.box,{marginBottom:padding.sm}]}>
-                        <Image source={{uri:this.state.claimStaffImage == ""?'http://minimalist.co.th/saim/images/add.png':this.state.claimStaffImage}}  style={styles.imageCustomerAddress}/>                                         
+                        <FastImage
+                          style={styles.imageCustomerAddress}
+                          source={{
+                              uri: this.state.claimStaffImage == ""?settings.apiPath+'images/add.png':this.state.claimStaffImage,
+                              priority: FastImage.priority.normal,
+                          }}
+                        />
                       </View>
                     </TouchableHighlight>
                   </View>
